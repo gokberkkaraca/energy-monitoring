@@ -4,7 +4,7 @@
     android:id="@+id/parentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ee490g.epfl.ch.dwarfsleepy.ProfileActivity">
+    tools:context=".ProfileActivity">
 
     <ImageView
         android:id="@+id/bgImageView"
