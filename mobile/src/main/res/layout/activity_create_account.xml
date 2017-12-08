@@ -34,7 +34,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:backgroundTint="@color/colorWhite"
-        android:hint="Email"
+        android:hint="@string/email"
         android:inputType="textEmailAddress"
         android:maxLines="1"
         android:textColor="@color/colorWhite"
@@ -48,7 +48,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:textColor="@color/colorWhite"
-        android:hint="password"
+        android:hint="@string/password"
         android:textColorHint="@color/colorWhite"
         android:backgroundTint="@color/colorWhite"
         android:maxLines="1"
@@ -64,6 +64,6 @@
         android:textAllCaps="true"
         android:textColor="@color/colorWhite"
         android:backgroundTint="@color/colorYellow"
-        android:text="CREATE ACCOUNT"/>
+        android:text="@string/create_account"/>
 
 </RelativeLayout>
