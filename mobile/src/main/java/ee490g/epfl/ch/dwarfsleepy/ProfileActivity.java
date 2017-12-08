@@ -7,6 +7,8 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import ee490g.epfl.ch.dwarfsleepy.database.FirebaseAuthManager;
+
 public class ProfileActivity extends AppCompatActivity {
 
     private FirebaseAuthManager authManager = new FirebaseAuthManager();
