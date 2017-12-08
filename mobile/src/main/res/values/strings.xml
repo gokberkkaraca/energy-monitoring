@@ -1,4 +1,9 @@
 <resources>
     <string name="app_name">Dwarf Sleepy</string>
     <string name="null_description">null</string>
+    <string name="email_address">Email address</string>
+    <string name="password">Password</string>
+    <string name="login">Login</string>
+    <string name="forgot_your_password">Forgot your password?</string>
+    <string name="create_account">CREATE ACCOUNT</string>
 </resources>
