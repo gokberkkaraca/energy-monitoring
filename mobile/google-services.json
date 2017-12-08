@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "621831064112",
+    "firebase_url": "https://dwarf-sleepy.firebaseio.com",
+    "project_id": "dwarf-sleepy",
+    "storage_bucket": "dwarf-sleepy.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:621831064112:android:bf9eb7aff14ad34a",
+        "android_client_info": {
+          "package_name": "ee490g.epfl.ch.dwarfsleepy"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "621831064112-t0m9j9a5no0toodfr6dnad1g94thg8ql.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ee490g.epfl.ch.dwarfsleepy",
+            "certificate_hash": "1e9e1cce5bac5cc2c56bca659520f95c5fd2c58d"
+          }
+        },
+        {
+          "client_id": "621831064112-hd9db2fu6e5v2b4vb0eb49brusss9ik8.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCXca6IanDw1Z6lAddcPuvoppU7ErZsFU8"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "621831064112-hd9db2fu6e5v2b4vb0eb49brusss9ik8.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
