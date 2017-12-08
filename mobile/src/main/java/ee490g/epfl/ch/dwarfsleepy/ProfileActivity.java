@@ -7,11 +7,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
-import ee490g.epfl.ch.dwarfsleepy.database.FirebaseAuthManager;
-
-public class ProfileActivity extends AppCompatActivity {
-
-    private FirebaseAuthManager authManager = new FirebaseAuthManager();
+public class ProfileActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Button logoutButton;
 
@@ -23,39 +19,37 @@ public class ProfileActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        initViews();
-        setButtonClickListener();
+        initializeViews();
+        setViews();
     }
 
-    private void initViews() {
+    private void initializeViews() {
         logoutButton = findViewById(R.id.logoutButton);
-
         userTextView = findViewById(R.id.userTextView);
         emailTextView = findViewById(R.id.emailTextView);
-
-        userTextView.setText(authManager.getCurrentUser().getDisplayName());
-        emailTextView.setText(authManager.getCurrentUser().getEmail());
     }
 
-    private void setButtonClickListener() {
-        logoutButton.setOnClickListener(new ButtonClickListener());
+    private void setViews() {
+        // TODO Will be changed when user class is created
+        userTextView.setText("");
+        emailTextView.setText("");
+        logoutButton.setOnClickListener(this);
     }
 
-    private void performLogout() {
-        authManager.signOut();
-    }
-
-
-    class ButtonClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            switch(view.getId()) {
-                case R.id.logoutButton:
-                    performLogout();
-                    startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
-                default:
-                    break;
-            }
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()) {
+            case R.id.logoutButton:
+                logOut();
+                startActivity(new Intent(ProfileActivity.this, LoginActivity.class));
+                finish();
+            default:
+                break;
         }
     }
+
+    private void logOut() {
+        // TODO Logout code here
+    }
+
 }

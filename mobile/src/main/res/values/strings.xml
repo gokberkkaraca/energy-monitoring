@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">Dwarf Sleepy</string>
+    <string name="null_description">null</string>
 </resources>

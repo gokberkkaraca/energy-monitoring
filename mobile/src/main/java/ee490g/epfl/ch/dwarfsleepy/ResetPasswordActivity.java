@@ -5,14 +5,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.Toast;
 
-import ee490g.epfl.ch.dwarfsleepy.database.*;
-
-public class ResetPasswordActivity extends AppCompatActivity {
+public class ResetPasswordActivity extends AppCompatActivity implements View.OnClickListener {
 
     Button resetPasswordButton;
-
     EditText emailEditText;
 
     @Override
@@ -21,7 +17,18 @@ public class ResetPasswordActivity extends AppCompatActivity {
         setContentView(R.layout.activity_reset_password);
 
         initViews();
-        setButtonClickListener();
+        resetPasswordButton.setOnClickListener(this);
+    }
+
+    @Override
+    public void onClick(View view) {
+        switch(view.getId()) {
+            case R.id.resetPasswordButton:
+                resetPassword();
+                break;
+            default:
+                break;
+        }
     }
 
     private void initViews() {
@@ -29,41 +36,7 @@ public class ResetPasswordActivity extends AppCompatActivity {
         emailEditText = findViewById(R.id.emailEditText);
     }
 
-    private void setButtonClickListener() {
-       resetPasswordButton.setOnClickListener(new ButtonClickListener());
+    private void resetPassword() {
+        // TODO Reset password code goes here
     }
-
-    private void performPasswordReset() {
-        resetPasswordButton.setOnClickListener(new View.OnClickListener() {
-
-            @Override
-            public void onClick(View view) {
-                new FirebaseAuthManager().sendPasswordReset(emailEditText.getText().toString(), new Success() {
-                    @Override
-                    public void onSuccess() {
-                        finish();
-                    }
-                }, new Failure() {
-                    @Override
-                    public void onFailure(String error) {
-                        Toast.makeText(getApplicationContext(), error, Toast.LENGTH_LONG).show();
-                    }
-                });
-            }
-        });
-    }
-
-
-    class ButtonClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            switch(view.getId()) {
-                case R.id.resetPasswordButton:
-                    performPasswordReset();
-                default:
-                    break;
-            }
-        }
-    }
-
 }

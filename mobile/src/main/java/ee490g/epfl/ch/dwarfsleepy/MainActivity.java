@@ -2,42 +2,40 @@ package ee490g.epfl.ch.dwarfsleepy;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.view.View;
-import android.widget.ImageButton;
 
-import ee490g.epfl.ch.dwarfsleepy.R;
+import com.google.firebase.auth.FirebaseAuth;
 
 public class MainActivity extends AppCompatActivity {
 
-    private ImageButton profileButton;
+    private FirebaseAuth mAuth;
+    private Handler mHandler;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        initViews();
-        setButtonClickListener();
+        mHandler = new Handler();
+        mAuth = FirebaseAuth.getInstance();
+        goToNextActivity();
     }
 
-    private void initViews() {
-        profileButton = findViewById(R.id.profileButton);
-    }
-
-    private void setButtonClickListener() {
-        profileButton.setOnClickListener(new ButtonClickListener());
-    }
-
-    class ButtonClickListener implements View.OnClickListener {
-        @Override
-        public void onClick(View view) {
-            switch(view.getId()) {
-                case R.id.profileButton:
-                    startActivity(new Intent(MainActivity.this, ProfileActivity.class));
-                default:
-                    break;
+    private void goToNextActivity() {
+        int TIMER = 500;
+        mHandler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                if (mAuth.getCurrentUser() == null) {
+                    Intent intent = new Intent(MainActivity.this, LoginActivity.class);
+                    startActivity(intent);
+                    finish();
+                }
+                else {
+                    // TODO Go to DashboardActivity
+                }
             }
-        }
+        }, TIMER);
     }
 }
