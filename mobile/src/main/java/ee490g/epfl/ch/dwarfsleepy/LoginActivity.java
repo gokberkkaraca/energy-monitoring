@@ -34,10 +34,10 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                 login();
                 break;
             case R.id.createAccountButton:
-                startActivity(new Intent(LoginActivity.this, CreateAccountActivity.class));
+                startActivity(new Intent(this, CreateAccountActivity.class));
                 break;
             case R.id.forgotPasswordBtton:
-                startActivity(new Intent(LoginActivity.this, ResetPasswordActivity.class));
+                startActivity(new Intent(this, ResetPasswordActivity.class));
                 break;
             default:
                 break;
