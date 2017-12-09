@@ -63,6 +63,15 @@
         android:textColor="@color/colorBleumarin"
         android:textAllCaps="true"/>
 
+    <com.google.android.gms.common.SignInButton
+        android:id="@+id/google_sign_in_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_below="@+id/loginButton"
+        android:layout_centerHorizontal="true" />
+
     <Button
         style="@style/Widget.AppCompat.Button.Borderless"
         android:id="@+id/forgotPasswordBtton"
@@ -70,7 +79,7 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_below="@id/loginButton"
+        android:layout_below="@id/google_sign_in_button"
         android:text="@string/forgot_your_password"
         android:textColor="@color/colorWhite"
         android:textAllCaps="false"/>
