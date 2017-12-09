@@ -7,13 +7,17 @@ import java.util.Date;
 
 public class User implements Serializable {
 
+    public enum Gender {
+        MALE, FEMALE
+    }
+
     private String userId;
     private String name;
     private String email;
-    private String gender;
+    private Gender gender;
     private Date birthday;
 
-    public User(FirebaseUser firebaseUser, String name, String gender, Date birthday) {
+    public User(FirebaseUser firebaseUser, String name, Gender gender, Date birthday) {
         this.userId = firebaseUser.getUid();
         this.name = name;
         this.email = firebaseUser.getEmail();
@@ -45,11 +49,11 @@ public class User implements Serializable {
         this.email = email;
     }
 
-    public String getGender() {
+    public Gender getGender() {
         return gender;
     }
 
-    public void setGender(String gender) {
+    public void setGender(Gender gender) {
         this.gender = gender;
     }
 

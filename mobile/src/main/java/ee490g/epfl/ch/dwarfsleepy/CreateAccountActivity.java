@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnCompleteListener;
@@ -34,8 +35,13 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     private EditText emailEditText;
     private EditText birthdayEditText;
     private EditText passwordEditText;
+    private RadioGroup genderRadioGroup;
     private Calendar calendar;
+    private String name;
+    private String email;
+    private String password;
     private Date birthday;
+    private User.Gender gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +54,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         birthdayEditText.setOnFocusChangeListener(this);
         calendar = Calendar.getInstance();
         birthday = null;
+        gender = null;
     }
 
     private void initializeViews() {
@@ -56,20 +63,31 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         nameEditText = findViewById(R.id.nameEditText);
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
+        genderRadioGroup = findViewById(R.id.genderRadioGroup);
     }
 
     @Override
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.createAccountButton:
-                String name = nameEditText.getText().toString();
-                String email = emailEditText.getText().toString();
-                String password = passwordEditText.getText().toString();
+                name = nameEditText.getText().toString();
+                email = emailEditText.getText().toString();
+                password = passwordEditText.getText().toString();
+                birthday = calendar.getTime();
+                gender = getGenderFromRadioGroup();
                 createAccount(name, email, password);
                 break;
             default:
                 break;
         }
+    }
+
+    private User.Gender getGenderFromRadioGroup() {
+        int index = genderRadioGroup.getCheckedRadioButtonId();
+        if (index == 0)
+            return User.Gender.MALE;
+        else
+            return User.Gender.FEMALE;
     }
 
     @Override
@@ -104,10 +122,9 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            // TODO Remove hardcoded strings
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             if(checkFields()) {
-                                User user = new User(firebaseUser, name, "gender", birthday);
+                                User user = new User(firebaseUser, name, gender, birthday);
                                 DatabaseHandler.addUser(user);
                                 Navigation.goToDashboardActivity(CreateAccountActivity.this, user);
                             }
@@ -121,20 +138,24 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private boolean checkFields() {
-        if (nameEditText.getText().toString().equals("")) {
+        if (name.equals("")) {
             Toast.makeText(this, "Name field can't be empty", Toast.LENGTH_LONG).show();
             return false;
         }
-        if (emailEditText.getText().toString().equals("")) {
+        if (email.equals("")) {
             Toast.makeText(this, "Email field can't be empty", Toast.LENGTH_LONG).show();
             return false;
         }
-        if (passwordEditText.getText().toString().equals("")) {
+        if (password.equals("")) {
             Toast.makeText(this, "Password field can't be empty", Toast.LENGTH_LONG).show();
             return false;
         }
         if (birthday == null) {
             Toast.makeText(this, "Birthday field can't be empty", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (gender == null) {
+            Toast.makeText(this, "Gender field can't be empty", Toast.LENGTH_LONG).show();
             return false;
         }
 

@@ -56,11 +56,37 @@
         android:inputType="date"
         android:focusable="true" />
 
+    <RadioGroup
+        android:id="@+id/genderRadioGroup"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:layout_below="@id/birthdayEditText">
+
+        <RadioButton
+            android:id="@+id/maleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:backgroundTint="@color/colorWhite"
+            android:text="@string/male"
+            android:textColor="@color/colorWhite"
+            android:buttonTint="@color/colorYellow"/>
+
+        <RadioButton
+            android:id="@+id/femaleButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/female"
+            android:textColor="@color/colorWhite"
+            android:buttonTint="@color/colorYellow"/>
+    </RadioGroup>
+
     <EditText
         android:id="@+id/passwordEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/birthdayEditText"
+        android:layout_below="@id/genderRadioGroup"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:textColor="@color/colorWhite"
