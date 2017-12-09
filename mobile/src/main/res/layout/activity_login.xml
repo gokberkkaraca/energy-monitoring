@@ -10,17 +10,17 @@
         android:id="@+id/bgImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/bg"
+        android:contentDescription="@string/null_description"
         android:scaleType="fitXY"
-        android:contentDescription="@string/null_description" />
+        android:src="@drawable/bg" />
 
     <ImageView
         android:id="@+id/logoImageView"
         android:layout_width="match_parent"
         android:layout_height="150dp"
         android:layout_marginTop="20dp"
-        android:src="@drawable/logo"
-        android:contentDescription="@string/null_description" />
+        android:contentDescription="@string/null_description"
+        android:src="@drawable/logo" />
 
     <EditText
         android:id="@+id/emailEditText"
@@ -44,57 +44,57 @@
         android:layout_below="@id/emailEditText"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:textColor="@color/colorWhite"
-        android:hint="@string/password"
-        android:textColorHint="@color/colorWhite"
         android:backgroundTint="@color/colorWhite"
+        android:hint="@string/password"
+        android:inputType="textPassword"
         android:maxLines="1"
-        android:inputType="textPassword"/>
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorWhite" />
 
     <Button
         android:id="@+id/loginButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/passwordEditText"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_below="@id/passwordEditText"
         android:backgroundTint="@color/colorWhite"
         android:text="@string/login"
-        android:textColor="@color/colorBleumarin"
-        android:textAllCaps="true"/>
+        android:textAllCaps="true"
+        android:textColor="@color/colorBleumarin" />
 
     <com.google.android.gms.common.SignInButton
         android:id="@+id/google_sign_in_button"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="20dp"
-        android:layout_marginRight="20dp"
         android:layout_below="@+id/loginButton"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp" />
 
     <Button
-        style="@style/Widget.AppCompat.Button.Borderless"
         android:id="@+id/forgotPasswordBtton"
+        style="@style/Widget.AppCompat.Button.Borderless"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/google_sign_in_button"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
-        android:layout_below="@id/google_sign_in_button"
         android:text="@string/forgot_your_password"
-        android:textColor="@color/colorWhite"
-        android:textAllCaps="false"/>
+        android:textAllCaps="false"
+        android:textColor="@color/colorWhite" />
 
     <Button
         android:id="@+id/createAccountButton"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/forgotPasswordBtton"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:layout_marginTop="40dp"
-        android:layout_below="@id/forgotPasswordBtton"
-        android:textAllCaps="true"
-        android:textColor="@color/colorWhite"
         android:backgroundTint="@color/colorYellow"
-        android:text="@string/create_account"/>
+        android:text="@string/create_account"
+        android:textAllCaps="true"
+        android:textColor="@color/colorWhite" />
 
 </RelativeLayout>
