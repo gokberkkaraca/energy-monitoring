@@ -52,6 +52,7 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
                 logOut();
                 startActivity(new Intent(UserProfileActivity.this, LoginActivity.class));
                 finish();
+                break;
             default:
                 break;
         }

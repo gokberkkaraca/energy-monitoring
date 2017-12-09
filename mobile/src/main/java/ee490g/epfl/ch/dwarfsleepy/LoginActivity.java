@@ -71,7 +71,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
             case R.id.loginButton:
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
-                if (email.equals("") || password.equals("")) {
+                if (email.isEmpty() || password.isEmpty()) {
                     Toast.makeText(this, "Email or password can't be empty", Toast.LENGTH_LONG).show();
                     return;
                 }
@@ -161,7 +161,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
-
+                                    Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_LONG).show();
                                 }
                             });
                         } else {

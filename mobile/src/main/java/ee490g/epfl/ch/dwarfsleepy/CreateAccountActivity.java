@@ -138,15 +138,15 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     private boolean checkFields() {
-        if (name.equals("")) {
+        if (name.isEmpty()) {
             Toast.makeText(this, "Name field can't be empty", Toast.LENGTH_LONG).show();
             return false;
         }
-        if (email.equals("")) {
+        if (email.isEmpty()) {
             Toast.makeText(this, "Email field can't be empty", Toast.LENGTH_LONG).show();
             return false;
         }
-        if (password.equals("")) {
+        if (password.isEmpty()) {
             Toast.makeText(this, "Password field can't be empty", Toast.LENGTH_LONG).show();
             return false;
         }
