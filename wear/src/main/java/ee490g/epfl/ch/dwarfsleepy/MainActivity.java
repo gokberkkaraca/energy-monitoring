@@ -11,9 +11,12 @@ import android.support.wearable.activity.WearableActivity;
 import android.util.Log;
 import android.widget.TextView;
 
+import java.util.ArrayList;
+
 public class MainActivity extends WearableActivity implements SensorEventListener{
 
     TextView textViewHeartRate;
+    ArrayList<Float> heartRateData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,6 +38,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         sensorManager.registerListener(this,heartRateSensor,SensorManager.SENSOR_DELAY_UI);
 
         textViewHeartRate = findViewById(R.id.textViewHeartRate);
+        heartRateData = new ArrayList<>();
 
     }
 
@@ -45,8 +49,10 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (textViewHeartRate != null)
+        if (textViewHeartRate != null) {
             textViewHeartRate.setText(String.valueOf(event.values[0]));
+            heartRateData.add(event.values[0]);
+        }
     }
 
 }
