@@ -13,7 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
 import ee490g.epfl.ch.dwarfsleepy.user.User;
-import ee490g.epfl.ch.dwarfsleepy.utils.Navigation;
+import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,12 +46,12 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
-                            Navigation.goToDashboardActivity(MainActivity.this, user);
+                            NavigationHandler.goToUserProfileActivity(MainActivity.this, user);
                         }
 
                         @Override
                         public void onCancelled(DatabaseError databaseError) {
-
+                            Toast.makeText(MainActivity.this, "Login failed", Toast.LENGTH_LONG).show();
                         }
                     });
                 }
