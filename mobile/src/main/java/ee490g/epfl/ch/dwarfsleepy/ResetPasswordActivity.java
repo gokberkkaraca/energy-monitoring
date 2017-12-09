@@ -15,8 +15,8 @@ import com.google.firebase.auth.FirebaseAuth;
 
 public class ResetPasswordActivity extends AppCompatActivity implements View.OnClickListener {
 
-    Button resetPasswordButton;
-    EditText emailEditText;
+    private Button resetPasswordButton;
+    private EditText emailEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
