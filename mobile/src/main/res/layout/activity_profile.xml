@@ -4,7 +4,7 @@
     android:id="@+id/parentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity">
+    tools:context=".UserProfileActivity">
 
     <ImageView
         android:id="@+id/bgImageView"
@@ -28,12 +28,12 @@
             android:src="@drawable/ic_user" />
 
         <TextView
-            android:id="@+id/userTextView"
+            android:id="@+id/nameTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:maxLines="1"
-            android:text="Denis Tudor"
+            android:text="Name"
             android:textColor="@color/colorWhite"
             android:textStyle="bold" />
     </LinearLayout>
@@ -58,7 +58,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:maxLines="1"
-            android:text="dtudor@rocketmail.com"
+            android:text="Email"
             android:textColor="@color/colorWhite"
             android:textStyle="bold" />
     </LinearLayout>

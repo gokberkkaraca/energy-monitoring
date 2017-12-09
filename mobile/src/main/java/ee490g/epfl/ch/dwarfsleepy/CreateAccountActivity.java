@@ -24,7 +24,7 @@ import java.util.Locale;
 
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
 import ee490g.epfl.ch.dwarfsleepy.user.User;
-import ee490g.epfl.ch.dwarfsleepy.utils.Navigation;
+import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener, DatePickerDialog.OnDateSetListener {
 
@@ -105,7 +105,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)     {
-        String dateFormat = "dd/mm/yyyy";
+        String dateFormat = "dd/MM/yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.getDefault());
         calendar.set(Calendar.YEAR, year);
         calendar.set(Calendar.MONTH, monthOfYear);
@@ -126,7 +126,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                             if(checkFields()) {
                                 User user = new User(firebaseUser, name, gender, birthday);
                                 DatabaseHandler.addUser(user);
-                                Navigation.goToDashboardActivity(CreateAccountActivity.this, user);
+                                NavigationHandler.goToUserProfileActivity(CreateAccountActivity.this, user);
                             }
                         } else {
                             // If sign in fails, display a message to the user.
