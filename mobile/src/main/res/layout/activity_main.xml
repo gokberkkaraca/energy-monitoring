@@ -10,9 +10,9 @@
         android:id="@+id/bgImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/bg"
+        android:contentDescription="@string/null_description"
         android:scaleType="fitXY"
-        android:contentDescription="@string/null_description" />
+        android:src="@drawable/bg" />
 
     <ImageView
         android:id="@+id/imageView"
@@ -20,7 +20,7 @@
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        app:srcCompat="@drawable/logo"
-        android:contentDescription="@string/null_description" />
+        android:contentDescription="@string/null_description"
+        app:srcCompat="@drawable/logo" />
 
 </RelativeLayout>

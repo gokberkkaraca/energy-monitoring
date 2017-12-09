@@ -8,4 +8,7 @@
     <string name="create_account">CREATE ACCOUNT</string>
     <string name="name">Name</string>
     <string name="email">Email</string>
+    <string name="birthday">Birthday</string>
+    <string name="male">Male</string>
+    <string name="female">Female</string>
 </resources>

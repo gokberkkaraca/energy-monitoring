@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -13,7 +12,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
 import ee490g.epfl.ch.dwarfsleepy.user.User;
-import ee490g.epfl.ch.dwarfsleepy.utils.Navigation;
+import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -46,7 +45,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
-                            Navigation.goToDashboardActivity(MainActivity.this, user);
+                            NavigationHandler.goToUserProfileActivity(MainActivity.this, user);
                         }
 
                         @Override
