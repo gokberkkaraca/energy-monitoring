@@ -50,8 +50,8 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     @Override
     public void onSensorChanged(SensorEvent event) {
         if (textViewHeartRate != null) {
-            textViewHeartRate.setText(String.valueOf(event.values[0]));
             heartRateData.add(event.values[0]);
+            textViewHeartRate.setText(String.valueOf(heartRateData.get(heartRateData.size() -1)));
         }
     }
 
