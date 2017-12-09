@@ -14,6 +14,10 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
+import ee490g.epfl.ch.dwarfsleepy.user.User;
+import ee490g.epfl.ch.dwarfsleepy.utils.Navigation;
+
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener {
 
     private FirebaseAuth mAuth;
@@ -44,7 +48,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.createAccountButton:
-                String name = emailEditText.getText().toString();
+                String name = nameEditText.getText().toString();
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();
                 createAccount(name, email, password);
@@ -53,15 +57,18 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private void createAccount(String name, String email, String password) {
+    private void createAccount(final String name, final String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
-                            FirebaseUser user = mAuth.getCurrentUser();
-                            // TODO Convert it to User
+                            // TODO Remove hardcoded strings
+                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                            User user = new User(firebaseUser, name, "gender", "birthday");
+                            DatabaseHandler.addUser(user);
+                            Navigation.goToDashboardActivity(CreateAccountActivity.this, user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(CreateAccountActivity.this, "Authentication failed.",
