@@ -41,10 +41,26 @@
         android:textColorHint="@color/colorWhite" />
 
     <EditText
-        android:id="@+id/passwordEditText"
+        android:id="@+id/birthdayEditText"
+        android:clickable="true"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/emailEditText"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:textColor="@color/colorWhite"
+        android:hint="@string/birthday"
+        android:textColorHint="@color/colorWhite"
+        android:backgroundTint="@color/colorWhite"
+        android:maxLines="1"
+        android:inputType="date"
+        android:focusable="true" />
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/birthdayEditText"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:textColor="@color/colorWhite"

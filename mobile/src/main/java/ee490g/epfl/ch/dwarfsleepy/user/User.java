@@ -3,6 +3,7 @@ package ee490g.epfl.ch.dwarfsleepy.user;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
+import java.util.Date;
 
 public class User implements Serializable {
 
@@ -10,9 +11,9 @@ public class User implements Serializable {
     private String name;
     private String email;
     private String gender;
-    private String birthday;
+    private Date birthday;
 
-    public User(FirebaseUser firebaseUser, String name, String gender, String birthday) {
+    public User(FirebaseUser firebaseUser, String name, String gender, Date birthday) {
         this.userId = firebaseUser.getUid();
         this.name = name;
         this.email = firebaseUser.getEmail();
@@ -52,11 +53,11 @@ public class User implements Serializable {
         this.gender = gender;
     }
 
-    public String getBirthday() {
+    public Date getBirthday() {
         return birthday;
     }
 
-    public void setBirthday(String birthday) {
+    public void setBirthday(Date birthday) {
         this.birthday = birthday;
     }
 }

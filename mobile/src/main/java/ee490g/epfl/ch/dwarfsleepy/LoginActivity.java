@@ -121,8 +121,9 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             assert firebaseUser != null;
                             String name = firebaseUser.getDisplayName();
-                            // TODO Remove hardcoded strings here
-                            User user = new User(firebaseUser, name, "gender", "birthday");
+                            // TODO Remove hardcoded gender and birthday
+                            User user = new User(firebaseUser, name, "gender", null);
+                            DatabaseHandler.addUser(user);
                             Navigation.goToDashboardActivity(LoginActivity.this, user);
                         } else {
                             // If sign in fails, display a message to the user.
