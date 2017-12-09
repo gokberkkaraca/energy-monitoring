@@ -22,13 +22,16 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.ValueEventListener;
 
+import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
 import ee490g.epfl.ch.dwarfsleepy.user.User;
 import ee490g.epfl.ch.dwarfsleepy.utils.Navigation;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
 
-    private static final String GOOGLE_TAG = "GoogleActivity";
     private static final int RC_GOOGLE_SIGN_IN = 9001;
 
     private FirebaseAuth mAuth;
@@ -66,7 +69,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
     public void onClick(View view) {
         switch(view.getId()) {
             case R.id.loginButton:
-                login();
+                String email = emailEditText.getText().toString();
+                String password = passwordEditText.getText().toString();
+                if (email.equals("") || password.equals("")) {
+                    Toast.makeText(this, "Email or password can't be empty", Toast.LENGTH_LONG).show();
+                    return;
+                }
+                login(email, password);
                 break;
             case R.id.google_sign_in_button:
                 googleSignIn();
@@ -133,8 +142,34 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
         passwordEditText = findViewById(R.id.passwordEditText);
     }
 
-    private void login() {
-        // TODO Login code goes here
+    private void login(String email, String password) {
+        mAuth.signInWithEmailAndPassword(email, password)
+                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
+                    @Override
+                    public void onComplete(@NonNull Task<AuthResult> task) {
+                        if (task.isSuccessful()) {
+                            // Sign in success, update UI with the signed-in user's information
+                            FirebaseUser firebaseUser = mAuth.getCurrentUser();
+                            assert firebaseUser != null;
+                            DatabaseHandler.getUser(firebaseUser.getUid(), new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    User user = dataSnapshot.getValue(User.class);
+                                    Navigation.goToDashboardActivity(LoginActivity.this, user);
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
+                        } else {
+                            // If sign in fails, display a message to the user.
+                            Toast.makeText(LoginActivity.this, "Authentication failed.",
+                                    Toast.LENGTH_SHORT).show();
+                        }
+                    }
+                });
     }
 
     private void googleSignIn() {
