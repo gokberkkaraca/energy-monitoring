@@ -15,8 +15,8 @@ import java.util.ArrayList;
 
 public class MainActivity extends WearableActivity implements SensorEventListener{
 
-    TextView textViewHeartRate;
-    ArrayList<Float> heartRateData;
+    private TextView textViewHeartRate;
+    private ArrayList<Float> heartRateData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
