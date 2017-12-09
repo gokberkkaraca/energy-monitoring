@@ -15,6 +15,14 @@
       },
       "oauth_client": [
         {
+          "client_id": "621831064112-4jq1g5cadprdtbth2cu99flr33d2igs5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "ee490g.epfl.ch.dwarfsleepy",
+            "certificate_hash": "a9b56b6da18d4bda8ad3a136e5cbcb67d9048823"
+          }
+        },
+        {
           "client_id": "621831064112-t0m9j9a5no0toodfr6dnad1g94thg8ql.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
