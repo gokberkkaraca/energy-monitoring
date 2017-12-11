@@ -20,9 +20,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     private TextView textViewAccelerometer;
     private ArrayList<Float> accelerometerData;
 
-    Sensor heartRateSensor;
-    Sensor accelerometerSensor;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,11 +37,11 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         SensorManager sensorManager = (SensorManager) getSystemService(MainActivity.SENSOR_SERVICE);
         assert sensorManager != null;
 
-        heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
-        sensorManager.registerListener(this,heartRateSensor,SensorManager.SENSOR_DELAY_UI);
+        Sensor heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
+        sensorManager.registerListener(this, heartRateSensor,SensorManager.SENSOR_DELAY_UI);
 
-        accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(this,accelerometerSensor,SensorManager.SENSOR_DELAY_UI);
+        Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(this, accelerometerSensor,SensorManager.SENSOR_DELAY_UI);
 
         textViewHeartRate = findViewById(R.id.heart_rate);
         textViewAccelerometer =  findViewById(R.id.accelerometer);
