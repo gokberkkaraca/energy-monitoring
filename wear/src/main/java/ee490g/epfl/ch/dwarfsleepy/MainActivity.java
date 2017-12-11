@@ -71,7 +71,9 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                     accelerometerData.add(event.values[0]);
                     textViewAccelerometer.setText(String.valueOf(accelerometerData.get(accelerometerData.size() - 1)));
                 }
-
+                break;
+            default:
+                break;
         }
     }
 
