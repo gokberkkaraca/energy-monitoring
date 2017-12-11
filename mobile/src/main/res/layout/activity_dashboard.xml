@@ -1,8 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ee490g.epfl.ch.dwarfsleepy.DashboardActivity">
+    tools:context=".DashboardActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/bgImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:src="@drawable/bg"
+        android:scaleType="fitXY"
+        android:contentDescription="@string/null_description" />
+
+    <RelativeLayout
+        android:id="@+id/actionBarLayout"
+        android:layout_width="match_parent"
+        android:layout_height="68dp"
+        android:background="@color/colorBlack"
+        android:gravity="center_vertical">
+
+        <TextView
+            android:id="@+id/applicationName"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:textColor="@color/colorWhite"
+            android:textSize="42sp"
+            android:text="@string/dwarf_sleepy" />
+
+        <ImageButton
+            android:id="@+id/profileButton"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:src="@drawable/ic_user"
+            android:backgroundTint="@android:color/transparent"
+            android:layout_toEndOf="@id/applicationName"
+            android:layout_marginEnd="20dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginStart="160dp"
+            android:contentDescription="@string/null_description" />
+    </RelativeLayout>
+
+</RelativeLayout>

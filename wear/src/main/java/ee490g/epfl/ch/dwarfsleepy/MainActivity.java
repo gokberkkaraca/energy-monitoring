@@ -17,6 +17,8 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     private TextView textViewHeartRate;
     private ArrayList<Float> heartRateData;
+    private TextView textViewAccelerometer;
+    private ArrayList<Float> accelerometerData;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +36,17 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
         SensorManager sensorManager = (SensorManager) getSystemService(MainActivity.SENSOR_SERVICE);
         assert sensorManager != null;
+
         Sensor heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
-        sensorManager.registerListener(this,heartRateSensor,SensorManager.SENSOR_DELAY_UI);
+        sensorManager.registerListener(this, heartRateSensor,SensorManager.SENSOR_DELAY_UI);
 
-        textViewHeartRate = findViewById(R.id.textViewHeartRate);
+        Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
+        sensorManager.registerListener(this, accelerometerSensor,SensorManager.SENSOR_DELAY_UI);
+
+        textViewHeartRate = findViewById(R.id.heart_rate);
+        textViewAccelerometer =  findViewById(R.id.accelerometer);
         heartRateData = new ArrayList<>();
-
+        accelerometerData = new ArrayList<>();
     }
 
     @Override
@@ -49,9 +56,21 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     @Override
     public void onSensorChanged(SensorEvent event) {
-        if (textViewHeartRate != null) {
-            heartRateData.add(event.values[0]);
-            textViewHeartRate.setText(String.valueOf(heartRateData.get(heartRateData.size() -1)));
+        switch (event.sensor.getType()) {
+            case Sensor.TYPE_HEART_RATE:
+                if (textViewHeartRate != null) {
+                    heartRateData.add(event.values[0]);
+                    textViewHeartRate.setText(String.valueOf(heartRateData.get(heartRateData.size() - 1)));
+                }
+                break;
+            case Sensor.TYPE_ACCELEROMETER:
+                if (textViewAccelerometer != null) {
+                    accelerometerData.add(event.values[0]);
+                    textViewAccelerometer.setText(String.valueOf(accelerometerData.get(accelerometerData.size() - 1)));
+                }
+                break;
+            default:
+                break;
         }
     }
 

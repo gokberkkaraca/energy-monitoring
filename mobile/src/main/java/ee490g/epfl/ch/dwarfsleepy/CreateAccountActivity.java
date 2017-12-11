@@ -126,7 +126,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                             if(checkFields()) {
                                 User user = new User(firebaseUser, name, gender, birthday);
                                 DatabaseHandler.addUser(user);
-                                NavigationHandler.goToUserProfileActivity(CreateAccountActivity.this, user);
+                                NavigationHandler.goToDashboardActivity(CreateAccountActivity.this, user);
                             }
                         } else {
                             // If sign in fails, display a message to the user.

@@ -124,7 +124,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             // TODO Remove hardcoded null fields here
                             User user = new User(firebaseUser, name, null, null);
                             DatabaseHandler.addUser(user);
-                            NavigationHandler.goToUserProfileActivity(LoginActivity.this, user);
+                            NavigationHandler.goToDashboardActivity(LoginActivity.this, user);
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Google Sign In Failed", Toast.LENGTH_LONG).show();
@@ -156,7 +156,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 @Override
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     User user = dataSnapshot.getValue(User.class);
-                                    NavigationHandler.goToUserProfileActivity(LoginActivity.this, user);
+                                    NavigationHandler.goToDashboardActivity(LoginActivity.this, user);
                                 }
 
                                 @Override
