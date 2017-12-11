@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
-                            NavigationHandler.goToUserProfileActivity(MainActivity.this, user);
+                            NavigationHandler.goToDashboardActivity(MainActivity.this, user);
                         }
 
                         @Override
