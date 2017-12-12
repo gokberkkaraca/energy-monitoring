@@ -13,7 +13,6 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Date;
 
 public class MainActivity extends WearableActivity implements SensorEventListener{
 
