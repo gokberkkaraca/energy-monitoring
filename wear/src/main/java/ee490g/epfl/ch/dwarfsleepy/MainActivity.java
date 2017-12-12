@@ -12,14 +12,19 @@ import android.util.Log;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 public class MainActivity extends WearableActivity implements SensorEventListener{
 
-    private TextView textViewHeartRate;
-    private ArrayList<Float> heartRateData;
 
+    private ArrayList<Float> heartRateData;
+    private ArrayList<HeartRate> averagedHeartRateData;
     private ArrayList<Float[]> accelerometerData;
 
+    private TextView textViewHeartRate;
+    private TextView textViewHeartRateAverage;
+    private TextView textViewHeartRateAverageDate;
     private TextView textViewAccelerometerX;
     private TextView textViewAccelerometerY;
     private TextView textViewAccelerometerZ;
@@ -51,8 +56,12 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         textViewAccelerometerX =  findViewById(R.id.accelerometerX);
         textViewAccelerometerY = findViewById(R.id.accelerometerY);
         textViewAccelerometerZ = findViewById(R.id.accelerometerZ);
+        textViewHeartRateAverage = findViewById(R.id.heart_rate_average);
+        textViewHeartRateAverageDate = findViewById(R.id.heart_rate_average_date);
 
         heartRateData = new ArrayList<>();
+        averagedHeartRateData = new ArrayList<>();
+
         accelerometerData = new ArrayList<>();
     }
 
@@ -66,9 +75,23 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         switch (event.sensor.getType()) {
             case Sensor.TYPE_HEART_RATE:
                 if (textViewHeartRate != null) {
-                    Float heartRate = event.values[0];
-                    heartRateData.add(heartRate);
-                    textViewHeartRate.setText(String.valueOf(heartRate));
+                    Float newHeartRate = event.values[0];
+                    heartRateData.add(newHeartRate);
+                    textViewHeartRate.setText(String.valueOf(newHeartRate));
+
+                    if (!heartRateData.isEmpty() && heartRateData.size() % 20 == 0) {
+                        Float average = 0f;
+                        for (Float heartRateValue: heartRateData) {
+                            average += heartRateValue;
+                        }
+
+                        average = average / 20;
+                        HeartRate heartRate = new HeartRate(average, Calendar.getInstance().getTime());
+                        averagedHeartRateData.add(heartRate);
+                        textViewHeartRateAverage.setText(String.valueOf(heartRate.getValue()));
+                        textViewHeartRateAverageDate.setText(String.valueOf(heartRate.getDate()));
+                        heartRateData.clear();
+                    }
                 }
                 break;
             case Sensor.TYPE_ACCELEROMETER:
