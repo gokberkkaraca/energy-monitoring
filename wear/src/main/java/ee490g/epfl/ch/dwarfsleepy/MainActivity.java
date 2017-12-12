@@ -17,8 +17,12 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     private TextView textViewHeartRate;
     private ArrayList<Float> heartRateData;
-    private TextView textViewAccelerometer;
-    private ArrayList<Float> accelerometerData;
+
+    private ArrayList<Float[]> accelerometerData;
+
+    private TextView textViewAccelerometerX;
+    private TextView textViewAccelerometerY;
+    private TextView textViewAccelerometerZ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,10 +45,13 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         sensorManager.registerListener(this, heartRateSensor,SensorManager.SENSOR_DELAY_UI);
 
         Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(this, accelerometerSensor,SensorManager.SENSOR_DELAY_UI);
+        sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
 
         textViewHeartRate = findViewById(R.id.heart_rate);
-        textViewAccelerometer =  findViewById(R.id.accelerometer);
+        textViewAccelerometerX =  findViewById(R.id.accelerometerX);
+        textViewAccelerometerY = findViewById(R.id.accelerometerY);
+        textViewAccelerometerZ = findViewById(R.id.accelerometerZ);
+
         heartRateData = new ArrayList<>();
         accelerometerData = new ArrayList<>();
     }
@@ -64,9 +71,17 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                 }
                 break;
             case Sensor.TYPE_ACCELEROMETER:
-                if (textViewAccelerometer != null) {
-                    accelerometerData.add(event.values[0]);
-                    textViewAccelerometer.setText(String.valueOf(accelerometerData.get(accelerometerData.size() - 1)));
+                if (textViewAccelerometerX != null && textViewAccelerometerY != null && textViewAccelerometerZ != null) {
+                    Float[] dataFromSensor = new Float[3];
+                    dataFromSensor[0] = event.values[0];
+                    dataFromSensor[1] = event.values[1];
+                    dataFromSensor[2] = event.values[2];
+
+                    accelerometerData.add(dataFromSensor);
+
+                    textViewAccelerometerX.setText(String.valueOf(dataFromSensor[0]));
+                    textViewAccelerometerY.setText(String.valueOf(dataFromSensor[1]));
+                    textViewAccelerometerZ.setText(String.valueOf(dataFromSensor[2]));
                 }
                 break;
             default:
