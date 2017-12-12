@@ -88,8 +88,9 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                         HeartRate heartRate = new HeartRate(average, Calendar.getInstance().getTime());
                         averagedHeartRateData.add(heartRate);
                         textViewHeartRateAverage.setText(String.valueOf(heartRate.getValue()));
-                        textViewHeartRateAverageDate.setText(String.valueOf(heartRate.getDate()));
+                        textViewHeartRateAverageDate.setText(String.valueOf(heartRate.getDate() ));
                         heartRateData.clear();
+                        DatabaseHandler.addHeartRateData(averagedHeartRateData);
                     }
                 }
                 break;
