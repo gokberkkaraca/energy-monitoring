@@ -9,6 +9,7 @@
     android:padding="@dimen/box_inset_layout_padding"
     tools:context="ee490g.epfl.ch.dwarfsleepy.MainActivity"
     tools:deviceIds="wear">
+    <uses-permission android:name="android.permission.INTERNET"/>
 
     <FrameLayout
         android:layout_width="match_parent"
