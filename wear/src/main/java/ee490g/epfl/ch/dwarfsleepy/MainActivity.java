@@ -17,8 +17,15 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     private TextView textViewHeartRate;
     private ArrayList<Float> heartRateData;
+
     private TextView textViewAccelerometer;
     private ArrayList<Float> accelerometerData;
+
+    private TextView textViewAccelerometerb;
+    private TextView textViewAccelerometerc;
+
+    private ArrayList<Float> accelerometerDatab;
+    private ArrayList<Float> accelerometerDatac;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,12 +48,17 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         sensorManager.registerListener(this, heartRateSensor,SensorManager.SENSOR_DELAY_UI);
 
         Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(this, accelerometerSensor,SensorManager.SENSOR_DELAY_UI);
+        sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
 
         textViewHeartRate = findViewById(R.id.heart_rate);
         textViewAccelerometer =  findViewById(R.id.accelerometer);
+        textViewAccelerometerb = findViewById(R.id.accelerometerb);
+        textViewAccelerometerc = findViewById(R.id.accelerometerc);
+
         heartRateData = new ArrayList<>();
         accelerometerData = new ArrayList<>();
+        accelerometerDatab = new ArrayList<>();
+        accelerometerDatac = new ArrayList<>();
     }
 
     @Override
@@ -67,6 +79,10 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                 if (textViewAccelerometer != null) {
                     accelerometerData.add(event.values[0]);
                     textViewAccelerometer.setText(String.valueOf(accelerometerData.get(accelerometerData.size() - 1)));
+                    accelerometerDatab.add(event.values[1]);
+                    textViewAccelerometerb.setText(String.valueOf(accelerometerDatab.get(accelerometerDatab.size() - 1)));
+                    accelerometerDatac.add(event.values[2]);
+                    textViewAccelerometerc.setText(String.valueOf(accelerometerDatac.get(accelerometerDatac.size() - 1)));
                 }
                 break;
             default:
