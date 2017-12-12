@@ -66,8 +66,9 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         switch (event.sensor.getType()) {
             case Sensor.TYPE_HEART_RATE:
                 if (textViewHeartRate != null) {
-                    heartRateData.add(event.values[0]);
-                    textViewHeartRate.setText(String.valueOf(heartRateData.get(heartRateData.size() - 1)));
+                    Float heartRate = event.values[0];
+                    heartRateData.add(heartRate);
+                    textViewHeartRate.setText(String.valueOf(heartRate));
                 }
                 break;
             case Sensor.TYPE_ACCELEROMETER:
