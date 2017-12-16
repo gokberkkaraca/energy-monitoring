@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "C:\\Users\\Dell\\Desktop\\HRDisplay\\Application\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\heart.png",
+        "source": "C:\\Users\\Dell\\Desktop\\HRDisplay\\Application\\src\\main\\res\\mipmap-hdpi\\heart.png"
+    },
+    {
+        "merged": "C:\\Users\\Dell\\Desktop\\HRDisplay\\Application\\build\\intermediates\\res\\merged\\debug\\mipmap-hdpi\\ic_pulse.png",
+        "source": "C:\\Users\\Dell\\Desktop\\HRDisplay\\Application\\src\\main\\res\\mipmap-hdpi\\ic_pulse.png"
+    }
+]

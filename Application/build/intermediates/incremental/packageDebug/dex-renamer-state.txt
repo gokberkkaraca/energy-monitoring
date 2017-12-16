@@ -1,0 +1,7 @@
+#Mon Dec 04 21:34:40 CET 2017
+base.0=C\:\\Users\\Dell\\Desktop\\HRDisplay\\Application\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_93694bd2d9005f33f1289173114d66b08e69ea3d
+renamed.1=classes.dex
+renamed.0=classes2.dex
+file.1=C\:\\Users\\Dell\\Desktop\\HRDisplay\\Application\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_e2c660eff832e70accbc82f775b359a13b2dba05\\classes.dex
+base.1=C\:\\Users\\Dell\\Desktop\\HRDisplay\\Application\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run_e2c660eff832e70accbc82f775b359a13b2dba05
+file.0=C\:\\Users\\Dell\\Desktop\\HRDisplay\\Application\\build\\intermediates\\transforms\\dex\\debug\\folders\\1000\\10000\\instant-run-bootstrap_93694bd2d9005f33f1289173114d66b08e69ea3d\\classes.dex

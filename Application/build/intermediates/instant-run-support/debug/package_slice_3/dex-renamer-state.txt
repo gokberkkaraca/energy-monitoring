@@ -1,0 +1,4 @@
+#Sat Dec 09 21:25:47 CET 2017
+base.0=C\:\\Users\\Dell\\Desktop\\HRDisplay\\Application\\build\\intermediates\\transforms\\dexMerger\\debug\\41
+path.0=classes.dex
+renamed.0=classes.dex

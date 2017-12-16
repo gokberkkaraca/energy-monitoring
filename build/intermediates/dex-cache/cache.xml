@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<items version="2" >
+
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.android\build-cache\88d50d961944e23dc8dbfdbb1d692c5db772a62b\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="d7c42c80f6509b9ea4db28ca7859ffae08ec5741">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\classes_5156ba4bcc1d8086c38fdd49055fcbac40bd9b56\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.gradle\caches\modules-2\files-2.1\android.arch.lifecycle\common\1.0.0\e414a4cb28434e25c4f6aa71426eb20cf4874ae9\common-1.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="e414a4cb28434e25c4f6aa71426eb20cf4874ae9">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\common-1.0.0_638e1df6d1c2bc7542ba8fe233ce263516b566e2\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.android\build-cache\cede2e5ce683e4a235b59acca1e70e2de17fca5d\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="6f4138a4e065826cb044d49faea4cfd7191773d1">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\classes_7aca403baba0865f2934d11dbe8956a13b148afb\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.android\build-cache\013d6353c2aff753cc252f0fdaa5df0b3e8b6491\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="233f60a165ae622c8b36731502ebbda0f65e1930">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\classes_7e469def718a63787e2271b3d88d326b8329e38e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.android\build-cache\242729bfa8e6e253989ca489b831d54d41811dd4\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="80d9ff49e99ff481062ea190b43e8d6bdffd4ddc">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\classes_307f7defd77da27e16e18428397f8cbe1ed00a6d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.android\build-cache\72f8cefbf5130ee72faa9ccacaf6836781bf8d0c\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="508f50705b4fde51a16259f29c854201a3044516">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\classes_04a5be3a82e4abae48f0e93a43431bccdd059a4e\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\incremental-classes\debug\instant-run-bootstrap.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="582ea6b18923035024478a55060775e511e2bcc4">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run-bootstrap_93694bd2d9005f33f1289173114d66b08e69ea3d\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.android\build-cache\4ca33361011ba01feacee785c0f73ece6912961d\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="2442771a5590dd4eb4bce00c2e9dca9e22e4c963">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\classes_316afc3013d3c7fd3a7e5ef21688c0093e44a26c\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.android\build-cache\8d5af7514bf228c5545d8149d85d871acd9f236d\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="f97cf85b0fe70d37a705111dafa6b1b418ea1650">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\classes_46f76acb8f229219ab09dfb4896beec00a173033\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.gradle\caches\modules-2\files-2.1\com.android.support\support-annotations\26.1.0\814258103cf26a15fcc26ecce35f5b7d24b73f8\support-annotations-26.1.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="0814258103cf26a15fcc26ecce35f5b7d24b73f8">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\support-annotations-26.1.0_d972543bd144ed7c845f4d85515c154a8f276519\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.gradle\caches\modules-2\files-2.1\android.arch.core\common\1.0.0\a2d487452376193fc8c103dd2b9bd5f2b1b44563\common-1.0.0.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="a2d487452376193fc8c103dd2b9bd5f2b1b44563">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\common-1.0.0_333892655fc3196016c92126c2bca763414f76e2\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.android\build-cache\bfa855fd185f2dbc1b1788c08a3addaa1bdf5af0\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="b4d6fbbb48b42dd03fd9c5a09b3b7a53266df6ed">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\classes_aac5c690cf5877ca641df7946acde046196acbaa\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.android\build-cache\a46afd61938bb9d01040aabc866ed49c032b6718\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="7efef32744ca4a436492d5cf28c08698cc2af256">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\classes_bc483dc9657cb1b727916d4ae52559fc390fd4fb\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.android\build-cache\659347c75a508879945bb741edc77a4ca1742ffb\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="b62fdc4cfef174c1e456014195c83fa7de7dc041">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\classes_6e96c19271c9d496e1cc181094b6ac2d385066db\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.android\build-cache\b812d55d7160439cb1324a074e32e2805a8eca79\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="f428e2fbc9ed0b297e3a3f420e51e6982f66822d">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\classes_ebffc92fdb15e688a5f2564ca4428451b59a5702\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\.android\build-cache\20e930604cb1e3b0940bf3b39d7e959d8610fa9e\output\jars\classes.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="40392f30a601db5675cdf18192aab013d6fee6ec">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10\classes_092d7ca2713989fd5562ada1d6d498ccdf2fae71\classes.dex" />
+    </item>
+    <item
+        is-multidex="true"
+        jar="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\incremental-runtime-classes\debug\instant-run.jar"
+        jumboMode="true"
+        optimize="true"
+        revision="26.0.1"
+        sha1="3be78ebc2706b2e1fe2f12d5726887a92d6c183b">
+        <dex dex="C:\Users\Dell\Desktop\HRDisplay\Application\build\intermediates\transforms\dex\debug\folders\1000\10000\instant-run_e2c660eff832e70accbc82f775b359a13b2dba05\classes.dex" />
+    </item>
+
+</items>
