@@ -44,12 +44,14 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="80dp"
             android:text="@string/hello_world" />
+
         <TextView
             android:id="@+id/accelerometerY"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="100dp"
             android:text="@string/hello_world" />
+
         <TextView
             android:id="@+id/accelerometerZ"
             android:layout_width="wrap_content"
