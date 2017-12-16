@@ -1,13 +1,13 @@
-package ee490g.epfl.ch.dwarfsleepy;
+package ee490g.epfl.ch.dwarfsleepy.data;
 
 import java.util.Date;
 
-public class HeartRate {
+public class HeartRateData {
 
     private Float value;
     private Date date;
 
-    public HeartRate(Float value, Date date) {
+    public HeartRateData(Float value, Date date) {
         this.value = value;
         this.date = date;
     }
