@@ -9,9 +9,9 @@
         android:id="@+id/bgImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/bg"
+        android:contentDescription="@string/null_description"
         android:scaleType="fitXY"
-        android:contentDescription="@string/null_description" />
+        android:src="@drawable/bg" />
 
     <RelativeLayout
         android:id="@+id/actionBarLayout"
@@ -25,21 +25,21 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:text="@string/dwarf_sleepy"
             android:textColor="@color/colorWhite"
-            android:textSize="42sp"
-            android:text="@string/dwarf_sleepy" />
+            android:textSize="42sp" />
 
         <ImageButton
             android:id="@+id/profileButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_user"
-            android:backgroundTint="@android:color/transparent"
-            android:layout_toEndOf="@id/applicationName"
             android:layout_marginEnd="20dp"
-            android:layout_marginTop="12dp"
             android:layout_marginStart="160dp"
-            android:contentDescription="@string/null_description" />
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@id/applicationName"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/null_description"
+            android:src="@drawable/ic_user" />
     </RelativeLayout>
 
 </RelativeLayout>
