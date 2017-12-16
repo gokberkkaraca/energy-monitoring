@@ -102,6 +102,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                 if (textViewAccelerometerX != null && textViewAccelerometerY != null && textViewAccelerometerZ != null) {
                     AccelerometerData newAccelerometerData = new AccelerometerData(event.values[0], event.values[0], event.values[0], Calendar.getInstance().getTime());
                     accelerometerData.add(newAccelerometerData);
+                    DatabaseHandler.addAccelerometerData(accelerometerData);
 
                     textViewAccelerometerX.setText(String.valueOf(newAccelerometerData.getXAxisValue()));
                     textViewAccelerometerY.setText(String.valueOf(newAccelerometerData.getYAxisValue()));
