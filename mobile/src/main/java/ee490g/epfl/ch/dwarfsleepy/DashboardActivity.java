@@ -1,5 +1,6 @@
 package ee490g.epfl.ch.dwarfsleepy;
 
+import android.content.Intent;
 import android.content.IntentSender;
 import android.net.Uri;
 import android.os.Bundle;
@@ -116,6 +117,19 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 mGoogleApiClient, this, Uri.parse("wear://"), CapabilityApi.FILTER_REACHABLE);
 
         sendUserId(user.getUserId());
+
+        Intent intent = new Intent(this, DataLayerListenerService.class);
+        intent.setAction(DataLayerListenerService.ACTION_SEND_MESSAGE);
+        intent.putExtra(DataLayerListenerService.MESSAGE, "");
+        intent.putExtra(DataLayerListenerService.PATH, BuildConfig.start_activity);
+        startService(intent);
+
+        intent = new Intent(this, DataLayerListenerService.class);
+        intent.setAction(DataLayerListenerService.ACTION_SEND_MESSAGE);
+        intent.putExtra(DataLayerListenerService.MESSAGE, "Messaging other device!");
+        intent.putExtra(DataLayerListenerService.PATH, BuildConfig.some_path);
+        startService(intent);
+
     }
 
     @Override

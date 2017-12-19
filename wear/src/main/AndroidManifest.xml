@@ -27,9 +27,22 @@
         <service android:name=".DataLayerListenerService">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
+                <!-- Set down there the filters for the listener. Listening now for
+                everything -->
                 <data
                     android:host="*"
-                    android:pathPrefix="/user"
+                    android:pathPrefix=""
+                    android:scheme="wear" />
+            </intent-filter>
+            <intent-filter>
+                <action
+                    android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
+                <!-- Set down there the filters for the listener. Listening now for
+                ©ESL-EPFL 18
+                everything -->
+                <data
+                    android:host="*"
+                    android:pathPrefix=""
                     android:scheme="wear" />
             </intent-filter>
         </service>
