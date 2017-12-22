@@ -20,6 +20,17 @@
         android:background="@color/colorBlack"
         android:gravity="center_vertical">
 
+        <Button
+            android:id="@+id/refreshButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:background="@color/colorBlack"
+            android:textColor="@color/colorWhite"
+            android:text="REFRESH"
+            android:textSize="24sp"
+            android:textStyle="bold"
+            android:layout_centerVertical="true"/>
+
         <TextView
             android:id="@+id/applicationName"
             android:layout_width="wrap_content"
@@ -41,5 +52,102 @@
             android:layout_marginStart="160dp"
             android:contentDescription="@string/null_description" />
     </RelativeLayout>
+    
+    <LinearLayout
+        android:id="@+id/heartRateLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/actionBarLayout"
+        android:layout_marginTop="44dp"
+        android:orientation="horizontal">
+        
+        <ImageView
+            android:id="@+id/heartRateImageView"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginLeft="20dp"
+            android:src="@drawable/heart"/>
+        
+        <TextView
+            android:id="@+id/heartRateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_below="@id/actionBarLayout"
+            android:layout_marginTop="44dp"
+            android:layout_marginLeft="44dp"
+            android:textColor="@color/colorWhite"
+            android:textSize="32sp"
+            android:text="80.669843"
+            android:gravity="center"
+            />
+    </LinearLayout>
+    
+
+    <Button
+        android:id="@+id/polarBeltButton"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_below="@id/heartRateLinearLayout"
+        android:layout_marginTop="50sp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@color/colorAccent"
+        android:textColor="@color/colorWhite"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="POLAR BELT"/>
+
+    <Button
+        android:id="@+id/accelerometerButton"
+        android:layout_width="match_parent"
+        android:layout_height="52dp"
+        android:layout_below="@id/polarBeltButton"
+        android:layout_marginTop="40sp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:background="@color/colorBleumarin"
+        android:textColor="@color/colorWhite"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        android:text="ACCELEROMETER"
+        />
+    
+    <LinearLayout
+        android:id="@+id/monitoringLinearLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/accelerometerButton"
+        android:layout_marginTop="40sp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginRight="40dp"
+        android:orientation="horizontal">
+        
+        <Button
+            android:id="@+id/dayMonitoringButton"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="0.5"
+            tools:ignore="Suspicious0dp"
+            android:background="@color/colorYellow"
+            android:textColor="@color/colorWhite"
+            android:text="DAY MONITORING"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+
+        <Button
+            android:id="@+id/nightMonitoringButton"
+            android:layout_width="0dp"
+            android:layout_height="52dp"
+            android:layout_weight="0.5"
+            tools:ignore="Suspicious0dp"
+            android:background="@color/colorBlack"
+            android:textColor="@color/colorWhite"
+            android:text="NIGHT MONITORING"
+            android:textSize="24sp"
+            android:textStyle="bold"/>
+        
+    </LinearLayout>
+
+
 
 </RelativeLayout>

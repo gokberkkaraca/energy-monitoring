@@ -5,10 +5,12 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import ee490g.epfl.ch.dwarfsleepy.AccelerometerActivity;
 import ee490g.epfl.ch.dwarfsleepy.DashboardActivity;
 import ee490g.epfl.ch.dwarfsleepy.LoginActivity;
+import ee490g.epfl.ch.dwarfsleepy.PolarBelt.BluetoothLeService;
 import ee490g.epfl.ch.dwarfsleepy.UserProfileActivity;
-import ee490g.epfl.ch.dwarfsleepy.user.User;
+import ee490g.epfl.ch.dwarfsleepy.models.User;
 
 public class NavigationHandler {
 
@@ -29,12 +31,24 @@ public class NavigationHandler {
         extras.putSerializable(USER, user);
         intent.putExtras(extras);
         activity.startActivity(intent);
-        activity.finish();
     }
 
     public static void goToLoginActivity(Activity activity){
         Intent intent = new Intent(activity, LoginActivity.class);
         activity.startActivity(intent);
         activity.finish();
+    }
+
+    public static void goToAccelerometerActivity(Activity activity, User user) {
+        Intent intent = new Intent(activity, AccelerometerActivity.class);
+        Bundle extras = new Bundle();
+        extras.putSerializable(USER, user);
+        intent.putExtras(extras);
+        activity.startActivity(intent);
+    }
+
+    public static void goToPolarBeltActivity(Activity activity){
+        Intent intent = new Intent(activity, BluetoothLeService.class);
+        Bundle extras = new Bundle();
     }
 }

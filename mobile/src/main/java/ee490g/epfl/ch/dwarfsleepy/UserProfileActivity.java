@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import ee490g.epfl.ch.dwarfsleepy.user.User;
+import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 public class UserProfileActivity extends AppCompatActivity implements View.OnClickListener {

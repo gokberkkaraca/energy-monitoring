@@ -23,7 +23,7 @@ import java.util.Date;
 import java.util.Locale;
 
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
-import ee490g.epfl.ch.dwarfsleepy.user.User;
+import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener, DatePickerDialog.OnDateSetListener {
@@ -151,7 +151,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
             return false;
         }
         if (birthday == null) {
-            Toast.makeText(this, "Birthday field can't be empty", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Date field can't be empty", Toast.LENGTH_LONG).show();
             return false;
         }
         if (gender == null) {

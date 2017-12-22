@@ -22,7 +22,9 @@ dependencies {
     implementation 'com.google.firebase:firebase-database:11.6.2'
     compile 'com.google.firebase:firebase-core:11.6.2'
     compile 'com.google.firebase:firebase-auth:11.6.2'
+
     compile 'com.google.android.gms:play-services-auth:11.6.2'
+    compile 'com.github.PhilJay:MPAndroidChart:v2.0.9'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
@@ -30,6 +32,10 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     wearApp project(':wear')
+}
+
+repositories {
+    maven { url "https://jitpack.io" }
 }
 
 

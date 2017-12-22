@@ -19,7 +19,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     private ArrayList<Float> heartRateData;
     private ArrayList<HeartRate> averagedHeartRateData;
-    private ArrayList<Float[]> accelerometerData;
+    private ArrayList<AccelerometerData> accelerometerData;
 
     private TextView textViewHeartRate;
     private TextView textViewHeartRateAverage;
@@ -80,17 +80,21 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
                     if (!heartRateData.isEmpty() && heartRateData.size() % 20 == 0) {
                         Float average = 0f;
+                        Log.v("TAG", "HERE1");
                         for (Float heartRateValue: heartRateData) {
                             average += heartRateValue;
                         }
 
                         average = average / 20;
+                        Log.v("TAG", "HERE2");
                         HeartRate heartRate = new HeartRate(average, Calendar.getInstance().getTime());
                         averagedHeartRateData.add(heartRate);
                         textViewHeartRateAverage.setText(String.valueOf(heartRate.getValue()));
                         textViewHeartRateAverageDate.setText(String.valueOf(heartRate.getDate() ));
                         heartRateData.clear();
+                        Log.v("TAG", "HERE3");
                         DatabaseHandler.addHeartRateData(averagedHeartRateData);
+                        Log.v("TAG", "HERE4");
                     }
                 }
                 break;
@@ -101,11 +105,14 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                     dataFromSensor[1] = event.values[1];
                     dataFromSensor[2] = event.values[2];
 
-                    accelerometerData.add(dataFromSensor);
+                    AccelerometerData data = new AccelerometerData(dataFromSensor, Calendar.getInstance().getTime());
+                    accelerometerData.add(data);
 
                     textViewAccelerometerX.setText(String.valueOf(dataFromSensor[0]));
                     textViewAccelerometerY.setText(String.valueOf(dataFromSensor[1]));
                     textViewAccelerometerZ.setText(String.valueOf(dataFromSensor[2]));
+
+                    DatabaseHandler.addAccelerometerData(accelerometerData);
                 }
                 break;
             default:
