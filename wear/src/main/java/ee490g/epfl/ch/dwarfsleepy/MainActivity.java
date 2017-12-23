@@ -13,6 +13,7 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
@@ -24,6 +25,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     private ArrayList<Float> heartRateData;
     private ArrayList<HeartRateData> averagedHeartRateData;
     private ArrayList<AccelerometerData> accelerometerData;
+    private ArrayList<HeartRateData> abnormalHR;
 
     private TextView textViewHeartRate;
     private TextView textViewHeartRateAverage;
@@ -31,7 +33,9 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     private TextView textViewAccelerometerX;
     private TextView textViewAccelerometerY;
     private TextView textViewAccelerometerZ;
-
+    private TextView textViewAbnormalHRAverage;
+    private TextView textViewAbnormalHRBegin;
+    private TextView textViewAbnormalHREnd;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,9 +65,12 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         textViewAccelerometerZ = findViewById(R.id.accelerometerZ);
         textViewHeartRateAverage = findViewById(R.id.heart_rate_average);
         textViewHeartRateAverageDate = findViewById(R.id.heart_rate_average_date);
-
+        textViewAbnormalHRAverage=findViewById(R.id.abnormalHRavg);
+        textViewAbnormalHRBegin=findViewById(R.id.abnormalHRbegin);
+        textViewAbnormalHREnd=findViewById(R.id.abnormalHRend);
         heartRateData = new ArrayList<>();
         averagedHeartRateData = new ArrayList<>();
+        abnormalHR = new ArrayList<>();
 
         accelerometerData = new ArrayList<>();
     }
@@ -82,6 +89,29 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                     Float newHeartRate = event.values[0];
                     heartRateData.add(newHeartRate);
                     textViewHeartRate.setText(String.valueOf(newHeartRate));
+                    HeartRateData instantaneousHR = new HeartRateData(newHeartRate, Calendar.getInstance().getTime());
+
+                    if (instantaneousHR.getValue()>90){
+                        abnormalHR.add(instantaneousHR);
+                    }
+                    else{
+                        if (abnormalHR.size()>0) {
+                            textViewAbnormalHRBegin.setText(abnormalHR.get(0).getDate().toString());
+                            textViewAbnormalHREnd.setText(abnormalHR.get(abnormalHR.size()-1).getDate().toString());
+
+                            float sum=0;
+
+                            for (HeartRateData hrd : abnormalHR){
+
+                                sum = sum + hrd.getValue();
+
+                            }
+                                float abnormalavg=sum/abnormalHR.size();
+                            textViewAbnormalHRAverage.setText(abnormalavg + "");
+                            abnormalHR.clear();
+                        }
+                    }
+
 
                     if (!heartRateData.isEmpty() && heartRateData.size() % 20 == 0) {
                         Float average = 0f;
@@ -99,7 +129,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                     }
                 }
                 break;
-            case Sensor.TYPE_ACCELEROMETER:
+            /*case Sensor.TYPE_ACCELEROMETER:
                 if (textViewAccelerometerX != null && textViewAccelerometerY != null && textViewAccelerometerZ != null) {
                     AccelerometerData newAccelerometerData = new AccelerometerData(event.values[0], event.values[0], event.values[0], Calendar.getInstance().getTime());
                     accelerometerData.add(newAccelerometerData);
@@ -109,7 +139,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                     textViewAccelerometerY.setText(String.valueOf(newAccelerometerData.getYAxisValue()));
                     textViewAccelerometerZ.setText(String.valueOf(newAccelerometerData.getZAxisValue()));
                 }
-                break;
+                break;*/
             default:
                 break;
         }
