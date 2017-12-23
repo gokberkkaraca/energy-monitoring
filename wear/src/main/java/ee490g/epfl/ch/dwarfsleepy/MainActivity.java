@@ -24,7 +24,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     private static final String TAG = "MainActivity";
 
     private ArrayList<Float> heartRateData;
-    private ArrayList<HeartRateData> averagedHeartRateData;
+    private static ArrayList<HeartRateData> averagedHeartRateData;
     private ArrayList<AccelerometerData> accelerometerData;
     private ArrayList<HeartRateData> abnormalHR;
 
@@ -153,5 +153,9 @@ public class MainActivity extends WearableActivity implements SensorEventListene
             default:
                 break;
         }
+    }
+
+    public static ArrayList<HeartRateData> getAveragedHeartRateData() {
+        return averagedHeartRateData;
     }
 }
