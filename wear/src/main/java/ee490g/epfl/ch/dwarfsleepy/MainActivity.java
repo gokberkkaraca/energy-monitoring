@@ -1,5 +1,9 @@
 package ee490g.epfl.ch.dwarfsleepy;
 
+import android.content.BroadcastReceiver;
+import android.content.Context;
+import android.content.Intent;
+import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
@@ -7,6 +11,7 @@ import android.hardware.SensorEventListener;
 import android.hardware.SensorManager;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.v4.content.LocalBroadcastManager;
 import android.support.wearable.activity.WearableActivity;
 import android.util.Log;
 import android.widget.TextView;
@@ -31,6 +36,10 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     private TextView textViewAccelerometerX;
     private TextView textViewAccelerometerY;
     private TextView textViewAccelerometerZ;
+
+    public static final String ACTION_SEND_USER = "ACTION_SEND_USER";
+    public static final String STRING_USER = "STRING_USER";
+    private final static String TAG = MainActivity.class.getSimpleName();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,6 +75,9 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         averagedHeartRateData = new ArrayList<>();
 
         accelerometerData = new ArrayList<>();
+
+        LocalBroadcastManager.getInstance(this).registerReceiver(mUserReceiver,
+                new IntentFilter(ACTION_SEND_USER));
     }
 
     @Override
@@ -113,5 +125,16 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                 break;
         }
     }
-
+    private String userWatch = "";
+    private BroadcastReceiver mUserReceiver = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            userWatch = intent.getStringExtra(STRING_USER);
+            Log.d(TAG,"Got intent userWatch: " + userWatch);
+            //TextView textView = findViewById(R.id.heart_rate);
+            String te= String.valueOf(userWatch); // in case it is int
+            //textView.setText(te);
+            textViewHeartRate.setText(te);
+        }
+    };
 }

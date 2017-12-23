@@ -16,6 +16,18 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
         }
     }
+    buildTypes.each {
+        project.ext.constants.each {
+                // Create module constants as both String constants and string resources
+                //    String constants used in Java as BuildConfig.k ("k" being the key used)
+                //    Resources are used as usual:
+                //         in Java as [getApplicationContext().]getString(R.string.a_key)
+                //         in XML as @string/app_name
+            k, v ->
+                it.buildConfigField 'String', k, "\"${v}\""
+                it.resValue 'string', k, v
+        }
+    }
 }
 
 dependencies {
@@ -25,6 +37,7 @@ dependencies {
     compile 'com.google.android.gms:play-services-auth:11.6.2'
     implementation fileTree(dir: 'libs', include: ['*.jar'])
     implementation 'com.android.support:appcompat-v7:26.1.0'
+    implementation 'com.google.android.gms:play-services-wearable:11.6.2'
     implementation 'com.android.support.constraint:constraint-layout:1.0.2'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'

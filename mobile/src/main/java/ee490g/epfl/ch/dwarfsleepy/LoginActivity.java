@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -31,7 +32,8 @@ import ee490g.epfl.ch.dwarfsleepy.user.User;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
-
+    // Tag for Logcat
+    private static final String TAG = "LoginActivity";
     private static final int RC_GOOGLE_SIGN_IN = 9001;
 
     private FirebaseAuth mAuth;
@@ -157,8 +159,13 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                                 public void onDataChange(DataSnapshot dataSnapshot) {
                                     User user = dataSnapshot.getValue(User.class);
                                     NavigationHandler.goToDashboardActivity(LoginActivity.this, user);
+                                    // add
+                                    Intent intent = new Intent(LoginActivity.this, WearListenerService.class);
+                                    Log.d(TAG,"Send user intent");
+                                    intent.setAction(WearListenerService.ACTION_SEND_USER);
+                                    intent.putExtra(WearListenerService.DATAMAP_STRING_USER, user.getUserId());
+                                    startService(intent);
                                 }
-
                                 @Override
                                 public void onCancelled(DatabaseError databaseError) {
                                     Toast.makeText(LoginActivity.this, "Login failed", Toast.LENGTH_LONG).show();

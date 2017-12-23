@@ -23,6 +23,21 @@ allprojects {
             url "https://maven.google.com"
         }
     }
+    project.ext {
+        constants = [some_path      : "/SOME_PATH",
+                     another_path   : "/ANOTHER_PATH",
+                     acknowledge    : "/ACKNOWLEDGE_PATH",
+                     start_activity : "/START_ACTIVITY",
+                     a_key          : "a_key",
+                     some_other_key : "some_other_key",
+                     a_location_key : "a_location_key",
+                     location_key   : "location_key",
+                     location_path  : "/LOCATION_PATH",
+                     heart_rate_key : "heart_rate_key",
+                     heart_rate_path: "/HEART_RATE_PATH",
+                     user_key: "user_key",
+                     user_path: "/USER_PATH"];
+    }
 }
 
 task clean(type: Delete) {
