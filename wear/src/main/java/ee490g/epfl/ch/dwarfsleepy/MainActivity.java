@@ -155,7 +155,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                 break;
             case Sensor.TYPE_ACCELEROMETER:
                 if (textViewAccelerometerX != null && textViewAccelerometerY != null && textViewAccelerometerZ != null) {
-                    AccelerometerData newAccelerometerData = new AccelerometerData(event.values[0], event.values[0], event.values[0], Calendar.getInstance().getTime());
+                    AccelerometerData newAccelerometerData = new AccelerometerData(event.values[0], event.values[1], event.values[2], Calendar.getInstance().getTime());
                     accelerometerData.add(newAccelerometerData);
                     DatabaseHandler.addAccelerometerData(accelerometerData);
 
