@@ -1,27 +1,28 @@
 package ee490g.epfl.ch.dwarfsleepy;
 
+import android.content.Intent;
+import android.content.IntentSender;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.google.firebase.database.DataSnapshot;
-import com.google.firebase.database.DatabaseError;
-import com.google.firebase.database.ValueEventListener;
+import com.google.android.gms.common.ConnectionResult;
+import com.google.android.gms.common.api.GoogleApiClient;
+import com.google.android.gms.wearable.DataApi;
+import com.google.android.gms.wearable.DataEventBuffer;
+import com.google.android.gms.wearable.MessageApi;
+import com.google.android.gms.wearable.MessageEvent;
+import com.google.android.gms.wearable.Wearable;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
-import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
-import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
-public class DashboardActivity extends AppCompatActivity implements View.OnClickListener{
+public class DashboardActivity extends AppCompatActivity implements View.OnClickListener, DataApi.DataListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, MessageApi.MessageListener {
 
     private ImageButton profileButton;
     private Button refreshButton;
@@ -31,10 +32,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private Button nightMonitoringButton;
     private TextView heartRateTextView;
 
-    private List<HeartRateData> heartRateData;
-    private List<AccelerometerData> accelerometerData;
-
     private User user;
+
+    // Tag for Logcat
+    private static final String TAG = "DashboardActivity";
+
+    // Members used for the Wear API
+    private GoogleApiClient mGoogleApiClient;
+    private boolean mResolvingError = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,7 +58,12 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         dayMonitoringButton.setOnClickListener(this);
         nightMonitoringButton.setOnClickListener(this);
 
-        getHeartRateData();
+        // Start the Wear API connection
+        mGoogleApiClient = new GoogleApiClient.Builder(this)
+                .addApi(Wearable.API)
+                .addConnectionCallbacks(this)
+                .addOnConnectionFailedListener(this)
+                .build();
     }
 
     private void initializeViews() {
@@ -84,50 +94,87 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 //TODO
                 break;
             case R.id.refreshButton:
-                getHeartRateData();
+                //TODO
                 break;
             default:
                 break;
         }
     }
+    @Override
+    public void onConnected(Bundle connectionHint) {
+        // Connection to the wear API
+        Log.v(TAG, "Google API Client was connected");
+        mResolvingError = false;
+        Wearable.DataApi.addListener(mGoogleApiClient, this);
+        Wearable.MessageApi.addListener(mGoogleApiClient, this);
 
-    private void getHeartRateData() {
-        DatabaseHandler.getHeartRatesData(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                heartRateData = new ArrayList<>();
+        Intent intent = new Intent(this, DataLayerListenerService.class);
+        intent.setAction(DataLayerListenerService.ACTION_SEND_MESSAGE);
+        intent.putExtra(DataLayerListenerService.MESSAGE, "");
+        intent.putExtra(DataLayerListenerService.PATH, BuildConfig.start_activity);
+        startService(intent);
 
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()) {
-                    heartRateData.add(snapshot.getValue(HeartRateData.class));
-                }
+        intent = new Intent(this, DataLayerListenerService.class);
+        intent.setAction(DataLayerListenerService.ACTION_SEND_MESSAGE);
+        intent.putExtra(DataLayerListenerService.MESSAGE, "Messaging other device!");
+        intent.putExtra(DataLayerListenerService.PATH, BuildConfig.some_path);
+        startService(intent);
 
-                heartRateTextView.setText(String.valueOf(heartRateData.get(heartRateData.size() - 1).getValue()));
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Toast.makeText(DashboardActivity.this, "Failed to fetch heart rate data", Toast.LENGTH_LONG).show();
-            }
-        });
     }
 
-    private void getAccelerometerData() {
-        DatabaseHandler.getAccelerometerData(new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                accelerometerData = new ArrayList<>();
+    @Override
+    public void onConnectionSuspended(int cause) {
+        // Connection to the wear API is halted
+        Log.v(TAG, "Connection to Google API client was suspended");
+    }
 
-                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
-                    accelerometerData.add(snapshot.getValue(AccelerometerData.class));
+    @Override
+    public void onConnectionFailed(@NonNull ConnectionResult result) {
+        // Connection to the wear API failed, try to restore it
+        if (!mResolvingError) {
+            if (result.hasResolution()) {
+                try {
+                    mResolvingError = true;
+                    result.startResolutionForResult(this, 0);
+                } catch (IntentSender.SendIntentException e) {
+                    // There was an error with the resolution intent. Try again.
+                    mGoogleApiClient.connect();
                 }
-
-                // TODO Do something with this data
+            } else {
+                Log.e(TAG, "Connection to Google API client has failed");
+                mResolvingError = false;
+                Wearable.DataApi.removeListener(mGoogleApiClient, this);
+                Wearable.MessageApi.removeListener(mGoogleApiClient, this);
             }
+        }
+    }
 
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
+    @Override
+    protected void onStart() {
+        super.onStart();
+        if (!mResolvingError) {
+            mGoogleApiClient.connect();
+        }
+    }
 
-            }
-        });
+    @Override
+    protected void onStop() {
+        // App is stopped, close the wear API connection
+        if (!mResolvingError && (mGoogleApiClient != null) && (mGoogleApiClient.isConnected())) {
+            Wearable.DataApi.removeListener(mGoogleApiClient, this);
+            Wearable.MessageApi.removeListener(mGoogleApiClient, this);
+            mGoogleApiClient.disconnect();
+        }
+        super.onStop();
+    }
+
+    @Override
+    public void onDataChanged(DataEventBuffer dataEventBuffer) {
+
+    }
+
+    @Override
+    public void onMessageReceived(MessageEvent messageEvent) {
+
     }
 }
