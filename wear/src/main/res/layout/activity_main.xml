@@ -20,35 +20,54 @@
             android:id="@+id/heart_rate"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="0dp"
             android:text="@string/hello_world" />
 
         <TextView
             android:id="@+id/heart_rate_average"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="15dp"
             android:text="@string/hello_world" />
 
         <TextView
             android:id="@+id/heart_rate_average_date"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:text="@string/hello_world" />
+        <TextView
+            android:id="@+id/abnormalHRavg"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="45dp"
+            android:text="@string/hello_world" />
+
+        <TextView
+            android:id="@+id/abnormalHRbegin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
             android:layout_marginTop="60dp"
             android:text="@string/hello_world" />
 
         <TextView
+            android:id="@+id/abnormalHRend"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="75dp"
+            android:text="@string/hello_world" />
+        <TextView
             android:id="@+id/accelerometerX"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="80dp"
+            android:layout_marginTop="90dp"
             android:text="@string/hello_world" />
 
         <TextView
             android:id="@+id/accelerometerY"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="100dp"
+            android:layout_marginTop="105dp"
             android:text="@string/hello_world" />
 
         <TextView
