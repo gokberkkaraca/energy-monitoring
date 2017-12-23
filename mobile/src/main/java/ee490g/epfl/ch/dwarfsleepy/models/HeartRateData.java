@@ -12,6 +12,11 @@ public class HeartRateData {
         this.date = date;
     }
 
+    // Firebase needs an empty constructor
+    public HeartRateData() {
+
+    }
+
     public Float getValue() {
         return value;
     }

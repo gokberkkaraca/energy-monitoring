@@ -77,6 +77,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     public void onSensorChanged(SensorEvent event) {
         switch (event.sensor.getType()) {
             case Sensor.TYPE_HEART_RATE:
+                Log.v("HeartRate", "Hey");
                 if (textViewHeartRate != null) {
                     Float newHeartRate = event.values[0];
                     heartRateData.add(newHeartRate);
@@ -98,7 +99,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                     }
                 }
                 break;
-            case Sensor.TYPE_ACCELEROMETER:
+            /*case Sensor.TYPE_ACCELEROMETER:
                 if (textViewAccelerometerX != null && textViewAccelerometerY != null && textViewAccelerometerZ != null) {
                     AccelerometerData newAccelerometerData = new AccelerometerData(event.values[0], event.values[0], event.values[0], Calendar.getInstance().getTime());
                     accelerometerData.add(newAccelerometerData);
@@ -108,7 +109,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                     textViewAccelerometerY.setText(String.valueOf(newAccelerometerData.getYAxisValue()));
                     textViewAccelerometerZ.setText(String.valueOf(newAccelerometerData.getZAxisValue()));
                 }
-                break;
+                break;*/
             default:
                 break;
         }

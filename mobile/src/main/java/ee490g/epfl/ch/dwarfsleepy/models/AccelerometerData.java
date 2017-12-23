@@ -16,6 +16,11 @@ public class AccelerometerData {
         this.date = date;
     }
 
+    // Firebase needs an empty constructor
+    public AccelerometerData() {
+
+    }
+
     public Float getXAxisValue() {
         return xAxisValue;
     }

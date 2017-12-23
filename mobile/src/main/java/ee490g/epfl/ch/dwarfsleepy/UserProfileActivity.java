@@ -58,6 +58,11 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        NavigationHandler.goToDashboardActivity(this, user);
+    }
+
     private void logOut() {
         FirebaseAuth.getInstance().signOut();
         NavigationHandler.goToLoginActivity(this);
