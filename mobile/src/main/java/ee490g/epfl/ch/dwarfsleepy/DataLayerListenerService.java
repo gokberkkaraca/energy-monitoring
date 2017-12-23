@@ -37,10 +37,7 @@ public class DataLayerListenerService extends WearableListenerService {
 
     // Constants
     public static final String ACTION_SEND_MESSAGE = "ACTION_SEND_MESSAGE";
-    public static final String ACTION_SEND_DATAMAP = "ACTION_SEND_DATAMAP";
     public static final String MESSAGE = "MESSAGE";
-    public static final String DATAMAP_INT = "DATAMAP_INT";
-    public static final String DATAMAP_INT_ARRAYLIST = "DATAMAP_INT_ARRAYLIST";
     public static final String PATH = "PATH";
 
     // Member for the Wear API handle
@@ -68,12 +65,6 @@ public class DataLayerListenerService extends WearableListenerService {
         switch(action) {
             case ACTION_SEND_MESSAGE:
                 sendMessage(intent.getStringExtra(MESSAGE), intent.getStringExtra(PATH));
-                break;
-            case ACTION_SEND_DATAMAP:
-                PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(BuildConfig.another_path);
-                putDataMapRequest.getDataMap().putInt(BuildConfig.a_key, intent.getIntExtra(DATAMAP_INT, -1));
-                putDataMapRequest.getDataMap().putIntegerArrayList(BuildConfig.some_other_key, intent.getIntegerArrayListExtra(DATAMAP_INT_ARRAYLIST));
-                sendPutDataMapRequest(putDataMapRequest);
                 break;
             default:
                 Log.w(TAG, "Unknown action");
@@ -105,24 +96,12 @@ public class DataLayerListenerService extends WearableListenerService {
                 Intent intent;
 
                 switch (uri.getPath()) {
-                    case BuildConfig.some_path:
-                        // Extract the data behind the key you know contains data
-                        Asset asset = dataMapItem.getDataMap().getAsset(BuildConfig.a_key);
-                        Bitmap imageDecoded = bitmapFromAsset(asset); // We assume the asset is an image
-                        String a_string = dataMapItem.getDataMap().getString(BuildConfig.some_other_key);
-                        intent = new Intent("STRING_OF_ACTION_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY");
-                        intent.putExtra("STRING_OF_IMAGE_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", imageDecoded);
-                        intent.putExtra("STRING_OF_STRING_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", a_string);
-                        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
-                        break;
                     case BuildConfig.another_path:
                         // Extract the data behind the key you know contains data
-                        int integer = dataMapItem.getDataMap().getInt(BuildConfig.a_key);
                         ArrayList<Integer> arraylist = dataMapItem.getDataMap().getIntegerArrayList(BuildConfig.some_other_key);
                         for (Integer i : arraylist)
                             Log.i(TAG, "Got integer " + i + " from array list");
                         intent = new Intent("STRING_OF_ANOTHER_ACTION_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY");
-                        intent.putExtra("STRING_OF_INTEGER_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", integer);
                         intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", arraylist);
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                         break;
@@ -151,22 +130,6 @@ public class DataLayerListenerService extends WearableListenerService {
         String path = messageEvent.getPath();
 
         switch (path) {
-            case BuildConfig.start_activity:
-                Intent startIntent = new Intent(this, MainActivity.class);
-                startIntent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                startActivity(startIntent);
-                break;
-            case BuildConfig.some_path:
-                Log.v(TAG, "Received a message for path " + BuildConfig.some_path + " : " + new String(messageEvent.getData()));
-                // For demo, send back a dataMap
-                int some_value = 42;
-                ArrayList<Integer> arrayList = new ArrayList<>();
-                Collections.addAll(arrayList, 5, 7, 9, 10);
-                sendSpecificDatamap(some_value, arrayList);
-                break;
-            case BuildConfig.another_path:
-                Log.v(TAG, "Received a message for path " + BuildConfig.another_path + " : " + new String(messageEvent.getData()));
-                break;
             default:
                 Log.w(TAG, "Received a message for unknown path " + path + " : " + new String(messageEvent.getData()));
         }
@@ -188,37 +151,6 @@ public class DataLayerListenerService extends WearableListenerService {
         sendMessageToNodes(message, path);
     }
 
-    void sendAsset(Asset asset, String path, String key) {
-        // Sends data (an asset) through the Wear API
-        PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(path);
-        putDataMapRequest.getDataMap().putAsset(key, asset);
-        sendPutDataMapRequest(putDataMapRequest);
-    }
-
-    void sendSpecificDatamap(int value, ArrayList<Integer> arrayList) {
-        // Sends data (a datamap) through the Wear API
-        // It's specific to a datamap containing an int and an arraylist. Duplicate and change
-        // according to your needs
-        PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(BuildConfig.another_path);
-        putDataMapRequest.getDataMap().putInt(BuildConfig.a_key, value);
-        putDataMapRequest.getDataMap().putIntegerArrayList(BuildConfig.some_other_key, arrayList);
-        sendPutDataMapRequest(putDataMapRequest);
-    }
-
-    void sendPutDataMapRequest(PutDataMapRequest putDataMapRequest) {
-        putDataMapRequest.getDataMap().putLong("time", System.nanoTime());
-        PutDataRequest request = putDataMapRequest.asPutDataRequest();
-        request.setUrgent();
-        Wearable.DataApi.putDataItem(mGoogleApiClient, request)
-                .setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
-                    @Override
-                    public void onResult(@NonNull DataApi.DataItemResult dataItemResult) {
-                        Log.v(TAG, "Sent datamap. Result = " + dataItemResult.getStatus());
-
-                    }
-                });
-    }
-
     void sendMessageToNodes(final String message, final String path) {
         Log.v(TAG, "Sending message " + message);
         // Lists all the nodes (devices) connected to the Wear API
@@ -230,28 +162,5 @@ public class DataLayerListenerService extends WearableListenerService {
                 }
             }
         });
-    }
-
-    private Bitmap bitmapFromAsset(Asset asset) {
-        // Reads an asset from the Wear API and parse it as an image
-        if (asset == null) {
-            throw new IllegalArgumentException("Asset must be non-null");
-        }
-        ConnectionResult result = mGoogleApiClient.blockingConnect(10, TimeUnit.SECONDS);
-        if (!result.isSuccess()) {
-            return null;
-        }
-        // Convert asset into a file descriptor and block until it's ready
-        InputStream assetInputStream = Wearable.DataApi.getFdForAsset(
-                mGoogleApiClient, asset).await().getInputStream();
-        mGoogleApiClient.disconnect();
-
-        if (assetInputStream == null) {
-            Log.w(TAG, "Requested an unknown Asset.");
-            return null;
-        }
-
-        // Decode the stream into a bitmap
-        return BitmapFactory.decodeStream(assetInputStream);
     }
 }

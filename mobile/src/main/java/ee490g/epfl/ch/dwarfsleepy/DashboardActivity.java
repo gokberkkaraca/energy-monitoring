@@ -2,7 +2,6 @@ package ee490g.epfl.ch.dwarfsleepy;
 
 import android.content.Intent;
 import android.content.IntentSender;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
@@ -14,21 +13,16 @@ import android.widget.TextView;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
-import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.wearable.CapabilityApi;
-import com.google.android.gms.wearable.CapabilityInfo;
 import com.google.android.gms.wearable.DataApi;
 import com.google.android.gms.wearable.DataEventBuffer;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.MessageEvent;
-import com.google.android.gms.wearable.PutDataMapRequest;
-import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
-public class DashboardActivity extends AppCompatActivity implements View.OnClickListener, DataApi.DataListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, MessageApi.MessageListener, CapabilityApi.CapabilityListener{
+public class DashboardActivity extends AppCompatActivity implements View.OnClickListener, DataApi.DataListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, MessageApi.MessageListener {
 
     private ImageButton profileButton;
     private Button refreshButton;
@@ -113,10 +107,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         mResolvingError = false;
         Wearable.DataApi.addListener(mGoogleApiClient, this);
         Wearable.MessageApi.addListener(mGoogleApiClient, this);
-        Wearable.CapabilityApi.addListener(
-                mGoogleApiClient, this, Uri.parse("wear://"), CapabilityApi.FILTER_REACHABLE);
-
-        sendUserId(user.getUserId());
 
         Intent intent = new Intent(this, DataLayerListenerService.class);
         intent.setAction(DataLayerListenerService.ACTION_SEND_MESSAGE);
@@ -155,7 +145,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 mResolvingError = false;
                 Wearable.DataApi.removeListener(mGoogleApiClient, this);
                 Wearable.MessageApi.removeListener(mGoogleApiClient, this);
-                Wearable.CapabilityApi.removeListener(mGoogleApiClient, this);
             }
         }
     }
@@ -174,15 +163,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         if (!mResolvingError && (mGoogleApiClient != null) && (mGoogleApiClient.isConnected())) {
             Wearable.DataApi.removeListener(mGoogleApiClient, this);
             Wearable.MessageApi.removeListener(mGoogleApiClient, this);
-            Wearable.CapabilityApi.removeListener(mGoogleApiClient, this);
             mGoogleApiClient.disconnect();
         }
         super.onStop();
-    }
-
-    @Override
-    public void onCapabilityChanged(CapabilityInfo capabilityInfo) {
-
     }
 
     @Override
@@ -193,22 +176,5 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onMessageReceived(MessageEvent messageEvent) {
 
-    }
-
-    private void sendUserId(String userId) {
-        // Sends an asset through the Wear API
-        PutDataMapRequest dataMap = PutDataMapRequest.create("/user");
-        dataMap.getDataMap().putString("USER_ID", userId);
-        PutDataRequest request = dataMap.asPutDataRequest();
-        request.setUrgent();
-
-        Wearable.DataApi.putDataItem(mGoogleApiClient, request)
-                .setResultCallback(new ResultCallback<DataApi.DataItemResult>() {
-                    @Override
-                    public void onResult(@NonNull DataApi.DataItemResult dataItemResult) {
-                        Log.v(TAG, "Sending user id was successful: " + dataItemResult.getStatus()
-                                .isSuccess());
-                    }
-                });
     }
 }
