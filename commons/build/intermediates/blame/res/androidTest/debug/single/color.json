@@ -1,0 +1,18 @@
+[
+    {
+        "merged": "C:\\Users\\gokbe\\Desktop\\BlankPhoneWearApp\\commons\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\common_google_signin_btn_text_light.xml",
+        "source": "C:\\Users\\gokbe\\.android\\build-cache\\4b8c9c89d3315c0d698159d92e24472746a82e50\\output\\res\\color\\common_google_signin_btn_text_light.xml"
+    },
+    {
+        "merged": "C:\\Users\\gokbe\\Desktop\\BlankPhoneWearApp\\commons\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\common_google_signin_btn_text_dark.xml",
+        "source": "C:\\Users\\gokbe\\.android\\build-cache\\4b8c9c89d3315c0d698159d92e24472746a82e50\\output\\res\\color\\common_google_signin_btn_text_dark.xml"
+    },
+    {
+        "merged": "C:\\Users\\gokbe\\Desktop\\BlankPhoneWearApp\\commons\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\common_plus_signin_btn_text_light.xml",
+        "source": "C:\\Users\\gokbe\\.android\\build-cache\\4b8c9c89d3315c0d698159d92e24472746a82e50\\output\\res\\color\\common_plus_signin_btn_text_light.xml"
+    },
+    {
+        "merged": "C:\\Users\\gokbe\\Desktop\\BlankPhoneWearApp\\commons\\build\\intermediates\\res\\merged\\androidTest\\debug\\color\\common_plus_signin_btn_text_dark.xml",
+        "source": "C:\\Users\\gokbe\\.android\\build-cache\\4b8c9c89d3315c0d698159d92e24472746a82e50\\output\\res\\color\\common_plus_signin_btn_text_dark.xml"
+    }
+]

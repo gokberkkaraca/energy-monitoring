@@ -27,6 +27,7 @@ dependencies {
     implementation 'com.android.support:wear:26.1.0'
     implementation 'com.google.firebase:firebase-database:11.6.2'
     compileOnly 'com.google.android.wearable:wearable:2.1.0'
+    compile project(path: ':commons')
 }
 
 
