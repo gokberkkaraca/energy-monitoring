@@ -30,7 +30,7 @@ import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
-public class LoginActivity extends AppCompatActivity implements View.OnClickListener{
+public class LoginActivity extends AppCompatActivity implements View.OnClickListener {
 
     private static final int RC_GOOGLE_SIGN_IN = 9001;
 
@@ -67,7 +67,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.loginButton:
                 String email = emailEditText.getText().toString();
                 String password = passwordEditText.getText().toString();

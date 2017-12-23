@@ -15,7 +15,7 @@ public class DatabaseHandler {
     private static final String DATABASE_ACCELEROMETER_DATA_PATH = "accelerometerData";
     private static final DatabaseReference databaseReference = FirebaseDatabase.getInstance(FIREBASE_DATABASE_URL).getReference();
 
-    public static void addHeartRateData(List<HeartRateData> heartRates){
+    public static void addHeartRateData(List<HeartRateData> heartRates) {
         databaseReference.child(DATABASE_HEART_RATE_DATA_PATH).setValue(heartRates);
     }
 

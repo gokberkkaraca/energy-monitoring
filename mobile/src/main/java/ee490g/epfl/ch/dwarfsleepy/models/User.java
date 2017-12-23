@@ -7,10 +7,6 @@ import java.util.Date;
 
 public class User implements Serializable {
 
-    public enum Gender {
-        MALE, FEMALE
-    }
-
     private String userId;
     private String name;
     private String email;
@@ -25,7 +21,7 @@ public class User implements Serializable {
         this.birthday = birthday;
     }
 
-    public User(){
+    public User() {
 
     }
 
@@ -63,5 +59,9 @@ public class User implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public enum Gender {
+        MALE, FEMALE
     }
 }

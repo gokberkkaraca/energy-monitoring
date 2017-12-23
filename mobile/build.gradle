@@ -24,7 +24,8 @@ android {
                     // Resources are used as usual:
                     // in Java as [getApplicationContext().]getString(R.string.a_key)
                     // in XML as @string/app_name
-                k, v -> it.buildConfigField 'String', k, "\"${v}\""
+                k, v ->
+                    it.buildConfigField 'String', k, "\"${v}\""
                     it.resValue 'string', k, v
             }
         }

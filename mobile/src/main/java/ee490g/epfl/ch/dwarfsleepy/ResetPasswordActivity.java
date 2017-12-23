@@ -29,7 +29,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.resetPasswordButton:
                 resetPassword();
                 break;
@@ -39,7 +39,7 @@ public class ResetPasswordActivity extends AppCompatActivity implements View.OnC
     }
 
     private void initViews() {
-        resetPasswordButton = findViewById(R.id.resetPasswordButton) ;
+        resetPasswordButton = findViewById(R.id.resetPasswordButton);
         emailEditText = findViewById(R.id.emailEditText);
     }
 

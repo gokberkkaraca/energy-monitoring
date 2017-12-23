@@ -24,6 +24,8 @@ import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 public class DashboardActivity extends AppCompatActivity implements View.OnClickListener, DataApi.DataListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, MessageApi.MessageListener {
 
+    // Tag for Logcat
+    private static final String TAG = "DashboardActivity";
     private ImageButton profileButton;
     private Button refreshButton;
     private Button polarBeltButton;
@@ -31,12 +33,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private Button dayMonitoringButton;
     private Button nightMonitoringButton;
     private TextView heartRateTextView;
-
     private User user;
-
-    // Tag for Logcat
-    private static final String TAG = "DashboardActivity";
-
     // Members used for the Wear API
     private GoogleApiClient mGoogleApiClient;
     private boolean mResolvingError = false;
@@ -78,7 +75,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.profileButton:
                 NavigationHandler.goToUserProfileActivity(this, user);
                 break;
@@ -100,6 +97,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 break;
         }
     }
+
     @Override
     public void onConnected(Bundle connectionHint) {
         // Connection to the wear API

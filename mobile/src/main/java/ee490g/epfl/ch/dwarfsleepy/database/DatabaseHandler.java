@@ -14,11 +14,11 @@ public class DatabaseHandler {
     private static final String DATABASE_ACCELEROMETER_PATH = "accelerometerData";
     private static final DatabaseReference databaseReference = FirebaseDatabase.getInstance(FIREBASE_DATABASE_URL).getReference();
 
-    public static void getUser(String userId, ValueEventListener valueEventListener){
+    public static void getUser(String userId, ValueEventListener valueEventListener) {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).addListenerForSingleValueEvent(valueEventListener);
     }
 
-    public static void addUser(User user){
+    public static void addUser(User user) {
         databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).setValue(user);
     }
 
