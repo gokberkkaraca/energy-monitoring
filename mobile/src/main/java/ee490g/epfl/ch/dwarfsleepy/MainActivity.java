@@ -12,7 +12,7 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
-import ee490g.epfl.ch.dwarfsleepy.user.User;
+import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 public class MainActivity extends AppCompatActivity {

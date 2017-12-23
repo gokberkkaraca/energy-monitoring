@@ -9,7 +9,7 @@ import android.widget.TextView;
 
 import com.google.firebase.auth.FirebaseAuth;
 
-import ee490g.epfl.ch.dwarfsleepy.user.User;
+import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 public class UserProfileActivity extends AppCompatActivity implements View.OnClickListener {
@@ -56,6 +56,11 @@ public class UserProfileActivity extends AppCompatActivity implements View.OnCli
             default:
                 break;
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        NavigationHandler.goToDashboardActivity(this, user);
     }
 
     private void logOut() {

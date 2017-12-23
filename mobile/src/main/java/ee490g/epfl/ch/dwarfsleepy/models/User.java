@@ -1,4 +1,4 @@
-package ee490g.epfl.ch.dwarfsleepy.user;
+package ee490g.epfl.ch.dwarfsleepy.models;
 
 import com.google.firebase.auth.FirebaseUser;
 

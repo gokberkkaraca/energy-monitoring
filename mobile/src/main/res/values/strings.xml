@@ -12,4 +12,9 @@
     <string name="male">Male</string>
     <string name="female">Female</string>
     <string name="dwarf_sleepy">Dwarf Sleepy</string>
+    <string name="night_monitoring">NIGHT MONITORING</string>
+    <string name="day_monitoring">DAY MONITORING</string>
+    <string name="polar_belt">POLAR BELT</string>
+    <string name="accelerometer">ACCELEROMETER</string>
+    <string name="refresh">REFRESH</string>
 </resources>

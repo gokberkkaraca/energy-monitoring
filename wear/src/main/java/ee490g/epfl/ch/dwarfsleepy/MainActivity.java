@@ -14,8 +14,8 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import ee490g.epfl.ch.dwarfsleepy.data.AccelerometerData;
-import ee490g.epfl.ch.dwarfsleepy.data.HeartRateData;
+import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
+import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
 
 public class MainActivity extends WearableActivity implements SensorEventListener{
@@ -77,6 +77,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     public void onSensorChanged(SensorEvent event) {
         switch (event.sensor.getType()) {
             case Sensor.TYPE_HEART_RATE:
+                Log.v("HeartRate", "Hey");
                 if (textViewHeartRate != null) {
                     Float newHeartRate = event.values[0];
                     heartRateData.add(newHeartRate);
