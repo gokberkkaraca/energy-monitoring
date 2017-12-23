@@ -16,6 +16,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
+import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
+import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
@@ -50,6 +52,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         accelerometerButton.setOnClickListener(this);
         dayMonitoringButton.setOnClickListener(this);
         nightMonitoringButton.setOnClickListener(this);
+
+        getHeartRateData();
     }
 
     private void initializeViews() {
@@ -68,12 +72,26 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             case R.id.profileButton:
                 NavigationHandler.goToUserProfileActivity(this, user);
                 break;
+            case R.id.polarBeltButton:
+                //TODO
+                break;
+            case R.id.accelerometerButton:
+                break;
+            case R.id.dayMonitoringButton:
+                //TODO
+                break;
+            case R.id.nightMonitoringButton:
+                //TODO
+                break;
+            case R.id.refreshButton:
+                getHeartRateData();
+                break;
             default:
                 break;
         }
     }
 
-    private void fetchHeartRates() {
+    private void getHeartRateData() {
         DatabaseHandler.getHeartRatesData(new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -89,6 +107,26 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onCancelled(DatabaseError databaseError) {
                 Toast.makeText(DashboardActivity.this, "Failed to fetch heart rate data", Toast.LENGTH_LONG).show();
+            }
+        });
+    }
+
+    private void getAccelerometerData() {
+        DatabaseHandler.getAccelerometerData(new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                accelerometerData = new ArrayList<>();
+
+                for (DataSnapshot snapshot: dataSnapshot.getChildren()) {
+                    accelerometerData.add(snapshot.getValue(AccelerometerData.class));
+                }
+
+                // TODO Do something with this data
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
             }
         });
     }

@@ -26,7 +26,7 @@
             android:layout_height="wrap_content"
             android:background="@color/colorBlack"
             android:textColor="@color/colorWhite"
-            android:text="REFRESH"
+            android:text="@string/refresh"
             android:textSize="24sp"
             android:textStyle="bold"
             android:layout_centerVertical="true"/>
@@ -65,19 +65,18 @@
             android:id="@+id/heartRateImageView"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_marginLeft="20dp"
-            android:src="@drawable/heart"/>
+            android:layout_marginStart="20dp"
+            android:src="@drawable/heart"
+            android:contentDescription="@string/null_description" />
 
         <TextView
             android:id="@+id/heartRateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_below="@id/actionBarLayout"
             android:layout_marginTop="44dp"
-            android:layout_marginLeft="44dp"
+            android:layout_marginStart="44dp"
             android:textColor="@color/colorWhite"
             android:textSize="32sp"
-            android:text="80.669843"
             android:gravity="center"
             />
     </LinearLayout>
@@ -95,7 +94,7 @@
         android:textColor="@color/colorWhite"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:text="POLAR BELT"/>
+        android:text="@string/polar_belt"/>
 
     <Button
         android:id="@+id/accelerometerButton"
@@ -109,7 +108,7 @@
         android:textColor="@color/colorWhite"
         android:textSize="24sp"
         android:textStyle="bold"
-        android:text="ACCELEROMETER"
+        android:text="@string/accelerometer"
         />
 
     <LinearLayout
@@ -130,7 +129,7 @@
             tools:ignore="Suspicious0dp"
             android:background="@color/colorYellow"
             android:textColor="@color/colorWhite"
-            android:text="DAY MONITORING"
+            android:text="@string/day_monitoring"
             android:textSize="24sp"
             android:textStyle="bold"/>
 
@@ -142,7 +141,7 @@
             tools:ignore="Suspicious0dp"
             android:background="@color/colorBlack"
             android:textColor="@color/colorWhite"
-            android:text="NIGHT MONITORING"
+            android:text="@string/night_monitoring"
             android:textSize="24sp"
             android:textStyle="bold"/>
 

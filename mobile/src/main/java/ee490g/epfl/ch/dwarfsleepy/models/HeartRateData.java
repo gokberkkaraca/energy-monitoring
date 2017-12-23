@@ -1,8 +1,22 @@
 package ee490g.epfl.ch.dwarfsleepy.models;
 
-/**
- * Created by gokbe on 12/23/2017.
- */
+import java.util.Date;
 
 public class HeartRateData {
+
+    private Float value;
+    private Date date;
+
+    public HeartRateData(Float value, Date date) {
+        this.value = value;
+        this.date = date;
+    }
+
+    public Float getValue() {
+        return value;
+    }
+
+    public Date getDate() {
+        return date;
+    }
 }
