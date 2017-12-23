@@ -84,12 +84,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         averagedHeartRateData = new ArrayList<>();
         abnormalHR = new ArrayList<>();
         accelerometerData = new ArrayList<>();
-
-        // Register to receive messages from the service handling the Wear API connection
-        // We are registering an observer (mMessageReceiver) to receive Intents
-        // with actions named as IMAGE_DECODED
-        LocalBroadcastManager.getInstance(this).registerReceiver(mUserIdReceiver,
-                new IntentFilter("RECEIVED_ID"));
     }
 
     @Override
@@ -169,13 +163,4 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                 break;
         }
     }
-
-    private BroadcastReceiver mUserIdReceiver = new BroadcastReceiver() {
-        @Override
-        public void onReceive(Context context, Intent intent) {
-            // Get the image, display it and fade out
-            userId = intent.getStringExtra("RECEIVED_ID");
-            Log.v("USER_ID", "Got UserID!" + userId);
-        }
-    };
 }
