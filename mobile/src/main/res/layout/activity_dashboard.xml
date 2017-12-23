@@ -9,9 +9,9 @@
         android:id="@+id/bgImageView"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:src="@drawable/bg"
+        android:contentDescription="@string/null_description"
         android:scaleType="fitXY"
-        android:contentDescription="@string/null_description" />
+        android:src="@drawable/bg" />
 
     <RelativeLayout
         android:id="@+id/actionBarLayout"
@@ -24,33 +24,33 @@
             android:id="@+id/refreshButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_centerVertical="true"
             android:background="@color/colorBlack"
-            android:textColor="@color/colorWhite"
             android:text="@string/refresh"
+            android:textColor="@color/colorWhite"
             android:textSize="24sp"
-            android:textStyle="bold"
-            android:layout_centerVertical="true"/>
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/applicationName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_centerInParent="true"
+            android:text="@string/dwarf_sleepy"
             android:textColor="@color/colorWhite"
-            android:textSize="42sp"
-            android:text="@string/dwarf_sleepy" />
+            android:textSize="42sp" />
 
         <ImageButton
             android:id="@+id/profileButton"
             android:layout_width="48dp"
             android:layout_height="48dp"
-            android:src="@drawable/ic_user"
-            android:backgroundTint="@android:color/transparent"
-            android:layout_toEndOf="@id/applicationName"
             android:layout_marginEnd="20dp"
-            android:layout_marginTop="12dp"
             android:layout_marginStart="160dp"
-            android:contentDescription="@string/null_description" />
+            android:layout_marginTop="12dp"
+            android:layout_toEndOf="@id/applicationName"
+            android:backgroundTint="@android:color/transparent"
+            android:contentDescription="@string/null_description"
+            android:src="@drawable/ic_user" />
     </RelativeLayout>
 
     <LinearLayout
@@ -66,19 +66,18 @@
             android:layout_width="120dp"
             android:layout_height="120dp"
             android:layout_marginStart="20dp"
-            android:src="@drawable/heart"
-            android:contentDescription="@string/null_description" />
+            android:contentDescription="@string/null_description"
+            android:src="@drawable/heart" />
 
         <TextView
             android:id="@+id/heartRateTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
             android:layout_marginStart="44dp"
-            android:textColor="@color/colorWhite"
-            android:textSize="32sp"
+            android:layout_marginTop="44dp"
             android:gravity="center"
-            />
+            android:textColor="@color/colorWhite"
+            android:textSize="32sp" />
     </LinearLayout>
 
 
@@ -87,38 +86,37 @@
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_below="@id/heartRateLinearLayout"
-        android:layout_marginTop="50sp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:layout_marginTop="50sp"
         android:background="@color/colorAccent"
+        android:text="@string/polar_belt"
         android:textColor="@color/colorWhite"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:text="@string/polar_belt"/>
+        android:textStyle="bold" />
 
     <Button
         android:id="@+id/accelerometerButton"
         android:layout_width="match_parent"
         android:layout_height="52dp"
         android:layout_below="@id/polarBeltButton"
-        android:layout_marginTop="40sp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:layout_marginTop="40sp"
         android:background="@color/colorBleumarin"
+        android:text="@string/accelerometer"
         android:textColor="@color/colorWhite"
         android:textSize="24sp"
-        android:textStyle="bold"
-        android:text="@string/accelerometer"
-        />
+        android:textStyle="bold" />
 
     <LinearLayout
         android:id="@+id/monitoringLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/accelerometerButton"
-        android:layout_marginTop="40sp"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
+        android:layout_marginTop="40sp"
         android:orientation="horizontal">
 
         <Button
@@ -126,24 +124,24 @@
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_weight="0.5"
-            tools:ignore="Suspicious0dp"
             android:background="@color/colorYellow"
-            android:textColor="@color/colorWhite"
             android:text="@string/day_monitoring"
+            android:textColor="@color/colorWhite"
             android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            tools:ignore="Suspicious0dp" />
 
         <Button
             android:id="@+id/nightMonitoringButton"
             android:layout_width="0dp"
             android:layout_height="52dp"
             android:layout_weight="0.5"
-            tools:ignore="Suspicious0dp"
             android:background="@color/colorBlack"
-            android:textColor="@color/colorWhite"
             android:text="@string/night_monitoring"
+            android:textColor="@color/colorWhite"
             android:textSize="24sp"
-            android:textStyle="bold"/>
+            android:textStyle="bold"
+            tools:ignore="Suspicious0dp" />
 
     </LinearLayout>
 </RelativeLayout>

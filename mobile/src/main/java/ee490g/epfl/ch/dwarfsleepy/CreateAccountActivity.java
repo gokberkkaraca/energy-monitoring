@@ -68,7 +68,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onClick(View view) {
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.createAccountButton:
                 name = nameEditText.getText().toString();
                 email = emailEditText.getText().toString();
@@ -92,11 +92,11 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
     @Override
     public void onFocusChange(View view, boolean hasFocus) {
-        switch(view.getId()) {
+        switch (view.getId()) {
             case R.id.birthdayEditText:
                 if (hasFocus)
                     new DatePickerDialog(this, this,
-                        calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
+                            calendar.get(Calendar.YEAR), calendar.get(Calendar.MONTH), calendar.get(Calendar.DAY_OF_MONTH)).show();
                 break;
             default:
                 break;
@@ -104,7 +104,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     @Override
-    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth)     {
+    public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
         String dateFormat = "dd/MM/yyyy";
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat(dateFormat, Locale.getDefault());
         calendar.set(Calendar.YEAR, year);
@@ -123,7 +123,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                         if (task.isSuccessful()) {
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
-                            if(checkFields()) {
+                            if (checkFields()) {
                                 User user = new User(firebaseUser, name, gender, birthday);
                                 DatabaseHandler.addUser(user);
                                 NavigationHandler.goToDashboardActivity(CreateAccountActivity.this, user);

@@ -39,8 +39,7 @@ public class MainActivity extends AppCompatActivity {
                     Intent intent = new Intent(MainActivity.this, LoginActivity.class);
                     startActivity(intent);
                     finish();
-                }
-                else {
+                } else {
                     String userId = mAuth.getUid();
                     DatabaseHandler.getUser(userId, new ValueEventListener() {
                         @Override

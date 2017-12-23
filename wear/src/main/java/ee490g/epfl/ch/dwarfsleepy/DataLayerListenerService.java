@@ -1,45 +1,30 @@
 package ee490g.epfl.ch.dwarfsleepy;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
 import android.support.annotation.NonNull;
-import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
-import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
-import com.google.android.gms.wearable.Asset;
 import com.google.android.gms.wearable.DataApi;
-import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
-import com.google.android.gms.wearable.DataMapItem;
-import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.MessageEvent;
-import com.google.android.gms.wearable.Node;
-import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.PutDataMapRequest;
 import com.google.android.gms.wearable.PutDataRequest;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 
-import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.concurrent.TimeUnit;
 
 public class DataLayerListenerService extends WearableListenerService {
-
-    // Tag for Logcat
-    private static final String TAG = "WearListenerService";
 
     // Constants
     public static final String ACTION_SEND_DATAMAP = "ACTION_SEND_DATAMAP";
     public static final String DATAMAP_INT = "DATAMAP_INT";
     public static final String DATAMAP_INT_ARRAYLIST = "DATAMAP_INT_ARRAYLIST";
-
+    // Tag for Logcat
+    private static final String TAG = "WearListenerService";
     // Member for the Wear API handle
     private GoogleApiClient mGoogleApiClient;
 
@@ -60,9 +45,9 @@ public class DataLayerListenerService extends WearableListenerService {
         super.onStartCommand(intent, flags, startId);
 
         String action = intent.getAction();
-        if(action == null) return START_NOT_STICKY;
+        if (action == null) return START_NOT_STICKY;
 
-        switch(action) {
+        switch (action) {
             case ACTION_SEND_DATAMAP:
                 PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(BuildConfig.another_path);
                 putDataMapRequest.getDataMap().putInt(BuildConfig.a_key, intent.getIntExtra(DATAMAP_INT, -1));

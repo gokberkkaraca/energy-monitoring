@@ -36,6 +36,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
             android:text="@string/hello_world" />
+
         <TextView
             android:id="@+id/abnormalHRavg"
             android:layout_width="wrap_content"
@@ -56,6 +57,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="75dp"
             android:text="@string/hello_world" />
+
         <TextView
             android:id="@+id/accelerometerX"
             android:layout_width="wrap_content"
