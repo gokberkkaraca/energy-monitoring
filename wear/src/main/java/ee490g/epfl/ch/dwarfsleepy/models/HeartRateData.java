@@ -1,4 +1,4 @@
-package ee490g.epfl.ch.dwarfsleepy.data;
+package ee490g.epfl.ch.dwarfsleepy.models;
 
 import java.util.Date;
 

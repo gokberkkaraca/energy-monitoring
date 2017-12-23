@@ -5,8 +5,8 @@ import com.google.firebase.database.FirebaseDatabase;
 
 import java.util.List;
 
-import ee490g.epfl.ch.dwarfsleepy.data.AccelerometerData;
-import ee490g.epfl.ch.dwarfsleepy.data.HeartRateData;
+import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
+import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 
 public class DatabaseHandler {
 
