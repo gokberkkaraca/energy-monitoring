@@ -14,7 +14,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 
@@ -26,7 +25,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     private ArrayList<Float> heartRateData;
     private static ArrayList<HeartRateData> averagedHeartRateData;
-    private ArrayList<AccelerometerData> accelerometerData;
+    private static ArrayList<AccelerometerData> accelerometerData;
     private ArrayList<HeartRateData> abnormalHR;
 
     private TextView textViewHeartRate;
@@ -156,5 +155,9 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     public static ArrayList<HeartRateData> getAveragedHeartRateData() {
         return averagedHeartRateData;
+    }
+
+    public static ArrayList<AccelerometerData> getAccelerometerData() {
+        return accelerometerData;
     }
 }

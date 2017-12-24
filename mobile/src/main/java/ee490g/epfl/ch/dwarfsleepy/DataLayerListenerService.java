@@ -22,6 +22,7 @@ import com.google.android.gms.wearable.WearableListenerService;
 import java.util.ArrayList;
 
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
+import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 
 public class DataLayerListenerService extends WearableListenerService {
@@ -90,19 +91,26 @@ public class DataLayerListenerService extends WearableListenerService {
                 switch (uri.getPath()) {
                     case BuildConfig.another_path:
                         // Extract the data behind the key you know contains data
-                        ArrayList<DataMap> arrayList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.some_other_key);
-
+                        ArrayList<DataMap> heartRateDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.some_other_key);
+                        Log.i(TAG, "Got heart rate list");
                         ArrayList<HeartRateData> heartRateDataList = new ArrayList<>();
-                        for (DataMap dataMap: arrayList) {
+                        for (DataMap dataMap: heartRateDataMapList) {
                             HeartRateData heartRateData = new HeartRateData(dataMap);
                             heartRateDataList.add(heartRateData);
                         }
 
-                        DatabaseHandler.addHeartRateData(DashboardActivity.user, heartRateDataList);
+                        ArrayList<DataMap> accelerometerDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
+                        ArrayList<AccelerometerData> accelerometerDataList = new ArrayList<>();
+                        for (DataMap dataMap: accelerometerDataMapList) {
+                            AccelerometerData accelerometerData = new AccelerometerData(dataMap);
+                            accelerometerDataList.add(accelerometerData);
+                        }
 
-                        Log.i(TAG, "Got heart rate list");
+                        DatabaseHandler.addHeartRateData(DashboardActivity.user, heartRateDataList);
+                        DatabaseHandler.addAccelerometerData(DashboardActivity.user, accelerometerDataList);
+
                         intent = new Intent("STRING_OF_ANOTHER_ACTION_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY");
-                        intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", arrayList);
+                        intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", heartRateDataMapList);
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                         break;
                     default:
