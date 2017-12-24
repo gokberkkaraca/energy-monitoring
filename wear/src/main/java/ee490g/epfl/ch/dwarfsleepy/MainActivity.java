@@ -57,10 +57,10 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         assert sensorManager != null;
 
         Sensor heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
-        sensorManager.registerListener(this, heartRateSensor, SensorManager.SENSOR_DELAY_UI);
+        sensorManager.registerListener(this, heartRateSensor, SensorManager.SENSOR_DELAY_FASTEST);
 
         Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        sensorManager.registerListener(this, accelerometerSensor, SensorManager.SENSOR_DELAY_UI);
+        sensorManager.registerListener(this, accelerometerSensor, 3);
 
         textViewHeartRate = findViewById(R.id.heart_rate);
         textViewAccelerometerX = findViewById(R.id.accelerometerX);
