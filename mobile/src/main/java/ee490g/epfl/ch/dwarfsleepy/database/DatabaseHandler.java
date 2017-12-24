@@ -4,6 +4,10 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
+
+import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
+import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 
 public class DatabaseHandler {
@@ -23,11 +27,19 @@ public class DatabaseHandler {
     }
 
 
-    public static void getHeartRatesData(ValueEventListener valueEventListener) {
+    public static void getHeartRatesData(User user, ValueEventListener valueEventListener) {
         databaseReference.child(DATABASE_HEART_RATES_PATH).addValueEventListener(valueEventListener);
     }
 
-    public static void getAccelerometerData(ValueEventListener valueEventListener) {
+    public static void addHeartRateData(User user, ArrayList<HeartRateData> heartRateData) {
+        databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(DATABASE_HEART_RATES_PATH).setValue(heartRateData);
+    }
+
+    public static void getAccelerometerData(User user, ValueEventListener valueEventListener) {
         databaseReference.child(DATABASE_ACCELEROMETER_PATH).addListenerForSingleValueEvent(valueEventListener);
+    }
+
+    public static void addAccelerometerData(User user, ArrayList<AccelerometerData> accelerometerData) {
+        databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(DATABASE_ACCELEROMETER_PATH).setValue(accelerometerData);
     }
 }
