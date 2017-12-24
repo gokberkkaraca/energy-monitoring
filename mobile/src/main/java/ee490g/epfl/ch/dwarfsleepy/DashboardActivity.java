@@ -22,14 +22,18 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
+import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.service.DataLayerListenerService;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
+
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.*;
 
 public class DashboardActivity extends AppCompatActivity implements View.OnClickListener, DataApi.DataListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, MessageApi.MessageListener {
 
@@ -70,13 +74,18 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 .addOnConnectionFailedListener(this)
                 .build();
 
+        fetchPreviousData();
         setMessageScheduler();
+    }
 
+    private void fetchPreviousData() {
         DatabaseHandler.getHeartRateData(user, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                averagedHeartRateDataList = new ArrayList<>();
                 for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
-                    Log.v(TAG, "GETTING HEART RATES");
+                    HeartRateData heartRateData = postSnapshot.getValue(HeartRateData.class);
+                    averagedHeartRateDataList.add(heartRateData);
                 }
             }
 

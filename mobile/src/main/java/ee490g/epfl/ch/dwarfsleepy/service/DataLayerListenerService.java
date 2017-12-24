@@ -26,6 +26,8 @@ import ee490g.epfl.ch.dwarfsleepy.DashboardActivity;
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
 import ee490g.epfl.ch.dwarfsleepy.models.*;
 
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.*;
+
 public class DataLayerListenerService extends WearableListenerService {
 
     // Constants
@@ -94,12 +96,11 @@ public class DataLayerListenerService extends WearableListenerService {
                         // Extract the data behind the key you know contains data
                         ArrayList<DataMap> heartRateDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.some_other_key);
                         Log.i(TAG, "Got heart rate list");
-                        ArrayList<HeartRateData> heartRateDataList = new ArrayList<>();
                         for (DataMap dataMap : heartRateDataMapList) {
                             HeartRateData heartRateData = new HeartRateData(dataMap);
-                            heartRateDataList.add(heartRateData);
+                            averagedHeartRateDataList.add(heartRateData);
                         }
-                        DatabaseHandler.addHeartRateData(DashboardActivity.user, heartRateDataList);
+                        DatabaseHandler.addHeartRateData(DashboardActivity.user, averagedHeartRateDataList);
 
                         /*ArrayList<DataMap> accelerometerDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
                         Log.i(TAG, "Got accelerometer list");

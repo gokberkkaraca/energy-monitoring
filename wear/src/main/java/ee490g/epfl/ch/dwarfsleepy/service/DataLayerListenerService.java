@@ -18,8 +18,6 @@ import com.google.android.gms.wearable.WearableListenerService;
 import java.util.ArrayList;
 
 import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
-import ee490g.epfl.ch.dwarfsleepy.MainActivity;
-import ee490g.epfl.ch.dwarfsleepy.models.*;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.*;
 
 public class DataLayerListenerService extends WearableListenerService {
