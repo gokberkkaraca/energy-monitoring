@@ -19,6 +19,10 @@ import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Wearable;
 
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.service.DataLayerListenerService;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
@@ -29,7 +33,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private static final String TAG = "DashboardActivity";
     public static User user;
     private ImageButton profileButton;
-    private Button refreshButton;
     private Button polarBeltButton;
     private Button accelerometerButton;
     private Button dayMonitoringButton;
@@ -51,7 +54,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
         initializeViews();
         profileButton.setOnClickListener(this);
-        refreshButton.setOnClickListener(this);
         polarBeltButton.setOnClickListener(this);
         accelerometerButton.setOnClickListener(this);
         dayMonitoringButton.setOnClickListener(this);
@@ -63,11 +65,28 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 .addConnectionCallbacks(this)
                 .addOnConnectionFailedListener(this)
                 .build();
+
+        setMessageScheduler();
+
+    }
+
+    private void setMessageScheduler() {
+        Runnable messageSender = new Runnable() {
+            @Override
+            public void run() {
+                Intent intent = new Intent(DashboardActivity.this, DataLayerListenerService.class);
+                intent.setAction(DataLayerListenerService.ACTION_SEND_MESSAGE);
+                intent.putExtra(DataLayerListenerService.MESSAGE, "Messaging other device!");
+                intent.putExtra(DataLayerListenerService.PATH, BuildConfig.some_path);
+                startService(intent);
+            }
+        };
+        ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+        scheduler.scheduleAtFixedRate(messageSender, 10, 10, TimeUnit.SECONDS);
     }
 
     private void initializeViews() {
         profileButton = findViewById(R.id.profileButton);
-        refreshButton = findViewById(R.id.refreshButton);
         polarBeltButton = findViewById(R.id.polarBeltButton);
         accelerometerButton = findViewById(R.id.accelerometerButton);
         dayMonitoringButton = findViewById(R.id.dayMonitoringButton);
@@ -87,12 +106,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             case R.id.accelerometerButton:
                 break;
             case R.id.dayMonitoringButton:
-                //TODO
+                NavigationHandler.goToDayMonitoringActivity(this, user);
                 break;
             case R.id.nightMonitoringButton:
-                //TODO
-                break;
-            case R.id.refreshButton:
                 //TODO
                 break;
             default:
