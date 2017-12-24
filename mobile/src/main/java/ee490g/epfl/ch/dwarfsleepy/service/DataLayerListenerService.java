@@ -24,8 +24,9 @@ import java.util.ArrayList;
 import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
 import ee490g.epfl.ch.dwarfsleepy.DashboardActivity;
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
-import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
-import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
+import ee490g.epfl.ch.dwarfsleepy.models.*;
+
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.*;
 
 public class DataLayerListenerService extends WearableListenerService {
 
@@ -95,25 +96,23 @@ public class DataLayerListenerService extends WearableListenerService {
                         // Extract the data behind the key you know contains data
                         ArrayList<DataMap> heartRateDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.some_other_key);
                         Log.i(TAG, "Got heart rate list");
-                        ArrayList<HeartRateData> heartRateDataList = new ArrayList<>();
                         for (DataMap dataMap : heartRateDataMapList) {
                             HeartRateData heartRateData = new HeartRateData(dataMap);
-                            heartRateDataList.add(heartRateData);
+                            averagedHeartRateDataList.add(heartRateData);
                         }
+                        DatabaseHandler.addHeartRateData(DashboardActivity.user, averagedHeartRateDataList);
 
-                        ArrayList<DataMap> accelerometerDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
+                        /*ArrayList<DataMap> accelerometerDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
                         Log.i(TAG, "Got accelerometer list");
                         ArrayList<AccelerometerData> accelerometerDataList = new ArrayList<>();
                         for (DataMap dataMap : accelerometerDataMapList) {
                             AccelerometerData accelerometerData = new AccelerometerData(dataMap);
                             accelerometerDataList.add(accelerometerData);
                         }
-
-                        DatabaseHandler.addHeartRateData(DashboardActivity.user, heartRateDataList);
-                        DatabaseHandler.addAccelerometerData(DashboardActivity.user, accelerometerDataList);
+                        DatabaseHandler.addAccelerometerData(DashboardActivity.user, accelerometerDataList);*/
 
                         intent = new Intent("STRING_OF_ANOTHER_ACTION_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY");
-                        intent.putExtra("STRING_OF_INTEGER_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", accelerometerDataList);
+                        //intent.putExtra("STRING_OF_INTEGER_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", accelerometerDataList);
                         intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", heartRateDataMapList);
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                         break;

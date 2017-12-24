@@ -18,11 +18,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+
         <service android:name=".service.DataLayerListenerService">
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.DATA_CHANGED" />
-                <!-- Set down there the filters for the listener. Listening now for
-                everything -->
+                <!--
+                Set down there the filters for the listener. Listening now for
+                everything
+                -->
                 <data
                     android:host="*"
                     android:pathPrefix=""
@@ -30,9 +33,11 @@
             </intent-filter>
             <intent-filter>
                 <action android:name="com.google.android.gms.wearable.MESSAGE_RECEIVED" />
-                <!-- Set down there the filters for the listener. Listening now for
+                <!--
+                Set down there the filters for the listener. Listening now for
                 ©ESL-EPFL 18
-                everything -->
+                everything
+                -->
                 <data
                     android:host="*"
                     android:pathPrefix=""
@@ -45,6 +50,7 @@
         <activity android:name=".LoginActivity" />
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".DashboardActivity" />
+        <activity android:name=".dayMonitoring.DayMonitoringActivity"></activity>
     </application>
 
 </manifest>

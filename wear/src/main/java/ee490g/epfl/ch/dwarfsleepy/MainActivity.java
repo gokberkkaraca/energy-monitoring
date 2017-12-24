@@ -15,9 +15,8 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
-import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
-import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
+import ee490g.epfl.ch.dwarfsleepy.models.*;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.*;
 
 public class MainActivity extends WearableActivity implements SensorEventListener {
 
@@ -25,9 +24,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     // Tag for Logcat
     private static final String TAG = "MainActivity";
     private static final int NUMBER_OF_AVERAGED_DATA = 1;
-    private static ArrayList<HeartRateData> averagedHeartRateDataList;
-    private static ArrayList<AbnormalHeartRateEvent> abnormalHeartRateEvents;
-    private static ArrayList<AccelerometerData> accelerometerDataList;
+
     private ArrayList<HeartRateData> heartRateDataList;
     private ArrayList<HeartRateData> abnormalHeartRateList;
     private TextView textViewHeartRate;
@@ -40,18 +37,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     private TextView textViewAbnormalHRAverage;
     private TextView textViewAbnormalHRBegin;
     private TextView textViewAbnormalHREnd;
-
-    public static ArrayList<HeartRateData> getAveragedHeartRateDataList() {
-        return averagedHeartRateDataList;
-    }
-
-    public static ArrayList<AccelerometerData> getAccelerometerDataList() {
-        return accelerometerDataList;
-    }
-
-    public static ArrayList<AbnormalHeartRateEvent> getAbnormalHeartRateEvents() {
-        return abnormalHeartRateEvents;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,12 +68,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     private void initializeArraysLists() {
         heartRateDataList = new ArrayList<>();
-        averagedHeartRateDataList = new ArrayList<>();
-
         abnormalHeartRateList = new ArrayList<>();
-        abnormalHeartRateEvents = new ArrayList<>();
-
-        accelerometerDataList = new ArrayList<>();
     }
 
     private void initializeViews() {
@@ -137,11 +117,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
             AccelerometerData newAccelerometerData = new AccelerometerData(event.values[0], event.values[1], event.values[2], Calendar.getInstance().getTime());
             accelerometerDataList.add(newAccelerometerData);
 
-            Log.v(TAG, "New accelerometer value obtained: " +
-                    "x: " + newAccelerometerData.getXAxisValue() +
-                    "y: " + newAccelerometerData.getYAxisValue() +
-                    "z: " + newAccelerometerData.getZAxisValue());
-
             textViewAccelerometerX.setText(String.valueOf(newAccelerometerData.getXAxisValue()));
             textViewAccelerometerY.setText(String.valueOf(newAccelerometerData.getYAxisValue()));
             textViewAccelerometerZ.setText(String.valueOf(newAccelerometerData.getZAxisValue()));
@@ -152,10 +127,8 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         if (textViewHeartRate != null) {
             HeartRateData newHeartRate = new HeartRateData(event.values[0], Calendar.getInstance().getTime());
 
-            Log.v(TAG, "New heart rate value obtained: " + newHeartRate);
-
             heartRateDataList.add(newHeartRate);
-            textViewHeartRate.setText(String.valueOf(newHeartRate));
+            textViewHeartRate.setText(String.valueOf(newHeartRate.getValue()));
 
             // Get the average heart rate data
             if (!heartRateDataList.isEmpty() && heartRateDataList.size() % NUMBER_OF_AVERAGED_DATA == 0) {
@@ -165,7 +138,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                 }
 
                 average = average / NUMBER_OF_AVERAGED_DATA;
-                Date averageTime = new Date((heartRateDataList.get(0).getDate().getTime() + heartRateDataList.get(19).getDate().getTime()) / 2);
+                Date averageTime = new Date((heartRateDataList.get(0).getDate().getTime() + heartRateDataList.get(NUMBER_OF_AVERAGED_DATA - 1).getDate().getTime()) / 2);
                 HeartRateData heartRateData = new HeartRateData(average, averageTime);
 
                 averagedHeartRateDataList.add(heartRateData);

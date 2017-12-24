@@ -27,12 +27,12 @@ public class DatabaseHandler {
     }
 
 
-    public static void getHeartRatesData(User user, ValueEventListener valueEventListener) {
-        databaseReference.child(DATABASE_HEART_RATES_PATH).addValueEventListener(valueEventListener);
+    public static void getHeartRateData(User user, ValueEventListener valueEventListener) {
+        databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(DATABASE_HEART_RATES_PATH).addValueEventListener(valueEventListener);
     }
 
-    public static void addHeartRateData(User user, ArrayList<HeartRateData> heartRateData) {
-        databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(DATABASE_HEART_RATES_PATH).setValue(heartRateData);
+    public static void addHeartRateData(final User user, final ArrayList<HeartRateData> heartRateDataList) {
+        databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(DATABASE_HEART_RATES_PATH).setValue(heartRateDataList);
     }
 
     public static void getAccelerometerData(User user, ValueEventListener valueEventListener) {
