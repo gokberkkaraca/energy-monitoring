@@ -10,6 +10,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.wearable.DataEvent;
 import com.google.android.gms.wearable.DataEventBuffer;
+import com.google.android.gms.wearable.DataMap;
 import com.google.android.gms.wearable.DataMapItem;
 import com.google.android.gms.wearable.MessageApi;
 import com.google.android.gms.wearable.MessageEvent;
@@ -19,6 +20,9 @@ import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import java.util.ArrayList;
+
+import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
+import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 
 public class DataLayerListenerService extends WearableListenerService {
 
@@ -86,11 +90,19 @@ public class DataLayerListenerService extends WearableListenerService {
                 switch (uri.getPath()) {
                     case BuildConfig.another_path:
                         // Extract the data behind the key you know contains data
-                        ArrayList<Integer> arraylist = dataMapItem.getDataMap().getIntegerArrayList(BuildConfig.some_other_key);
-                        for (Integer i : arraylist)
-                            Log.i(TAG, "Got integer " + i + " from array list");
+                        ArrayList<DataMap> arrayList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.some_other_key);
+
+                        ArrayList<HeartRateData> heartRateDataList = new ArrayList<>();
+                        for (DataMap dataMap: arrayList) {
+                            HeartRateData heartRateData = new HeartRateData(dataMap);
+                            heartRateDataList.add(heartRateData);
+                        }
+
+                        DatabaseHandler.addHeartRateData(DashboardActivity.user, heartRateDataList);
+
+                        Log.i(TAG, "Got heart rate list");
                         intent = new Intent("STRING_OF_ANOTHER_ACTION_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY");
-                        intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", arraylist);
+                        intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", arrayList);
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                         break;
                     default:

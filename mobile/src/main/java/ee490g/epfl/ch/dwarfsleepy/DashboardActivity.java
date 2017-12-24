@@ -24,6 +24,8 @@ import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 public class DashboardActivity extends AppCompatActivity implements View.OnClickListener, DataApi.DataListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, MessageApi.MessageListener {
 
+    public static User user;
+
     // Tag for Logcat
     private static final String TAG = "DashboardActivity";
     private ImageButton profileButton;
@@ -33,7 +35,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private Button dayMonitoringButton;
     private Button nightMonitoringButton;
     private TextView heartRateTextView;
-    private User user;
+
     // Members used for the Wear API
     private GoogleApiClient mGoogleApiClient;
     private boolean mResolvingError = false;

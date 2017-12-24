@@ -22,9 +22,10 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     // Tag for Logcat
     private static final String TAG = "MainActivity";
+    private static final int NUMBER_OF_AVERAGED_DATA = 5;
 
     private ArrayList<Float> heartRateData;
-    private ArrayList<HeartRateData> averagedHeartRateData;
+    private static ArrayList<HeartRateData> averagedHeartRateData;
     private ArrayList<AccelerometerData> accelerometerData;
     private ArrayList<HeartRateData> abnormalHR;
 
@@ -101,21 +102,20 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                     heartRateData.add(newHeartRate);
                     textViewHeartRate.setText(String.valueOf(newHeartRate));
 
-                    // Get the average of 20 heart rate data and send it to firebase
+                    // Get the average heart rate data
                     // TODO Change this with sending to tablet
-                    if (!heartRateData.isEmpty() && heartRateData.size() % 20 == 0) {
+                    if (!heartRateData.isEmpty() && heartRateData.size() % NUMBER_OF_AVERAGED_DATA == 0) {
                         Float average = 0f;
                         for (Float heartRateValue : this.heartRateData) {
                             average += heartRateValue;
                         }
 
-                        average = average / 20;
+                        average = average / NUMBER_OF_AVERAGED_DATA;
                         HeartRateData heartRateData = new HeartRateData(average, Calendar.getInstance().getTime());
                         averagedHeartRateData.add(heartRateData);
                         textViewHeartRateAverage.setText(String.valueOf(heartRateData.getValue()));
                         textViewHeartRateAverageDate.setText(String.valueOf(heartRateData.getDate()));
                         this.heartRateData.clear();
-                        DatabaseHandler.addHeartRateData(averagedHeartRateData);
                     }
 
                     // Filter the data to see if it is a high heart rate, if it is high start to keep its log
@@ -143,7 +143,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                 if (textViewAccelerometerX != null && textViewAccelerometerY != null && textViewAccelerometerZ != null) {
                     AccelerometerData newAccelerometerData = new AccelerometerData(event.values[0], event.values[1], event.values[2], Calendar.getInstance().getTime());
                     accelerometerData.add(newAccelerometerData);
-                    DatabaseHandler.addAccelerometerData(accelerometerData);
 
                     textViewAccelerometerX.setText(String.valueOf(newAccelerometerData.getXAxisValue()));
                     textViewAccelerometerY.setText(String.valueOf(newAccelerometerData.getYAxisValue()));
@@ -153,5 +152,9 @@ public class MainActivity extends WearableActivity implements SensorEventListene
             default:
                 break;
         }
+    }
+
+    public static ArrayList<HeartRateData> getAveragedHeartRateData() {
+        return averagedHeartRateData;
     }
 }
