@@ -100,6 +100,7 @@ public class DataLayerListenerService extends WearableListenerService {
                         }
 
                         ArrayList<DataMap> accelerometerDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
+                        Log.i(TAG, "Got accelerometer list");
                         ArrayList<AccelerometerData> accelerometerDataList = new ArrayList<>();
                         for (DataMap dataMap: accelerometerDataMapList) {
                             AccelerometerData accelerometerData = new AccelerometerData(dataMap);
@@ -110,6 +111,7 @@ public class DataLayerListenerService extends WearableListenerService {
                         DatabaseHandler.addAccelerometerData(DashboardActivity.user, accelerometerDataList);
 
                         intent = new Intent("STRING_OF_ANOTHER_ACTION_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY");
+                        intent.putExtra("STRING_OF_INTEGER_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", accelerometerDataList);
                         intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", heartRateDataMapList);
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                         break;

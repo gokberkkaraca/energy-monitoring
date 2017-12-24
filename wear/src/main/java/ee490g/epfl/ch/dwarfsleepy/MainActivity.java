@@ -21,7 +21,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     // Tag for Logcat
     private static final String TAG = "MainActivity";
-    private static final int NUMBER_OF_AVERAGED_DATA = 5;
+    private static final int NUMBER_OF_AVERAGED_DATA = 1;
 
     private ArrayList<Float> heartRateData;
     private static ArrayList<HeartRateData> averagedHeartRateData;
@@ -57,7 +57,7 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         assert sensorManager != null;
 
         Sensor heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
-        sensorManager.registerListener(this, heartRateSensor, SensorManager.SENSOR_DELAY_FASTEST);
+        sensorManager.registerListener(this, heartRateSensor, 0);
 
         Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, accelerometerSensor, 3);
