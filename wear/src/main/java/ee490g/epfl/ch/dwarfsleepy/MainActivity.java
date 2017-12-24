@@ -115,7 +115,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                         textViewHeartRateAverage.setText(String.valueOf(heartRateData.getValue()));
                         textViewHeartRateAverageDate.setText(String.valueOf(heartRateData.getDate()));
                         this.heartRateData.clear();
-                        DatabaseHandler.addHeartRateData(averagedHeartRateData);
                     }
 
                     // Filter the data to see if it is a high heart rate, if it is high start to keep its log
