@@ -84,7 +84,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
     private User.Gender getGenderFromRadioGroup() {
         int index = genderRadioGroup.getCheckedRadioButtonId();
-        if (index == 0)
+        if (index == 2131165278)
             return User.Gender.MALE;
         else
             return User.Gender.FEMALE;
