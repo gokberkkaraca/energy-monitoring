@@ -14,7 +14,6 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.Calendar;
 
-import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 
@@ -22,10 +21,11 @@ public class MainActivity extends WearableActivity implements SensorEventListene
 
     // Tag for Logcat
     private static final String TAG = "MainActivity";
+    private static final int NUMBER_OF_AVERAGED_DATA = 5;
 
     private ArrayList<Float> heartRateData;
-    private ArrayList<HeartRateData> averagedHeartRateData;
-    private ArrayList<AccelerometerData> accelerometerData;
+    private static ArrayList<HeartRateData> averagedHeartRateData;
+    private static ArrayList<AccelerometerData> accelerometerData;
     private ArrayList<HeartRateData> abnormalHR;
 
     private TextView textViewHeartRate;
@@ -96,21 +96,20 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     public void onSensorChanged(SensorEvent event) {
         switch (event.sensor.getType()) {
             case Sensor.TYPE_HEART_RATE:
-                Log.v("hr","gunpowderinmyjustice");
                 if (textViewHeartRate != null) {
                     Float newHeartRate = event.values[0];
                     heartRateData.add(newHeartRate);
                     textViewHeartRate.setText(String.valueOf(newHeartRate));
 
-                    // Get the average of 20 heart rate data and send it to firebase
+                    // Get the average heart rate data
                     // TODO Change this with sending to tablet
-                    if (!heartRateData.isEmpty() && heartRateData.size() % 1 == 0) {
+                    if (!heartRateData.isEmpty() && heartRateData.size() % NUMBER_OF_AVERAGED_DATA == 0) {
                         Float average = 0f;
                         for (Float heartRateValue : this.heartRateData) {
                             average += heartRateValue;
                         }
 
-                        average = average / 1;
+                        average = average / NUMBER_OF_AVERAGED_DATA;
                         HeartRateData heartRateData = new HeartRateData(average, Calendar.getInstance().getTime());
                         averagedHeartRateData.add(heartRateData);
                         textViewHeartRateAverage.setText(String.valueOf(heartRateData.getValue()));
@@ -141,20 +140,25 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                 break;
             // TODO Accelerometer and HeartRate doesn't work at the same time
             case Sensor.TYPE_ACCELEROMETER:
-                Log.v("acc","yougotpeeped");
                 if (textViewAccelerometerX != null && textViewAccelerometerY != null && textViewAccelerometerZ != null) {
                     AccelerometerData newAccelerometerData = new AccelerometerData(event.values[0], event.values[1], event.values[2], Calendar.getInstance().getTime());
                     accelerometerData.add(newAccelerometerData);
-                    DatabaseHandler.addAccelerometerData(accelerometerData);
 
                     textViewAccelerometerX.setText(String.valueOf(newAccelerometerData.getXAxisValue()));
                     textViewAccelerometerY.setText(String.valueOf(newAccelerometerData.getYAxisValue()));
                     textViewAccelerometerZ.setText(String.valueOf(newAccelerometerData.getZAxisValue()));
                 }
                 break;
-
             default:
                 break;
         }
+    }
+
+    public static ArrayList<HeartRateData> getAveragedHeartRateData() {
+        return averagedHeartRateData;
+    }
+
+    public static ArrayList<AccelerometerData> getAccelerometerData() {
+        return accelerometerData;
     }
 }

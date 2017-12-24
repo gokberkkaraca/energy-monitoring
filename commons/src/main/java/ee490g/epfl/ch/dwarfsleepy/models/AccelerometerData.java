@@ -1,5 +1,7 @@
 package ee490g.epfl.ch.dwarfsleepy.models;
 
+import com.google.android.gms.wearable.DataMap;
+
 import java.util.Date;
 
 public class AccelerometerData {
@@ -21,6 +23,13 @@ public class AccelerometerData {
 
     }
 
+    public AccelerometerData(DataMap dataMap) {
+        this.xAxisValue = dataMap.getFloat("xAxisValue");
+        this.yAxisValue = dataMap.getFloat("yAxisValue");
+        this.zAxisValue = dataMap.getFloat("zAxisValue");
+        this.date = new Date(dataMap.getLong("date"));
+    }
+
     public Float getXAxisValue() {
         return xAxisValue;
     }
@@ -35,5 +44,13 @@ public class AccelerometerData {
 
     public Date getDate() {
         return date;
+    }
+
+    public DataMap putToDataMap(DataMap dataMap) {
+        dataMap.putFloat("xAxisValue", xAxisValue);
+        dataMap.putFloat("yAxisValue", yAxisValue);
+        dataMap.putFloat("zAxisValue", zAxisValue);
+        dataMap.putLong("date", date.getTime());
+        return dataMap;
     }
 }
