@@ -1,5 +1,9 @@
 package ee490g.epfl.ch.dwarfsleepy.database;
 
+import android.util.Log;
+
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
@@ -27,12 +31,31 @@ public class DatabaseHandler {
     }
 
 
-    public static void getHeartRatesData(User user, ValueEventListener valueEventListener) {
-        databaseReference.child(DATABASE_HEART_RATES_PATH).addValueEventListener(valueEventListener);
+    public static void getHeartRateData(User user, ValueEventListener valueEventListener) {
+        databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(DATABASE_HEART_RATES_PATH).addValueEventListener(valueEventListener);
     }
 
-    public static void addHeartRateData(User user, ArrayList<HeartRateData> heartRateData) {
-        databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(DATABASE_HEART_RATES_PATH).setValue(heartRateData);
+    public static void addHeartRateData(final User user, final ArrayList<HeartRateData> heartRateDataList) {
+
+        final ArrayList<HeartRateData> mergeHeartRateData = new ArrayList<>();
+        DatabaseHandler.getHeartRateData(user, new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    HeartRateData heartRateData = postSnapshot.getValue(HeartRateData.class);
+                    mergeHeartRateData.add(heartRateData);
+                }
+
+                mergeHeartRateData.addAll(heartRateDataList);
+                Log.v("DatabaseHandler", "Add Heart rate with size : " + mergeHeartRateData.size());
+                //databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(DATABASE_HEART_RATES_PATH).setValue(mergeHeartRateData);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
     }
 
     public static void getAccelerometerData(User user, ValueEventListener valueEventListener) {
