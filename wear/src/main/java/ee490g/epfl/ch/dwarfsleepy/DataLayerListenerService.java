@@ -18,6 +18,7 @@ import com.google.android.gms.wearable.WearableListenerService;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 
 public class DataLayerListenerService extends WearableListenerService {
@@ -82,24 +83,32 @@ public class DataLayerListenerService extends WearableListenerService {
             case BuildConfig.some_path:
                 Log.v(TAG, "Received a message for path " + BuildConfig.some_path + " : " + new String(messageEvent.getData()));
                 // For demo, send back a dataMap
-                ArrayList<HeartRateData> arrayList = MainActivity.getAveragedHeartRateData();
-                ArrayList<DataMap> dataMapArrayList = new ArrayList<>();
-                for (HeartRateData heartRateData: arrayList) {
-                    dataMapArrayList.add(heartRateData.putToDataMap(new DataMap()));
+                ArrayList<HeartRateData> heartRateList = MainActivity.getAveragedHeartRateData();
+                ArrayList<DataMap> dataMapHeartRateList = new ArrayList<>();
+                for (HeartRateData heartRateData: heartRateList) {
+                    dataMapHeartRateList.add(heartRateData.putToDataMap(new DataMap()));
                 }
-                sendSpecificDatamap(dataMapArrayList);
+
+                ArrayList<AccelerometerData> accelerometerList = MainActivity.getAccelerometerData();
+                ArrayList<DataMap> dataMapAccelerometer = new ArrayList<>();
+                for (AccelerometerData accelerometerData: accelerometerList) {
+                    dataMapAccelerometer.add(accelerometerData.putToDataMap(new DataMap()));
+                }
+
+                sendSpecificDatamap(dataMapHeartRateList, dataMapAccelerometer);
                 break;
             default:
                 Log.w(TAG, "Received a message for unknown path " + path + " : " + new String(messageEvent.getData()));
         }
     }
 
-    void sendSpecificDatamap(ArrayList<DataMap> arrayList) {
+    void sendSpecificDatamap(ArrayList<DataMap> heartRateList, ArrayList<DataMap> accelerometerList) {
         // Sends data (a datamap) through the Wear API
         // It's specific to a datamap containing an int and an arraylist. Duplicate and change
         // according to your needs
         PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(BuildConfig.another_path);
-        putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.some_other_key, arrayList);
+        putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.a_key, accelerometerList);
+        putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.some_other_key, heartRateList);
         sendPutDataMapRequest(putDataMapRequest);
     }
 
