@@ -96,7 +96,7 @@ public class DataLayerListenerService extends WearableListenerService {
                         ArrayList<DataMap> heartRateDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.some_other_key);
                         Log.i(TAG, "Got heart rate list");
                         ArrayList<HeartRateData> heartRateDataList = new ArrayList<>();
-                        for (DataMap dataMap: heartRateDataMapList) {
+                        for (DataMap dataMap : heartRateDataMapList) {
                             HeartRateData heartRateData = new HeartRateData(dataMap);
                             heartRateDataList.add(heartRateData);
                         }
@@ -104,7 +104,7 @@ public class DataLayerListenerService extends WearableListenerService {
                         ArrayList<DataMap> accelerometerDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
                         Log.i(TAG, "Got accelerometer list");
                         ArrayList<AccelerometerData> accelerometerDataList = new ArrayList<>();
-                        for (DataMap dataMap: accelerometerDataMapList) {
+                        for (DataMap dataMap : accelerometerDataMapList) {
                             AccelerometerData accelerometerData = new AccelerometerData(dataMap);
                             accelerometerDataList.add(accelerometerData);
                         }

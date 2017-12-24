@@ -21,19 +21,15 @@ import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 
 public class MainActivity extends WearableActivity implements SensorEventListener {
 
+    public static final int HIGH_HR_LIMIT = 100;
     // Tag for Logcat
     private static final String TAG = "MainActivity";
     private static final int NUMBER_OF_AVERAGED_DATA = 1;
-    public static final int HIGH_HR_LIMIT = 100;
-
-    private ArrayList<HeartRateData> heartRateDataList;
     private static ArrayList<HeartRateData> averagedHeartRateDataList;
-
-    private ArrayList<HeartRateData> abnormalHeartRateList;
     private static ArrayList<AbnormalHeartRateEvent> abnormalHeartRateEvents;
-
     private static ArrayList<AccelerometerData> accelerometerDataList;
-
+    private ArrayList<HeartRateData> heartRateDataList;
+    private ArrayList<HeartRateData> abnormalHeartRateList;
     private TextView textViewHeartRate;
     private TextView textViewHeartRateAverage;
     private TextView textViewHeartRateAverageDate;
@@ -44,6 +40,18 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     private TextView textViewAbnormalHRAverage;
     private TextView textViewAbnormalHRBegin;
     private TextView textViewAbnormalHREnd;
+
+    public static ArrayList<HeartRateData> getAveragedHeartRateDataList() {
+        return averagedHeartRateDataList;
+    }
+
+    public static ArrayList<AccelerometerData> getAccelerometerDataList() {
+        return accelerometerDataList;
+    }
+
+    public static ArrayList<AbnormalHeartRateEvent> getAbnormalHeartRateEvents() {
+        return abnormalHeartRateEvents;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -169,12 +177,11 @@ public class MainActivity extends WearableActivity implements SensorEventListene
             // Filter the data to see if it is a high heart rate, if it is high start to keep its log
             if (newHeartRate.getValue() > HIGH_HR_LIMIT) {
                 abnormalHeartRateList.add(newHeartRate);
-            }
-            else {
+            } else {
                 if (!abnormalHeartRateList.isEmpty()) {
 
                     float sum = 0;
-                    for (HeartRateData heartRateData: abnormalHeartRateList)
+                    for (HeartRateData heartRateData : abnormalHeartRateList)
                         sum = sum + heartRateData.getValue();
 
                     float abnormalAverage = sum / abnormalHeartRateList.size();
@@ -192,17 +199,5 @@ public class MainActivity extends WearableActivity implements SensorEventListene
                 }
             }
         }
-    }
-
-    public static ArrayList<HeartRateData> getAveragedHeartRateDataList() {
-        return averagedHeartRateDataList;
-    }
-
-    public static ArrayList<AccelerometerData> getAccelerometerDataList() {
-        return accelerometerDataList;
-    }
-
-    public static ArrayList<AbnormalHeartRateEvent> getAbnormalHeartRateEvents(){
-        return abnormalHeartRateEvents;
     }
 }
