@@ -1,4 +1,4 @@
-package ee490g.epfl.ch.dwarfsleepy;
+package ee490g.epfl.ch.dwarfsleepy.service;
 
 import android.content.Intent;
 import android.net.Uri;
@@ -21,6 +21,8 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 import java.util.ArrayList;
 
+import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
+import ee490g.epfl.ch.dwarfsleepy.DashboardActivity;
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;

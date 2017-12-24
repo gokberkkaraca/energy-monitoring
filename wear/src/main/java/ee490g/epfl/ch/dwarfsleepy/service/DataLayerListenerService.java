@@ -1,4 +1,4 @@
-package ee490g.epfl.ch.dwarfsleepy;
+package ee490g.epfl.ch.dwarfsleepy.service;
 
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -18,6 +18,8 @@ import com.google.android.gms.wearable.WearableListenerService;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
+import ee490g.epfl.ch.dwarfsleepy.MainActivity;
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 
