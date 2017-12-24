@@ -20,14 +20,14 @@ import com.google.android.gms.wearable.MessageEvent;
 import com.google.android.gms.wearable.Wearable;
 
 import ee490g.epfl.ch.dwarfsleepy.models.User;
+import ee490g.epfl.ch.dwarfsleepy.service.DataLayerListenerService;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 public class DashboardActivity extends AppCompatActivity implements View.OnClickListener, DataApi.DataListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, MessageApi.MessageListener {
 
-    public static User user;
-
     // Tag for Logcat
     private static final String TAG = "DashboardActivity";
+    public static User user;
     private ImageButton profileButton;
     private Button refreshButton;
     private Button polarBeltButton;
