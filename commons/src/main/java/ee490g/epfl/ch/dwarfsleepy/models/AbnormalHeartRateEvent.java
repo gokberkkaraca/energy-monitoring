@@ -28,4 +28,16 @@ public class AbnormalHeartRateEvent {
         dataMap.putLong("averageHeartRateValue", endTime.getTime());
         return dataMap;
     }
+
+    public Float getAverageHeartRateValue() {
+        return averageHeartRateValue;
+    }
+
+    public Date getBeginTime() {
+        return beginTime;
+    }
+
+    public Date getEndTime() {
+        return endTime;
+    }
 }

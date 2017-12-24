@@ -16,7 +16,6 @@ import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 
 import java.util.ArrayList;
-import java.util.Collections;
 
 import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
 import ee490g.epfl.ch.dwarfsleepy.MainActivity;
@@ -85,14 +84,14 @@ public class DataLayerListenerService extends WearableListenerService {
             case BuildConfig.some_path:
                 Log.v(TAG, "Received a message for path " + BuildConfig.some_path + " : " + new String(messageEvent.getData()));
                 // For demo, send back a dataMap
-                ArrayList<HeartRateData> heartRateList = MainActivity.getAveragedHeartRateData();
+                ArrayList<HeartRateData> heartRateList = MainActivity.getAveragedHeartRateDataList();
                 Log.v(TAG, "Sending heart rate list of size: " + heartRateList.size());
                 ArrayList<DataMap> dataMapHeartRateList = new ArrayList<>();
                 for (int i = 0; i < heartRateList.size(); i++) {
                     dataMapHeartRateList.add(heartRateList.get(i).putToDataMap(new DataMap()));
                 }
 
-                ArrayList<AccelerometerData> accelerometerList = MainActivity.getAccelerometerData();
+                ArrayList<AccelerometerData> accelerometerList = MainActivity.getAccelerometerDataList();
                 Log.v(TAG, "Sending accelerometer list of size: " + accelerometerList.size());
                 ArrayList<DataMap> dataMapAccelerometer = new ArrayList<>();
                 for (int i = 0; i < accelerometerList.size(); i++) {

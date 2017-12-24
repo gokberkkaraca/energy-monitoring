@@ -13,7 +13,9 @@ import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
+import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 
@@ -22,11 +24,15 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     // Tag for Logcat
     private static final String TAG = "MainActivity";
     private static final int NUMBER_OF_AVERAGED_DATA = 1;
+    public static final int HIGH_HR_LIMIT = 100;
 
-    private ArrayList<Float> heartRateData;
-    private static ArrayList<HeartRateData> averagedHeartRateData;
-    private static ArrayList<AccelerometerData> accelerometerData;
-    private ArrayList<HeartRateData> abnormalHR;
+    private ArrayList<HeartRateData> heartRateDataList;
+    private static ArrayList<HeartRateData> averagedHeartRateDataList;
+
+    private ArrayList<HeartRateData> abnormalHeartRateList;
+    private static ArrayList<AbnormalHeartRateEvent> abnormalHeartRateEvents;
+
+    private static ArrayList<AccelerometerData> accelerometerDataList;
 
     private TextView textViewHeartRate;
     private TextView textViewHeartRateAverage;
@@ -62,6 +68,22 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
         sensorManager.registerListener(this, accelerometerSensor, 3);
 
+        initializeViews();
+
+        initializeArraysLists();
+    }
+
+    private void initializeArraysLists() {
+        heartRateDataList = new ArrayList<>();
+        averagedHeartRateDataList = new ArrayList<>();
+
+        abnormalHeartRateList = new ArrayList<>();
+        abnormalHeartRateEvents = new ArrayList<>();
+
+        accelerometerDataList = new ArrayList<>();
+    }
+
+    private void initializeViews() {
         textViewHeartRate = findViewById(R.id.heart_rate);
         textViewAccelerometerX = findViewById(R.id.accelerometerX);
         textViewAccelerometerY = findViewById(R.id.accelerometerY);
@@ -71,11 +93,6 @@ public class MainActivity extends WearableActivity implements SensorEventListene
         textViewAbnormalHRAverage = findViewById(R.id.abnormalHRavg);
         textViewAbnormalHRBegin = findViewById(R.id.abnormalHRbegin);
         textViewAbnormalHREnd = findViewById(R.id.abnormalHRend);
-
-        heartRateData = new ArrayList<>();
-        averagedHeartRateData = new ArrayList<>();
-        abnormalHR = new ArrayList<>();
-        accelerometerData = new ArrayList<>();
     }
 
     @Override
@@ -96,68 +113,96 @@ public class MainActivity extends WearableActivity implements SensorEventListene
     public void onSensorChanged(SensorEvent event) {
         switch (event.sensor.getType()) {
             case Sensor.TYPE_HEART_RATE:
-                if (textViewHeartRate != null) {
-                    Float newHeartRate = event.values[0];
-                    heartRateData.add(newHeartRate);
-                    textViewHeartRate.setText(String.valueOf(newHeartRate));
-
-                    // Get the average heart rate data
-                    // TODO Change this with sending to tablet
-                    if (!heartRateData.isEmpty() && heartRateData.size() % NUMBER_OF_AVERAGED_DATA == 0) {
-                        Float average = 0f;
-                        for (Float heartRateValue : this.heartRateData) {
-                            average += heartRateValue;
-                        }
-
-                        average = average / NUMBER_OF_AVERAGED_DATA;
-                        HeartRateData heartRateData = new HeartRateData(average, Calendar.getInstance().getTime());
-                        averagedHeartRateData.add(heartRateData);
-                        textViewHeartRateAverage.setText(String.valueOf(heartRateData.getValue()));
-                        textViewHeartRateAverageDate.setText(String.valueOf(heartRateData.getDate()));
-                        this.heartRateData.clear();
-                    }
-
-                    // Filter the data to see if it is a high heart rate, if it is high start to keep its log
-                    if (newHeartRate > 100) {
-                        HeartRateData instantaneousHR = new HeartRateData(newHeartRate, Calendar.getInstance().getTime());
-                        abnormalHR.add(instantaneousHR);
-                    } else {
-                        if (abnormalHR.size() > 0) {
-                            textViewAbnormalHRBegin.setText(abnormalHR.get(0).getDate().toString());
-                            textViewAbnormalHREnd.setText(abnormalHR.get(abnormalHR.size() - 1).getDate().toString());
-
-                            float sum = 0;
-                            for (HeartRateData heartRateData : abnormalHR)
-                                sum = sum + heartRateData.getValue();
-
-                            float abnormalAverage = sum / abnormalHR.size();
-                            textViewAbnormalHRAverage.setText(String.valueOf(abnormalAverage));
-                            abnormalHR.clear();
-                        }
-                    }
-                }
+                handleHeartRateEvent(event);
                 break;
-            // TODO Accelerometer and HeartRate doesn't work at the same time
             case Sensor.TYPE_ACCELEROMETER:
-                if (textViewAccelerometerX != null && textViewAccelerometerY != null && textViewAccelerometerZ != null) {
-                    AccelerometerData newAccelerometerData = new AccelerometerData(event.values[0], event.values[1], event.values[2], Calendar.getInstance().getTime());
-                    accelerometerData.add(newAccelerometerData);
-
-                    textViewAccelerometerX.setText(String.valueOf(newAccelerometerData.getXAxisValue()));
-                    textViewAccelerometerY.setText(String.valueOf(newAccelerometerData.getYAxisValue()));
-                    textViewAccelerometerZ.setText(String.valueOf(newAccelerometerData.getZAxisValue()));
-                }
+                handleAccelerometerEvent(event);
                 break;
             default:
                 break;
         }
     }
 
-    public static ArrayList<HeartRateData> getAveragedHeartRateData() {
-        return averagedHeartRateData;
+    private void handleAccelerometerEvent(SensorEvent event) {
+        if (textViewAccelerometerX != null && textViewAccelerometerY != null && textViewAccelerometerZ != null) {
+
+            AccelerometerData newAccelerometerData = new AccelerometerData(event.values[0], event.values[1], event.values[2], Calendar.getInstance().getTime());
+            accelerometerDataList.add(newAccelerometerData);
+
+            Log.v(TAG, "New accelerometer value obtained: " +
+                    "x: " + newAccelerometerData.getXAxisValue() +
+                    "y: " + newAccelerometerData.getYAxisValue() +
+                    "z: " + newAccelerometerData.getZAxisValue());
+
+            textViewAccelerometerX.setText(String.valueOf(newAccelerometerData.getXAxisValue()));
+            textViewAccelerometerY.setText(String.valueOf(newAccelerometerData.getYAxisValue()));
+            textViewAccelerometerZ.setText(String.valueOf(newAccelerometerData.getZAxisValue()));
+        }
     }
 
-    public static ArrayList<AccelerometerData> getAccelerometerData() {
-        return accelerometerData;
+    private void handleHeartRateEvent(SensorEvent event) {
+        if (textViewHeartRate != null) {
+            HeartRateData newHeartRate = new HeartRateData(event.values[0], Calendar.getInstance().getTime());
+
+            Log.v(TAG, "New heart rate value obtained: " + newHeartRate);
+
+            heartRateDataList.add(newHeartRate);
+            textViewHeartRate.setText(String.valueOf(newHeartRate));
+
+            // Get the average heart rate data
+            if (!heartRateDataList.isEmpty() && heartRateDataList.size() % NUMBER_OF_AVERAGED_DATA == 0) {
+                Float average = 0f;
+                for (HeartRateData heartRateData : heartRateDataList) {
+                    average += heartRateData.getValue();
+                }
+
+                average = average / NUMBER_OF_AVERAGED_DATA;
+                Date averageTime = new Date((heartRateDataList.get(0).getDate().getTime() + heartRateDataList.get(19).getDate().getTime()) / 2);
+                HeartRateData heartRateData = new HeartRateData(average, averageTime);
+
+                averagedHeartRateDataList.add(heartRateData);
+                textViewHeartRateAverage.setText(String.valueOf(heartRateData.getValue()));
+                textViewHeartRateAverageDate.setText(String.valueOf(heartRateData.getDate()));
+                this.heartRateDataList.clear();
+            }
+
+            // Filter the data to see if it is a high heart rate, if it is high start to keep its log
+            if (newHeartRate.getValue() > HIGH_HR_LIMIT) {
+                abnormalHeartRateList.add(newHeartRate);
+            }
+            else {
+                if (!abnormalHeartRateList.isEmpty()) {
+
+                    float sum = 0;
+                    for (HeartRateData heartRateData: abnormalHeartRateList)
+                        sum = sum + heartRateData.getValue();
+
+                    float abnormalAverage = sum / abnormalHeartRateList.size();
+                    Date beginTime = abnormalHeartRateList.get(0).getDate();
+                    Date endTime = abnormalHeartRateList.get(abnormalHeartRateList.size() - 1).getDate();
+
+                    AbnormalHeartRateEvent abnormalHeartRateEvent = new AbnormalHeartRateEvent(abnormalAverage, beginTime, endTime);
+                    abnormalHeartRateEvents.add(abnormalHeartRateEvent);
+
+                    textViewAbnormalHRBegin.setText(abnormalHeartRateEvent.getBeginTime().toString());
+                    textViewAbnormalHREnd.setText(abnormalHeartRateEvent.getEndTime().toString());
+                    textViewAbnormalHRAverage.setText(String.valueOf(abnormalAverage));
+
+                    abnormalHeartRateList.clear();
+                }
+            }
+        }
+    }
+
+    public static ArrayList<HeartRateData> getAveragedHeartRateDataList() {
+        return averagedHeartRateDataList;
+    }
+
+    public static ArrayList<AccelerometerData> getAccelerometerDataList() {
+        return accelerometerDataList;
+    }
+
+    public static ArrayList<AbnormalHeartRateEvent> getAbnormalHeartRateEvents(){
+        return abnormalHeartRateEvents;
     }
 }
