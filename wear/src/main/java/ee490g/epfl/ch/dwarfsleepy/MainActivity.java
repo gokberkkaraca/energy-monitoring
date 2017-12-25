@@ -15,8 +15,13 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import ee490g.epfl.ch.dwarfsleepy.models.*;
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.*;
+import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
+import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
+import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
+
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.accelerometerDataList;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
 
 public class MainActivity extends WearableActivity implements SensorEventListener {
 

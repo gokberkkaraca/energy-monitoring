@@ -24,9 +24,11 @@ import java.util.ArrayList;
 import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
 import ee490g.epfl.ch.dwarfsleepy.DashboardActivity;
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
-import ee490g.epfl.ch.dwarfsleepy.models.*;
+import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
+import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.*;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
 
 public class DataLayerListenerService extends WearableListenerService {
 
@@ -114,7 +116,7 @@ public class DataLayerListenerService extends WearableListenerService {
 
                         ArrayList<DataMap> abnormalHeartRateDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
                         Log.i(TAG, "Got abnormal hear rate list");
-                        for(DataMap dataMap: abnormalHeartRateDataMapList){
+                        for (DataMap dataMap : abnormalHeartRateDataMapList) {
                             AbnormalHeartRateEvent abnormalHeartRateEvent = new AbnormalHeartRateEvent(dataMap);
                             abnormalHeartRateEvents.add(abnormalHeartRateEvent);
                         }

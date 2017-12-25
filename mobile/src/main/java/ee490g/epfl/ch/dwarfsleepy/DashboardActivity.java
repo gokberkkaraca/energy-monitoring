@@ -36,20 +36,21 @@ import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.service.DataLayerListenerService;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.*;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
 
 public class DashboardActivity extends AppCompatActivity implements View.OnClickListener, DataApi.DataListener, GoogleApiClient.OnConnectionFailedListener, GoogleApiClient.ConnectionCallbacks, MessageApi.MessageListener {
 
     // Tag for Logcat
     private static final String TAG = "DashboardActivity";
     public static User user;
+    boolean doubleBackToExitPressedOnce = false;
     private ImageButton profileButton;
     private Button polarBeltButton;
     private Button accelerometerButton;
     private Button dayMonitoringButton;
     private Button nightMonitoringButton;
     private TextView heartRateTextView;
-
     // Members used for the Wear API
     private GoogleApiClient mGoogleApiClient;
     private boolean mResolvingError = false;
@@ -86,7 +87,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 averagedHeartRateDataList = new ArrayList<>();
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     HeartRateData heartRateData = postSnapshot.getValue(HeartRateData.class);
                     averagedHeartRateDataList.add(heartRateData);
                 }
@@ -102,7 +103,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 abnormalHeartRateEvents = new ArrayList<>();
-                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     AbnormalHeartRateEvent abnormalHeartRateEvent = postSnapshot.getValue(AbnormalHeartRateEvent.class);
                     abnormalHeartRateEvents.add(abnormalHeartRateEvent);
                 }
@@ -239,8 +240,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     }
 
-    boolean doubleBackToExitPressedOnce = false;
-
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -255,7 +254,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void run() {
-                doubleBackToExitPressedOnce=false;
+                doubleBackToExitPressedOnce = false;
             }
         }, 2000);
     }

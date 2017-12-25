@@ -18,7 +18,9 @@ import com.google.android.gms.wearable.WearableListenerService;
 import java.util.ArrayList;
 
 import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.*;
+
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
 
 public class DataLayerListenerService extends WearableListenerService {
 

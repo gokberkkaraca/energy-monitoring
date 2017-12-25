@@ -28,8 +28,6 @@ import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 public class CreateAccountActivity extends AppCompatActivity implements View.OnClickListener, View.OnFocusChangeListener, DatePickerDialog.OnDateSetListener {
 
-    private FirebaseAuth mAuth;
-
     protected Button createAccountButton;
     protected EditText nameEditText;
     protected EditText emailEditText;
@@ -40,7 +38,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     protected String email;
     protected Date birthday;
     protected User.Gender gender;
-
+    private FirebaseAuth mAuth;
     private EditText passwordEditText;
     private String password;
 

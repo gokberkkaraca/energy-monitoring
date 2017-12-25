@@ -1,7 +1,7 @@
 package ee490g.epfl.ch.dwarfsleepy.dayMonitoring;
 
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 
 import ee490g.epfl.ch.dwarfsleepy.R;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
