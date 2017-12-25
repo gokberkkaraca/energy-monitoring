@@ -55,7 +55,6 @@
             android:id="@+id/heartRateImageView"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_marginStart="20dp"
             android:contentDescription="@string/null_description"
             android:src="@drawable/heart" />
 
@@ -64,16 +63,16 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="44dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:textColor="@color/colorWhite"
-            android:textSize="32sp" />
+            android:textSize="60sp" />
 
         <ImageView
             android:id="@+id/caloriesBurntImageView"
             android:layout_width="120dp"
             android:layout_height="120dp"
-            android:layout_marginStart="200dp"
+            android:layout_marginStart="100dp"
             android:contentDescription="@string/null_description"
             android:src="@drawable/calories" />
 
@@ -82,9 +81,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="44dp"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="10dp"
             android:gravity="center"
             android:textColor="@color/colorWhite"
-            android:textSize="32sp" />
+            android:textSize="60sp" />
     </LinearLayout>
 </RelativeLayout>
