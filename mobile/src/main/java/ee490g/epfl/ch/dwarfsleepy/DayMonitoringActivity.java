@@ -27,7 +27,6 @@ public class DayMonitoringActivity extends AppCompatActivity {
         user = (User) extras.getSerializable(NavigationHandler.USER);
 
         initializeViews();
-
         setHeartRateView();
     }
 
