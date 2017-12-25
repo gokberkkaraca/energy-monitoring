@@ -9,7 +9,7 @@ import ee490g.epfl.ch.dwarfsleepy.DashboardActivity;
 import ee490g.epfl.ch.dwarfsleepy.GoogleAccountActivity;
 import ee490g.epfl.ch.dwarfsleepy.LoginActivity;
 import ee490g.epfl.ch.dwarfsleepy.UserProfileActivity;
-import ee490g.epfl.ch.dwarfsleepy.dayMonitoring.DayMonitoringActivity;
+import ee490g.epfl.ch.dwarfsleepy.DayMonitoringActivity;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 
 public class NavigationHandler {

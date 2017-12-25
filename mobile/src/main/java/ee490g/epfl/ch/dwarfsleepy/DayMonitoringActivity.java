@@ -1,4 +1,4 @@
-package ee490g.epfl.ch.dwarfsleepy.dayMonitoring;
+package ee490g.epfl.ch.dwarfsleepy;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
