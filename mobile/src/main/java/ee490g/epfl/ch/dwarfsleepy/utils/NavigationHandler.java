@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 
 import ee490g.epfl.ch.dwarfsleepy.DashboardActivity;
+import ee490g.epfl.ch.dwarfsleepy.GoogleAccountActivity;
 import ee490g.epfl.ch.dwarfsleepy.LoginActivity;
 import ee490g.epfl.ch.dwarfsleepy.UserProfileActivity;
 import ee490g.epfl.ch.dwarfsleepy.dayMonitoring.DayMonitoringActivity;
@@ -44,6 +45,12 @@ public class NavigationHandler {
         Bundle extras = new Bundle();
         extras.putSerializable(USER, user);
         intent.putExtras(extras);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    public static void goToGoogleAccountActivity(Activity activity) {
+        Intent intent = new Intent(activity, GoogleAccountActivity.class);
         activity.startActivity(intent);
         activity.finish();
     }

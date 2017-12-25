@@ -30,18 +30,19 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
 
     private FirebaseAuth mAuth;
 
-    private Button createAccountButton;
-    private EditText nameEditText;
-    private EditText emailEditText;
-    private EditText birthdayEditText;
+    protected Button createAccountButton;
+    protected EditText nameEditText;
+    protected EditText emailEditText;
+    protected EditText birthdayEditText;
+    protected RadioGroup genderRadioGroup;
+    protected Calendar calendar;
+    protected String name;
+    protected String email;
+    protected Date birthday;
+    protected User.Gender gender;
+
     private EditText passwordEditText;
-    private RadioGroup genderRadioGroup;
-    private Calendar calendar;
-    private String name;
-    private String email;
     private String password;
-    private Date birthday;
-    private User.Gender gender;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,7 +58,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         gender = null;
     }
 
-    private void initializeViews() {
+    protected void initializeViews() {
         createAccountButton = findViewById(R.id.createAccountButton);
         birthdayEditText = findViewById(R.id.birthdayEditText);
         nameEditText = findViewById(R.id.nameEditText);
@@ -82,7 +83,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         }
     }
 
-    private User.Gender getGenderFromRadioGroup() {
+    protected User.Gender getGenderFromRadioGroup() {
         int index = genderRadioGroup.getCheckedRadioButtonId();
         if (index == 2131165278)
             return User.Gender.MALE;
@@ -115,7 +116,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         birthdayEditText.setText(simpleDateFormat.format(birthday));
     }
 
-    private void createAccount(final String name, final String email, String password) {
+    protected void createAccount(final String name, final String email, String password) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -137,7 +138,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                 });
     }
 
-    private boolean checkFields() {
+    protected boolean checkFields() {
         if (name.isEmpty()) {
             Toast.makeText(this, "Name field can't be empty", Toast.LENGTH_LONG).show();
             return false;
