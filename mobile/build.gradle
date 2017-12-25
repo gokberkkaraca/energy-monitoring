@@ -45,9 +45,8 @@ dependencies {
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.1'
     wearApp project(':wear')
     compile project(path: ':commons')
+    compile "com.androidplot:androidplot-core:1.5.2"
 }
-
-
 
 
 apply plugin: 'com.google.gms.google-services'

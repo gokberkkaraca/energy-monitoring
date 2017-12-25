@@ -3,12 +3,7 @@ package ee490g.epfl.ch.dwarfsleepy;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.widget.TextView;
-
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
@@ -32,8 +27,6 @@ public class DayMonitoringActivity extends AppCompatActivity {
         user = (User) extras.getSerializable(NavigationHandler.USER);
 
         initializeViews();
-        int heartRate = 28;
-        heartRateTextView.setText(String.valueOf(heartRate));
 
         setHeartRateView();
     }
@@ -43,9 +36,11 @@ public class DayMonitoringActivity extends AppCompatActivity {
         final Runnable r = new Runnable() {
             public void run() {
                 handler.postDelayed(this, 1000);
-                HeartRateData lastHeartRateData = averagedHeartRateDataList.get(averagedHeartRateDataList.size() - 1);
-                int heartRateValue = (int) lastHeartRateData.getValue().floatValue();
-                heartRateTextView.setText(String.valueOf(heartRateValue));
+                if(!averagedHeartRateDataList.isEmpty()) {
+                    HeartRateData lastHeartRateData = averagedHeartRateDataList.get(averagedHeartRateDataList.size() - 1);
+                    int heartRateValue = (int) lastHeartRateData.getValue().floatValue();
+                    heartRateTextView.setText(String.valueOf(heartRateValue));
+                }
             }
         };
         handler.postDelayed(r, 0);
