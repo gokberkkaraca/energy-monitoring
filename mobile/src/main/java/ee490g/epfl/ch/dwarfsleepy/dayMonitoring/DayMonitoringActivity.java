@@ -20,4 +20,9 @@ public class DayMonitoringActivity extends AppCompatActivity {
         assert extras != null;
         user = (User) extras.getSerializable(NavigationHandler.USER);
     }
+
+    @Override
+    public void onBackPressed() {
+        NavigationHandler.goToDashboardActivity(this, user);
+    }
 }

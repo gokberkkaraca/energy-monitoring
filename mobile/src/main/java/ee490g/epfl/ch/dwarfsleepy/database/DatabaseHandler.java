@@ -6,6 +6,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 
+import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
@@ -15,6 +16,7 @@ public class DatabaseHandler {
     private static final String FIREBASE_DATABASE_URL = "https://dwarf-sleepy.firebaseio.com/";
     private static final String DATABASE_USERS_PATH = "users";
     private static final String DATABASE_HEART_RATES_PATH = "heartRates";
+    private static final String ABNORMAL_HEART_RATES_PATH = "abnormalHeartRates";
     private static final String DATABASE_ACCELEROMETER_PATH = "accelerometerData";
     private static final DatabaseReference databaseReference = FirebaseDatabase.getInstance(FIREBASE_DATABASE_URL).getReference();
 
@@ -41,5 +43,13 @@ public class DatabaseHandler {
 
     public static void addAccelerometerData(User user, ArrayList<AccelerometerData> accelerometerData) {
         databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(DATABASE_ACCELEROMETER_PATH).setValue(accelerometerData);
+    }
+
+    public static void addAbnormalHeartEvents(User user, ArrayList<AbnormalHeartRateEvent> abnormalHeartRateEvents) {
+        databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(ABNORMAL_HEART_RATES_PATH).setValue(abnormalHeartRateEvents);
+    }
+
+    public static void getAbnormalHeartRateEvents(User user, ValueEventListener valueEventListener) {
+        databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(ABNORMAL_HEART_RATES_PATH).addValueEventListener(valueEventListener);
     }
 }

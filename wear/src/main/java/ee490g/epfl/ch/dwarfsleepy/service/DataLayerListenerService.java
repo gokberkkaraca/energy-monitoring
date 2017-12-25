@@ -90,26 +90,26 @@ public class DataLayerListenerService extends WearableListenerService {
                 }
                 averagedHeartRateDataList.clear();
 
-                Log.v(TAG, "Sending accelerometer list of size: " + accelerometerDataList.size());
-                ArrayList<DataMap> dataMapAccelerometer = new ArrayList<>();
-                for (int i = 0; i < accelerometerDataList.size(); i++) {
-                    dataMapAccelerometer.add(accelerometerDataList.get(i).putToDataMap(new DataMap()));
+                Log.v(TAG, "Sending abnormal heart rate list of size: " + abnormalHeartRateEvents.size());
+                ArrayList<DataMap> dataMapAbnormalHeartRate = new ArrayList<>();
+                for (int i = 0; i < abnormalHeartRateEvents.size(); i++) {
+                    dataMapAbnormalHeartRate.add(abnormalHeartRateEvents.get(i).putToDataMap(new DataMap()));
                 }
-                accelerometerDataList.clear();
+                abnormalHeartRateEvents.clear();
 
-                sendSpecificDatamap(dataMapHeartRateList, dataMapAccelerometer);
+                sendSpecificDatamap(dataMapHeartRateList, dataMapAbnormalHeartRate);
                 break;
             default:
                 Log.w(TAG, "Received a message for unknown path " + path + " : " + new String(messageEvent.getData()));
         }
     }
 
-    void sendSpecificDatamap(ArrayList<DataMap> heartRateList, ArrayList<DataMap> accelerometerList) {
+    void sendSpecificDatamap(ArrayList<DataMap> heartRateList, ArrayList<DataMap> abnormalHeartRateList) {
         // Sends data (a datamap) through the Wear API
         // It's specific to a datamap containing an int and an arraylist. Duplicate and change
         // according to your needs
         PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(BuildConfig.another_path);
-        //putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.a_key, accelerometerList);
+        putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.a_key, abnormalHeartRateList);
         putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.some_other_key, heartRateList);
         sendPutDataMapRequest(putDataMapRequest);
     }
