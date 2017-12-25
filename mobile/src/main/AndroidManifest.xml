@@ -51,7 +51,14 @@
         <activity android:name=".ResetPasswordActivity" />
         <activity android:name=".DashboardActivity" />
         <activity android:name=".DayMonitoringActivity" />
-        <activity android:name=".GoogleAccountActivity"></activity>
+        <activity android:name=".GoogleAccountActivity" />
+        <activity android:name=".GoogleFitActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
     </application>
 
 </manifest>

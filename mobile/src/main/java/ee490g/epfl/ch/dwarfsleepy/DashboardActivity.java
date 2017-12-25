@@ -40,7 +40,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private Button dayMonitoringButton;
     private Button nightMonitoringButton;
     private TextView heartRateTextView;
-
+    private Button btn;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,6 +49,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         user = (User) extras.getSerializable(NavigationHandler.USER);
+        Button btn = (Button) findViewById(R.id.button2);
+
+        btn.setOnClickListener(new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent myIntent = new Intent(DashboardActivity.this, GoogleFitActivity.class);
+                DashboardActivity.this.startActivity(myIntent);
+            }
+        });
 
         initializeViews();
         profileButton.setOnClickListener(this);
