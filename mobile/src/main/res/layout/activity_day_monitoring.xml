@@ -47,7 +47,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/actionBarLayout"
-        android:layout_marginTop="44dp"
+        android:layout_marginStart="50dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <ImageView
@@ -60,6 +61,24 @@
 
         <TextView
             android:id="@+id/heartRateTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="44dp"
+            android:layout_marginTop="44dp"
+            android:gravity="center"
+            android:textColor="@color/colorWhite"
+            android:textSize="32sp" />
+
+        <ImageView
+            android:id="@+id/caloriesBurntImageView"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_marginStart="200dp"
+            android:contentDescription="@string/null_description"
+            android:src="@drawable/calories" />
+
+        <TextView
+            android:id="@+id/caloriesBurntTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="44dp"
