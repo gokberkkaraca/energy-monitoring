@@ -120,7 +120,22 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             assert firebaseUser != null;
-                            NavigationHandler.goToGoogleAccountActivity(LoginActivity.this);
+
+                            DatabaseHandler.getUser(firebaseUser.getUid(), new ValueEventListener() {
+                                @Override
+                                public void onDataChange(DataSnapshot dataSnapshot) {
+                                    User user = dataSnapshot.getValue(User.class);
+                                    if (user == null)
+                                        NavigationHandler.goToGoogleAccountActivity(LoginActivity.this);
+                                    else
+                                        NavigationHandler.goToDashboardActivity(LoginActivity.this, user);
+                                }
+
+                                @Override
+                                public void onCancelled(DatabaseError databaseError) {
+
+                                }
+                            });
                         } else {
                             // If sign in fails, display a message to the user.
                             Toast.makeText(LoginActivity.this, "Google Sign In Failed", Toast.LENGTH_LONG).show();
