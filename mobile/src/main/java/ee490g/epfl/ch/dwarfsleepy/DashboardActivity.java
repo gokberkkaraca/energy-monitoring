@@ -127,7 +127,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             }
         };
         ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
-        scheduler.scheduleAtFixedRate(messageSender, 10, 10, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(messageSender, 3, 3, TimeUnit.SECONDS);
     }
 
     private void initializeViews() {

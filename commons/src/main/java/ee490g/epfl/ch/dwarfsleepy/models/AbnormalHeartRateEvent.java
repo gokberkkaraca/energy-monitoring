@@ -16,6 +16,10 @@ public class AbnormalHeartRateEvent {
         this.endTime = endTime;
     }
 
+    public AbnormalHeartRateEvent() {
+
+    }
+
     public AbnormalHeartRateEvent(DataMap dataMap) {
         this.averageHeartRateValue = dataMap.getFloat("averageHeartRateValue");
         this.beginTime = new Date(dataMap.getLong("beginTime"));
@@ -24,8 +28,8 @@ public class AbnormalHeartRateEvent {
 
     public DataMap putToDataMap(DataMap dataMap) {
         dataMap.putFloat("averageHeartRateValue", averageHeartRateValue);
-        dataMap.putLong("averageHeartRateValue", beginTime.getTime());
-        dataMap.putLong("averageHeartRateValue", endTime.getTime());
+        dataMap.putLong("beginTime", beginTime.getTime());
+        dataMap.putLong("endTime", endTime.getTime());
         return dataMap;
     }
 
