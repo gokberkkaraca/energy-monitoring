@@ -109,11 +109,20 @@ public class DataLayerListenerService extends WearableListenerService {
                             AccelerometerData accelerometerData = new AccelerometerData(dataMap);
                             accelerometerDataList.add(accelerometerData);
                         }
-                        DatabaseHandler.addAccelerometerData(DashboardActivity.user, accelerometerDataList);*/
+                        DatabaseHandler.addAccelerometerData(DashboardActivity.user, accelerometerDataList);
+                        */
+
+                        ArrayList<DataMap> abnormalHeartRateDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
+                        Log.i(TAG, "Got abnormal hear rate list");
+                        for(DataMap dataMap: abnormalHeartRateDataMapList){
+                            AbnormalHeartRateEvent abnormalHeartRateEvent = new AbnormalHeartRateEvent(dataMap);
+                            abnormalHeartRateEvents.add(abnormalHeartRateEvent);
+                        }
+                        DatabaseHandler.addAbnormalHeartEvents(DashboardActivity.user, abnormalHeartRateEvents);
 
                         intent = new Intent("STRING_OF_ANOTHER_ACTION_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY");
-                        //intent.putExtra("STRING_OF_INTEGER_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", accelerometerDataList);
-                        intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", heartRateDataMapList);
+                        intent.putExtra("STRING_OF_INTEGER_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", abnormalHeartRateEvents);
+                        intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", averagedHeartRateDataList);
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                         break;
                     default:
