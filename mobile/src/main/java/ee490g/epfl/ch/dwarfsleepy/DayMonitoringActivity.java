@@ -99,7 +99,7 @@ public class DayMonitoringActivity extends AppCompatActivity {
         final Handler handler = new Handler();
         final Runnable r = new Runnable() {
             public void run() {
-                handler.postDelayed(this, 1000);
+                handler.postDelayed(this, 10000);
                 if(!averagedHeartRateDataList.isEmpty()) {
                     HeartRateData lastHeartRateData = averagedHeartRateDataList.get(averagedHeartRateDataList.size() - 1);
                     int heartRateValue = (int) lastHeartRateData.getValue().floatValue();
