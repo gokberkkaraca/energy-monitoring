@@ -17,6 +17,7 @@ import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.request.DataReadRequest;
 import com.google.android.gms.fitness.result.DataReadResponse;
+import com.google.android.gms.fitness.result.DataReadResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -107,7 +108,7 @@ public class GoogleFitActivity extends AppCompatActivity {
 
         DataReadRequest readRequest = new DataReadRequest.Builder()
                 .aggregate(DataType.TYPE_CALORIES_EXPENDED,DataType.AGGREGATE_CALORIES_EXPENDED)
-                .aggregate(DataType.TYPE_ACTIVITY_SEGMENT, DataType.AGGREGATE_ACTIVITY_SUMMARY)
+                //.read(DataType.AGGREGATE_CALORIES_EXPENDED)
                 .bucketByTime(1, TimeUnit.DAYS)
                 .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
                 .build();
@@ -131,8 +132,11 @@ public class GoogleFitActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task task) {
                         Log.d(LOG_TAG, "onComplete()");
                         List<DataSet> dataSets = ((Task<DataReadResponse>) task).getResult().getDataSets();
+
                         for (DataSet dataSet : dataSets) {
+                            Log.v(LOG_TAG,"in the loop");
                             dumpDataSet(dataSet);
+
                         }
                     }
                 });
