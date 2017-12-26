@@ -3,4 +3,59 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/friendPic"
+        android:layout_width="200dp"
+        android:layout_height="200dp"
+        android:contentDescription="@string/null_description"
+        android:padding="8dp"
+        android:src="@drawable/heart_attack" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <TextView
+            android:id="@+id/abnormal_hr_value"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/ap_white"
+            android:textSize="60sp" />
+
+        <RelativeLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginStart="20dp">
+
+            <TextView
+                android:id="@+id/abnormal_hr_duration"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/ap_white"
+                android:textSize="40sp"/>
+
+            <TextView
+                android:id="@+id/abnormal_hr_begin_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/ap_white"
+                android:textSize="40sp"
+                android:layout_below="@id/abnormal_hr_duration"/>
+
+            <TextView
+                android:id="@+id/abnormal_hr_end_time"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAlignment="center"
+                android:textColor="@color/ap_white"
+                android:textSize="40sp"
+                android:layout_below="@id/abnormal_hr_begin_time"/>
+
+        </RelativeLayout>
+    </LinearLayout>
+
 </LinearLayout>
