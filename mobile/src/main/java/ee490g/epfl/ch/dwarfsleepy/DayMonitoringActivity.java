@@ -5,6 +5,8 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
+import android.view.View;
+import android.widget.ImageButton;
 import android.widget.TextView;
 
 import com.androidplot.xy.BoundaryMode;
@@ -28,11 +30,15 @@ import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
 
-public class DayMonitoringActivity extends AppCompatActivity {
+public class DayMonitoringActivity extends AppCompatActivity implements View.OnClickListener {
 
     private final int MIN_HR = 40;
     private final int MAX_HR = 160;
     private final int NUMBER_OF_POINTS = 180;
+
+    private ImageButton heartRateButton;
+    private ImageButton accelerometerButton;
+    private ImageButton physicalActivityButton;
 
     private User user;
     private TextView heartRateTextView;
@@ -52,6 +58,11 @@ public class DayMonitoringActivity extends AppCompatActivity {
         user = (User) extras.getSerializable(NavigationHandler.USER);
 
         initializeViews();
+
+        heartRateButton.setOnClickListener(this);
+        accelerometerButton.setOnClickListener(this);
+        physicalActivityButton.setOnClickListener(this);
+
         setHeartRateView();
         configureHeartRatePlot();
     }
@@ -118,12 +129,28 @@ public class DayMonitoringActivity extends AppCompatActivity {
     private void initializeViews() {
         heartRateTextView = findViewById(R.id.heartRateTextView);
         caloriesBurntTextView = findViewById(R.id.caloriesBurntTextView);
+
         heartRatePlot = findViewById(R.id.heartRatePlot);
         accelerometerPlot = findViewById(R.id.accelerometerPlot);
+
+        heartRateButton = findViewById(R.id.heartButton);
+        accelerometerButton = findViewById(R.id.accelerometerButton);
+        physicalActivityButton = findViewById(R.id.physicalActivityButton);
     }
 
     @Override
     public void onBackPressed() {
         NavigationHandler.goToDashboardActivity(this, user);
+    }
+
+    @Override
+    public void onClick(View v) {
+        switch (v.getId()) {
+            case R.id.physicalActivityButton:
+                NavigationHandler.goToGoogleFitActivity(this, user);
+                break;
+            default:
+                break;
+        }
     }
 }
