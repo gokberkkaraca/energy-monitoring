@@ -3,6 +3,7 @@ package ee490g.epfl.ch.dwarfsleepy;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -27,7 +28,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import static com.google.android.gms.fitness.data.DataType.AGGREGATE_ACTIVITY_SUMMARY;
 import static com.google.android.gms.fitness.data.DataType.AGGREGATE_CALORIES_EXPENDED;
+import static com.google.android.gms.fitness.data.DataType.TYPE_ACTIVITY_SAMPLES;
 import static java.text.DateFormat.getDateInstance;
 import static java.text.DateFormat.getTimeInstance;
 
@@ -41,8 +44,10 @@ public class GoogleFitActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_fit);
         FitnessOptions fitnessOptions = FitnessOptions.builder()
-                .addDataType(AGGREGATE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
-                .addDataType(DataType.TYPE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.AGGREGATE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.AGGREGATE_ACTIVITY_SUMMARY, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_ACTIVITY_SEGMENT,FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_CALORIES_EXPENDED,FitnessOptions.ACCESS_READ)
                 .build();
 
         if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
@@ -101,7 +106,9 @@ public class GoogleFitActivity extends AppCompatActivity {
         long startTime = cal.getTimeInMillis();
 
         DataReadRequest readRequest = new DataReadRequest.Builder()
-                .read(AGGREGATE_CALORIES_EXPENDED)
+                .aggregate(DataType.TYPE_CALORIES_EXPENDED,DataType.AGGREGATE_CALORIES_EXPENDED)
+                .aggregate(DataType.TYPE_ACTIVITY_SEGMENT, DataType.AGGREGATE_ACTIVITY_SUMMARY)
+                .bucketByTime(1, TimeUnit.DAYS)
                 .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
                 .build();
 
