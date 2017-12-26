@@ -118,7 +118,6 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                 }
 
                 for (HeartRateData heartRateData: averagedHeartRateDataList) {
-                    Log.v("GRAPH", "Updating graph");
                     updateHeartRatePlot(heartRateData.getValue().intValue());
                 }
             }
