@@ -9,4 +9,6 @@ public class DataHolder {
 
     public static ArrayList<HeartRateData> averagedHeartRateDataList = new ArrayList<>();
     public static ArrayList<AbnormalHeartRateEvent> abnormalHeartRateEvents = new ArrayList<>();
+    public static int totalCaloriesBurnedDuringDay;
+
 }

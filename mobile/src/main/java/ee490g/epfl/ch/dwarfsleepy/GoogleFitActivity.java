@@ -3,7 +3,6 @@ package ee490g.epfl.ch.dwarfsleepy;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
-import android.provider.ContactsContract;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
@@ -13,13 +12,10 @@ import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.DataPoint;
 import com.google.android.gms.fitness.data.DataSet;
-import com.google.android.gms.fitness.data.DataSource;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.request.DataReadRequest;
 import com.google.android.gms.fitness.result.DataReadResponse;
-import com.google.android.gms.fitness.result.DataReadResult;
-import com.google.android.gms.fitness.result.DataTypeResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -31,12 +27,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import ee490g.epfl.ch.dwarfsleepy.data.DataHolder;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
-import static com.google.android.gms.fitness.data.DataType.AGGREGATE_ACTIVITY_SUMMARY;
-import static com.google.android.gms.fitness.data.DataType.AGGREGATE_CALORIES_EXPENDED;
-import static com.google.android.gms.fitness.data.DataType.TYPE_ACTIVITY_SAMPLES;
 import static java.text.DateFormat.getDateInstance;
 import static java.text.DateFormat.getTimeInstance;
 
@@ -88,11 +82,11 @@ public class GoogleFitActivity extends AppCompatActivity {
         }
     }
 
-    private static void dumpDataSet(DataSet totalSet) {
+    private static void getGoogleFitValues(DataSet totalSet) {
         Log.i("data", "Data returned for Data type: " + totalSet.getDataType().getName());
         DateFormat dateFormat;
         dateFormat = getTimeInstance();
-        float totalCaloriesExpended=0;
+        float totalCaloriesExpended = 0;
         for (DataPoint dp : totalSet.getDataPoints()) {
             Log.i("data", "Data point:");
             Log.i("data", "\tType: " + dp.getDataType().getName());
@@ -100,13 +94,16 @@ public class GoogleFitActivity extends AppCompatActivity {
             Log.i("data", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
             for (Field field : dp.getDataType().getFields()) {
                 Log.i("data", "\tField: " + field.getName() + " Value: " + dp.getValue(field));
-                if (dp.getDataType().getName().equals("com.google.calories.expended")){
+                if (dp.getDataType().getName().equals("com.google.calories.expended")) {
                     totalCaloriesExpended += dp.getValue(field).asFloat();
                 }
+              /*  else if(dp.getDataType().getName().equals("com.google.activity.segment")) {
+
+                }*/
             }
             Log.v("Total Calories:", "" + totalCaloriesExpended);
         }
-
+        DataHolder.totalCaloriesBurnedDuringDay = (int) totalCaloriesExpended;
     }
 
     @Override
@@ -122,19 +119,13 @@ public class GoogleFitActivity extends AppCompatActivity {
         Calendar cal = Calendar.getInstance();
         Date now = new Date();
         cal.setTime(now);
-        /*int a =9;
-        int endYear = cal.get(Calendar.YEAR);
-        int endMonth = cal.get(Calendar.MONTH);
-        int endDay = cal.get(Calendar.DAY_OF_MONTH);*/
         cal.set(Calendar.HOUR_OF_DAY, 21);
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
-        cal.set(Calendar.MILLISECOND,0);
+        cal.set(Calendar.MILLISECOND, 0);
 
         long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.HOUR_OF_DAY,-12);
-
-    /*    cal.add(Calendar.HOUR_OF_DAY,-12);*/
+        cal.add(Calendar.HOUR_OF_DAY, -12);
         long startTime = cal.getTimeInMillis();
 
         java.text.DateFormat dateFormat = getDateInstance();
@@ -171,7 +162,7 @@ public class GoogleFitActivity extends AppCompatActivity {
 
                         for (DataSet dataSet : dataSets) {
 
-                            dumpDataSet(dataSet);
+                            getGoogleFitValues(dataSet);
 
                         }
                     }

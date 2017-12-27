@@ -17,6 +17,7 @@ import com.androidplot.xy.XYSeries;
 
 import java.text.DecimalFormat;
 
+import ee490g.epfl.ch.dwarfsleepy.data.DataHolder;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.plotting.XYPlotSeriesList;
@@ -52,6 +53,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
         user = (User) extras.getSerializable(NavigationHandler.USER);
 
         initializeViews();
+        caloriesBurntTextView.setText(String.valueOf(DataHolder.totalCaloriesBurnedDuringDay));
 
         heartRateButton.setOnClickListener(this);
         accelerometerButton.setOnClickListener(this);
