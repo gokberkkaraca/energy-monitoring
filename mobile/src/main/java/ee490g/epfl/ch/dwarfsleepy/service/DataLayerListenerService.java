@@ -153,7 +153,7 @@ public class DataLayerListenerService extends WearableListenerService {
         ArrayList<HeartRateData> latestHeartRateData = new ArrayList<>();
 
         if (averagedHeartRateDataList.size() > 600) {
-            for (int i = 600; i >= 1; i++) {
+            for (int i = 600; i >= 1; i--) {
                 HeartRateData heartRateData = averagedHeartRateDataList.get(averagedHeartRateDataList.size() - i);
                 latestHeartRateData.add(heartRateData);
             }
