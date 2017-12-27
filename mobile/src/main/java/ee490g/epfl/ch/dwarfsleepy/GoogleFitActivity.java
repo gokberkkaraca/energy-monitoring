@@ -27,12 +27,16 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import ee490g.epfl.ch.dwarfsleepy.models.User;
+import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
+
 import static com.google.android.gms.fitness.data.DataType.AGGREGATE_CALORIES_EXPENDED;
 import static java.text.DateFormat.getDateInstance;
 import static java.text.DateFormat.getTimeInstance;
 
 public class GoogleFitActivity extends AppCompatActivity {
 
+    private User user;
     private static final String LOG_TAG = "GoogleFitActivity";
     private int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1905;
 
@@ -40,6 +44,11 @@ public class GoogleFitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_fit);
+
+        Bundle extras = getIntent().getExtras();
+        assert extras != null;
+        user = (User) extras.getSerializable(NavigationHandler.USER);
+
         FitnessOptions fitnessOptions = FitnessOptions.builder()
                 .addDataType(AGGREGATE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
                 .addDataType(DataType.TYPE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
@@ -129,5 +138,10 @@ public class GoogleFitActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        NavigationHandler.goToDayMonitoringActivity(this, user);
     }
 }

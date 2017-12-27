@@ -98,7 +98,8 @@ public class DataLayerListenerService extends WearableListenerService {
                         // Extract the data behind the key you know contains data
                         ArrayList<DataMap> heartRateDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.some_other_key);
                         Log.i(TAG, "Got heart rate list of size: " + heartRateDataMapList.size());
-                        for (DataMap dataMap : heartRateDataMapList) {
+                        for (int i = 0; i < heartRateDataMapList.size(); i++) {
+                            DataMap dataMap = heartRateDataMapList.get(i);
                             HeartRateData heartRateData = new HeartRateData(dataMap);
                             averagedHeartRateDataList.add(heartRateData);
                         }
@@ -116,7 +117,8 @@ public class DataLayerListenerService extends WearableListenerService {
 
                         ArrayList<DataMap> abnormalHeartRateDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
                         Log.i(TAG, "Got abnormal hear rate list of size: " + abnormalHeartRateDataMapList.size());
-                        for (DataMap dataMap : abnormalHeartRateDataMapList) {
+                        for (int i = 0; i < abnormalHeartRateDataMapList.size(); i++) {
+                            DataMap dataMap = abnormalHeartRateDataMapList.get(i);
                             AbnormalHeartRateEvent abnormalHeartRateEvent = new AbnormalHeartRateEvent(dataMap);
                             abnormalHeartRateEvents.add(abnormalHeartRateEvent);
                         }
