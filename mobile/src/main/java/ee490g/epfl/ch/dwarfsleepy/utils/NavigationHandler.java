@@ -5,12 +5,14 @@ import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 
+import ee490g.epfl.ch.dwarfsleepy.AbnormalHeartRateActivity;
 import ee490g.epfl.ch.dwarfsleepy.DashboardActivity;
 import ee490g.epfl.ch.dwarfsleepy.GoogleAccountActivity;
 import ee490g.epfl.ch.dwarfsleepy.GoogleFitActivity;
 import ee490g.epfl.ch.dwarfsleepy.LoginActivity;
 import ee490g.epfl.ch.dwarfsleepy.UserProfileActivity;
 import ee490g.epfl.ch.dwarfsleepy.DayMonitoringActivity;
+import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 
 public class NavigationHandler {
@@ -58,6 +60,15 @@ public class NavigationHandler {
 
     public static void goToGoogleFitActivity(Activity activity, User user) {
         Intent intent = new Intent(activity, GoogleFitActivity.class);
+        Bundle extras = new Bundle();
+        extras.putSerializable(USER, user);
+        intent.putExtras(extras);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    public static void goToAbnormalHeartRateActivity(Activity activity, User user) {
+        Intent intent = new Intent(activity, AbnormalHeartRateActivity.class);
         Bundle extras = new Bundle();
         extras.putSerializable(USER, user);
         intent.putExtras(extras);

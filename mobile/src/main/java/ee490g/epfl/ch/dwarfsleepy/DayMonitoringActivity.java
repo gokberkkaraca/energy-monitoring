@@ -4,7 +4,6 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.TextView;
@@ -17,11 +16,6 @@ import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 
 import java.text.DecimalFormat;
-import java.text.FieldPosition;
-import java.text.Format;
-import java.text.ParsePosition;
-import java.util.ArrayList;
-import java.util.List;
 
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
@@ -117,8 +111,8 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                     heartRateTextView.setText(String.valueOf(heartRateValue));
                 }
 
-                for (HeartRateData heartRateData: averagedHeartRateDataList) {
-                    updateHeartRatePlot(heartRateData.getValue().intValue());
+                for (int i = 0; i < averagedHeartRateDataList.size(); i++) {
+                    updateHeartRatePlot(averagedHeartRateDataList.get(i).getValue().intValue());
                 }
             }
         };
@@ -147,6 +141,9 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
         switch (v.getId()) {
             case R.id.physicalActivityButton:
                 NavigationHandler.goToGoogleFitActivity(this, user);
+                break;
+            case R.id.heartButton:
+                NavigationHandler.goToAbnormalHeartRateActivity(this, user);
                 break;
             default:
                 break;

@@ -31,6 +31,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import ee490g.epfl.ch.dwarfsleepy.models.User;
+import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
+
 import static com.google.android.gms.fitness.data.DataType.AGGREGATE_ACTIVITY_SUMMARY;
 import static com.google.android.gms.fitness.data.DataType.AGGREGATE_CALORIES_EXPENDED;
 import static com.google.android.gms.fitness.data.DataType.TYPE_ACTIVITY_SAMPLES;
@@ -39,6 +42,7 @@ import static java.text.DateFormat.getTimeInstance;
 
 public class GoogleFitActivity extends AppCompatActivity {
 
+    private User user;
     private static final String LOG_TAG = "GoogleFitActivity";
     private int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1905;
 
@@ -46,6 +50,11 @@ public class GoogleFitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_fit);
+
+        Bundle extras = getIntent().getExtras();
+        assert extras != null;
+        user = (User) extras.getSerializable(NavigationHandler.USER);
+
         Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .subscribe(DataType.TYPE_ACTIVITY_SAMPLES)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -75,11 +84,8 @@ public class GoogleFitActivity extends AppCompatActivity {
                     GoogleSignIn.getLastSignedInAccount(this),
                     fitnessOptions);
         } else {
-
             accessGoogleFit();
         }
-
-
     }
 
     private static void dumpDataSet(DataSet totalSet) {
@@ -163,5 +169,10 @@ public class GoogleFitActivity extends AppCompatActivity {
                         }
                     }
                 });
+    }
+
+    @Override
+    public void onBackPressed() {
+        NavigationHandler.goToDayMonitoringActivity(this, user);
     }
 }
