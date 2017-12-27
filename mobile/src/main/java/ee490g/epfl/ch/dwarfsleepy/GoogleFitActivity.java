@@ -13,11 +13,13 @@ import com.google.android.gms.fitness.Fitness;
 import com.google.android.gms.fitness.FitnessOptions;
 import com.google.android.gms.fitness.data.DataPoint;
 import com.google.android.gms.fitness.data.DataSet;
+import com.google.android.gms.fitness.data.DataSource;
 import com.google.android.gms.fitness.data.DataType;
 import com.google.android.gms.fitness.data.Field;
 import com.google.android.gms.fitness.request.DataReadRequest;
 import com.google.android.gms.fitness.result.DataReadResponse;
 import com.google.android.gms.fitness.result.DataReadResult;
+import com.google.android.gms.fitness.result.DataTypeResult;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -44,11 +46,26 @@ public class GoogleFitActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_google_fit);
+        Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .subscribe(DataType.TYPE_ACTIVITY_SAMPLES)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i("dfds", "Successfully subscribed!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("dsad", "There was a problem subscribing.");
+                    }
+                });
+
         FitnessOptions fitnessOptions = FitnessOptions.builder()
-                .addDataType(DataType.AGGREGATE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
-                .addDataType(DataType.AGGREGATE_ACTIVITY_SUMMARY, FitnessOptions.ACCESS_READ)
-                .addDataType(DataType.TYPE_ACTIVITY_SEGMENT,FitnessOptions.ACCESS_READ)
-                .addDataType(DataType.TYPE_CALORIES_EXPENDED,FitnessOptions.ACCESS_READ)
+                //.addDataType(DataType.AGGREGATE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
+                //.addDataType(DataType.AGGREGATE_ACTIVITY_SUMMARY, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_ACTIVITY_SEGMENT, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
                 .build();
 
         if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
@@ -62,16 +79,7 @@ public class GoogleFitActivity extends AppCompatActivity {
             accessGoogleFit();
         }
 
-        Calendar cal = Calendar.getInstance();
-        Date now = new Date();
-        cal.setTime(now);
-        long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.WEEK_OF_YEAR, -1);
-        long startTime = cal.getTimeInMillis();
 
-        java.text.DateFormat dateFormat = getDateInstance();
-        Log.i("TAG", "Range Start: " + dateFormat.format(startTime));
-        Log.i("TAG", "Range End: " + dateFormat.format(endTime));
     }
 
     private static void dumpDataSet(DataSet totalSet) {
@@ -101,15 +109,30 @@ public class GoogleFitActivity extends AppCompatActivity {
 
     private void accessGoogleFit() {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
+        Date now = new Date();
+        cal.setTime(now);
+        /*int a =9;
+        int endYear = cal.get(Calendar.YEAR);
+        int endMonth = cal.get(Calendar.MONTH);
+        int endDay = cal.get(Calendar.DAY_OF_MONTH);*/
+        cal.set(Calendar.HOUR_OF_DAY, 21);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND,0);
+        cal.add(Calendar.DAY_OF_MONTH,-1);
         long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.YEAR, -1);
+        cal.add(Calendar.HOUR_OF_DAY, -12);
         long startTime = cal.getTimeInMillis();
 
+        java.text.DateFormat dateFormat = getDateInstance();
+        Log.i("TAG", "Range Start: " + dateFormat.format(startTime));
+        Log.i("TAG", "Range End: " + dateFormat.format(endTime));
+
         DataReadRequest readRequest = new DataReadRequest.Builder()
-                .aggregate(DataType.TYPE_CALORIES_EXPENDED,DataType.AGGREGATE_CALORIES_EXPENDED)
-                //.read(DataType.AGGREGATE_CALORIES_EXPENDED)
-                .bucketByTime(1, TimeUnit.DAYS)
+                //aggregate(DataType.TYPE_CALORIES_EXPENDED,DataType.AGGREGATE_CALORIES_EXPENDED)
+                .read(DataType.AGGREGATE_CALORIES_EXPENDED)
+                .read(DataType.TYPE_ACTIVITY_SEGMENT)
+                //.bucketByTime(1000, TimeUnit.HOURS)
                 .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
                 .build();
 
@@ -134,7 +157,7 @@ public class GoogleFitActivity extends AppCompatActivity {
                         List<DataSet> dataSets = ((Task<DataReadResponse>) task).getResult().getDataSets();
 
                         for (DataSet dataSet : dataSets) {
-                            Log.v(LOG_TAG,"in the loop");
+                            Log.v(LOG_TAG, "in the loop");
                             dumpDataSet(dataSet);
 
                         }
