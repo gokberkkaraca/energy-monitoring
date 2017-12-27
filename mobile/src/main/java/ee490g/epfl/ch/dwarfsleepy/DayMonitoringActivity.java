@@ -57,7 +57,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
         accelerometerButton.setOnClickListener(this);
         physicalActivityButton.setOnClickListener(this);
 
-        setHeartRateView();
+        updateHeartRateValueAndPlot();
         configureHeartRatePlot();
     }
 
@@ -71,17 +71,17 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
         heartRatePlot.setRangeLabel("Heart Rate (bpm)");
 
         xyPlotSeriesList = new XYPlotSeriesList();
-        LineAndPointFormatter formatterPolar = new LineAndPointFormatter(Color.BLUE, Color.TRANSPARENT, Color.TRANSPARENT, null);
-        formatterPolar.getLinePaint().setStrokeWidth(8);
+        LineAndPointFormatter formatterHeartRate = new LineAndPointFormatter(Color.BLUE, Color.TRANSPARENT, Color.TRANSPARENT, null);
+        formatterHeartRate.getLinePaint().setStrokeWidth(8);
 
-        xyPlotSeriesList.initializeSeriesAndAddToList("Heart Rate" , MIN_HR, NUMBER_OF_POINTS, formatterPolar);
+        xyPlotSeriesList.initializeSeriesAndAddToList("Heart Rate" , MIN_HR, NUMBER_OF_POINTS, formatterHeartRate);
 
         XYSeries heartRateSeries = new SimpleXYSeries(
                 xyPlotSeriesList.getSeriesFromList("Heart Rate"),
                 SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "Heart Rate");
 
         heartRatePlot.clear();
-        heartRatePlot.addSeries(heartRateSeries, formatterPolar);
+        heartRatePlot.addSeries(heartRateSeries, formatterHeartRate);
         heartRatePlot.redraw();
     }
 
@@ -93,14 +93,14 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                 SimpleXYSeries(xyPlotSeriesList.getSeriesFromList("Heart Rate"),
                 SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "Heart Rate");
 
-        LineAndPointFormatter formatterPolar = xyPlotSeriesList.getFormatterFromList("Heart Rate");
+        LineAndPointFormatter formatterHeartRate = xyPlotSeriesList.getFormatterFromList("Heart Rate");
 
         heartRatePlot.clear();
-        heartRatePlot.addSeries(heartRateSeries, formatterPolar);
+        heartRatePlot.addSeries(heartRateSeries, formatterHeartRate);
         heartRatePlot.redraw();
     }
 
-    private void setHeartRateView() {
+    private void updateHeartRateValueAndPlot() {
         final Handler handler = new Handler();
         final Runnable r = new Runnable() {
             public void run() {
