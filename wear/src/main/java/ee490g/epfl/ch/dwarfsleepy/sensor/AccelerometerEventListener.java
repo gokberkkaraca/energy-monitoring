@@ -5,7 +5,9 @@ import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Date;
 
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 
@@ -13,11 +15,18 @@ import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerDa
 
 public class AccelerometerEventListener implements SensorEventListener {
 
-    private int numberOfAveragedAccelerometerData;
+    private int numberOfAveragedData;
+    private int highAccelerometerLimit;
 
+    private ArrayList<AccelerometerData> accelerometerDataList;
+    private ArrayList<AccelerometerData> abrubtAccelerometerList;
 
-    public AccelerometerEventListener(int numberOfAveragedAccelerometerData) {
-        this.numberOfAveragedAccelerometerData = numberOfAveragedAccelerometerData;
+    public AccelerometerEventListener(int numberOfAveragedData, int highAccelerometerLimit) {
+        this.numberOfAveragedData = numberOfAveragedData;
+        this.highAccelerometerLimit = highAccelerometerLimit;
+
+        accelerometerDataList = new ArrayList<>();
+        abrubtAccelerometerList = new ArrayList<>();
     }
 
     @Override
@@ -45,7 +54,28 @@ public class AccelerometerEventListener implements SensorEventListener {
 
     private void handleAccelerometerEvent(SensorEvent event) {
         AccelerometerData newAccelerometerData = new AccelerometerData(event.values[0], event.values[1], event.values[2], Calendar.getInstance().getTime());
-        averagedAccelerometerDataList.add(newAccelerometerData);
+        accelerometerDataList.add(newAccelerometerData);
 
+        if (!accelerometerDataList.isEmpty() && accelerometerDataList.size() % numberOfAveragedData == 0) {
+            Float xAverage = 0f;
+            Float yAverage = 0f;
+            Float zAverage = 0f;
+            for (AccelerometerData accelerometerData : accelerometerDataList) {
+                xAverage += accelerometerData.getXAxisValue();
+                yAverage += accelerometerData.getYAxisValue();
+                zAverage += accelerometerData.getZAxisValue();
+            }
+
+            xAverage = xAverage / numberOfAveragedData;
+            yAverage = yAverage / numberOfAveragedData;
+            zAverage = zAverage / numberOfAveragedData;
+
+            Date averageTime = new Date((accelerometerDataList.get(0).getDate().getTime() + accelerometerDataList.get(numberOfAveragedData - 1).getDate().getTime()) / 2);
+            AccelerometerData accelerometerData = new AccelerometerData(xAverage, yAverage, zAverage, averageTime);
+
+            averagedAccelerometerDataList.add(accelerometerData);
+            Log.v("AccelerometerListener", String.valueOf(accelerometerData.getAccelerometerValue()));
+            this.accelerometerDataList.clear();
+        }
     }
 }

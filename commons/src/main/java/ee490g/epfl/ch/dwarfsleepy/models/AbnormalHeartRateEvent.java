@@ -9,6 +9,7 @@ public class AbnormalHeartRateEvent {
     private Float averageHeartRateValue;
     private Date beginTime;
     private Date endTime;
+    private int durationMilliseconds;
     private int durationSeconds;
     private int durationMinutes;
     private int durationHours;
@@ -19,6 +20,7 @@ public class AbnormalHeartRateEvent {
         this.endTime = endTime;
 
         long duration = endTime.getTime() - beginTime.getTime();
+        this.durationMilliseconds = (int) (duration) % 1000;
         this.durationSeconds = (int) (duration / 1000) % 60 ;
         this.durationMinutes = (int) ((duration / (1000*60)) % 60);
         this.durationHours = (int) ((duration / (1000*60*60)) % 24);
@@ -34,6 +36,7 @@ public class AbnormalHeartRateEvent {
         this.endTime = new Date(dataMap.getLong("endTime"));
 
         long duration = dataMap.getLong("duration");
+        this.durationMilliseconds = (int) (duration) % 1000;
         this.durationSeconds = (int) (duration / 1000) % 60 ;
         this.durationMinutes = (int) ((duration / (1000*60)) % 60);
         this.durationHours = (int) ((duration / (1000*60*60)) % 24);
@@ -58,6 +61,10 @@ public class AbnormalHeartRateEvent {
 
     public Date getEndTime() {
         return endTime;
+    }
+
+    public int getDurationMilliseconds() {
+        return durationMilliseconds;
     }
 
     public int getDurationSeconds() {

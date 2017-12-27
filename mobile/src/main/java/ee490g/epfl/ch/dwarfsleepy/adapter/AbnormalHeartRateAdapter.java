@@ -15,7 +15,7 @@ import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
 
 public class AbnormalHeartRateAdapter extends RecyclerView.Adapter {
 
-    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy  hh:mm aa", Locale.getDefault());
+    private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy  hh:mm:ss aa", Locale.getDefault());
     private List<AbnormalHeartRateEvent> abnormalHeartRateEvents;
 
     public AbnormalHeartRateAdapter(List<AbnormalHeartRateEvent> abnormalHeartRateEvents) {
@@ -37,9 +37,10 @@ public class AbnormalHeartRateAdapter extends RecyclerView.Adapter {
         String duration = "Duration: " +
                 abnormalHeartRateEvent.getDurationHours() + "h " +
                 abnormalHeartRateEvent.getDurationMinutes() + "m " +
-                abnormalHeartRateEvent.getDurationSeconds() + "s";
-        String beginTime = "Begin Time: " + simpleDateFormat.format(abnormalHeartRateEvent.getBeginTime());
-        String endTime = "End Time: " + simpleDateFormat.format(abnormalHeartRateEvent.getEndTime());
+                abnormalHeartRateEvent.getDurationSeconds() + "s" +
+                abnormalHeartRateEvent.getDurationMilliseconds() + "ms";
+        String beginTime = "Begin: " + simpleDateFormat.format(abnormalHeartRateEvent.getBeginTime());
+        String endTime = "End: " + simpleDateFormat.format(abnormalHeartRateEvent.getEndTime());
 
         abnormalHeartRatesViewHolder.heartRateValue.setText(heartRateValue);
         abnormalHeartRatesViewHolder.duration.setText(duration);
