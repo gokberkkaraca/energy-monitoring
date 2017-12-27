@@ -37,7 +37,7 @@ public class AbnormalHeartRateAdapter extends RecyclerView.Adapter {
         String duration = "Duration: " +
                 abnormalHeartRateEvent.getDurationHours() + "h " +
                 abnormalHeartRateEvent.getDurationMinutes() + "m " +
-                abnormalHeartRateEvent.getDurationSeconds() + "s" +
+                abnormalHeartRateEvent.getDurationSeconds() + "s " +
                 abnormalHeartRateEvent.getDurationMilliseconds() + "ms";
         String beginTime = "Begin: " + simpleDateFormat.format(abnormalHeartRateEvent.getBeginTime());
         String endTime = "End: " + simpleDateFormat.format(abnormalHeartRateEvent.getEndTime());

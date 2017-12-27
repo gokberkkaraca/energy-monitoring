@@ -96,14 +96,8 @@ public class DataLayerListenerService extends WearableListenerService {
                 switch (uri.getPath()) {
                     case BuildConfig.another_path:
                         // Extract the data behind the key you know contains data
-                        ArrayList<DataMap> heartRateDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.some_other_key);
-                        Log.i(TAG, "Got heart rate list of size: " + heartRateDataMapList.size());
-                        for (int i = 0; i < heartRateDataMapList.size(); i++) {
-                            DataMap dataMap = heartRateDataMapList.get(i);
-                            HeartRateData heartRateData = new HeartRateData(dataMap);
-                            averagedHeartRateDataList.add(heartRateData);
-                        }
-                        DatabaseHandler.addHeartRateData(DashboardActivity.user, averagedHeartRateDataList);
+                        retrieveAndUploadHeartRateData(dataMapItem);
+                        retrieveAndUploadAbnormalHeartRateData(dataMapItem);
 
                         /*ArrayList<DataMap> accelerometerDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
                         Log.i(TAG, "Got accelerometer list");
@@ -114,15 +108,6 @@ public class DataLayerListenerService extends WearableListenerService {
                         }
                         DatabaseHandler.addAccelerometerData(DashboardActivity.user, accelerometerDataList);
                         */
-
-                        ArrayList<DataMap> abnormalHeartRateDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
-                        Log.i(TAG, "Got abnormal hear rate list of size: " + abnormalHeartRateDataMapList.size());
-                        for (int i = 0; i < abnormalHeartRateDataMapList.size(); i++) {
-                            DataMap dataMap = abnormalHeartRateDataMapList.get(i);
-                            AbnormalHeartRateEvent abnormalHeartRateEvent = new AbnormalHeartRateEvent(dataMap);
-                            abnormalHeartRateEvents.add(abnormalHeartRateEvent);
-                        }
-                        DatabaseHandler.addAbnormalHeartEvents(DashboardActivity.user, abnormalHeartRateEvents);
 
                         intent = new Intent("STRING_OF_ANOTHER_ACTION_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY");
                         intent.putExtra("STRING_OF_INTEGER_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", abnormalHeartRateEvents);
@@ -143,6 +128,40 @@ public class DataLayerListenerService extends WearableListenerService {
             String nodeId = uri.getHost();
             sendMessage(payload, path, nodeId);
         }
+    }
+
+    private void retrieveAndUploadAbnormalHeartRateData(DataMapItem dataMapItem) {
+        ArrayList<DataMap> abnormalHeartRateDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
+        Log.i(TAG, "Got abnormal hear rate list of size: " + abnormalHeartRateDataMapList.size());
+        for (int i = 0; i < abnormalHeartRateDataMapList.size(); i++) {
+            DataMap dataMap = abnormalHeartRateDataMapList.get(i);
+            AbnormalHeartRateEvent abnormalHeartRateEvent = new AbnormalHeartRateEvent(dataMap);
+            abnormalHeartRateEvents.add(abnormalHeartRateEvent);
+        }
+        DatabaseHandler.addAbnormalHeartEvents(DashboardActivity.user, abnormalHeartRateEvents);
+    }
+
+    private void retrieveAndUploadHeartRateData(DataMapItem dataMapItem) {
+        ArrayList<DataMap> heartRateDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.some_other_key);
+        Log.i(TAG, "Got heart rate list of size: " + heartRateDataMapList.size());
+        for (int i = 0; i < heartRateDataMapList.size(); i++) {
+            DataMap dataMap = heartRateDataMapList.get(i);
+            HeartRateData heartRateData = new HeartRateData(dataMap);
+            averagedHeartRateDataList.add(heartRateData);
+        }
+
+        ArrayList<HeartRateData> latestHeartRateData = new ArrayList<>();
+
+        if (averagedHeartRateDataList.size() > 600) {
+            for (int i = 600; i >= 1; i++) {
+                HeartRateData heartRateData = averagedHeartRateDataList.get(averagedHeartRateDataList.size() - i);
+                latestHeartRateData.add(heartRateData);
+            }
+        }
+        else {
+            latestHeartRateData.addAll(averagedHeartRateDataList);
+        }
+        DatabaseHandler.addHeartRateData(DashboardActivity.user, latestHeartRateData);
     }
 
     @Override
