@@ -27,10 +27,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import ee490g.epfl.ch.dwarfsleepy.data.DataHolder;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
-import static com.google.android.gms.fitness.data.DataType.AGGREGATE_CALORIES_EXPENDED;
 import static java.text.DateFormat.getDateInstance;
 import static java.text.DateFormat.getTimeInstance;
 
@@ -49,8 +49,25 @@ public class GoogleFitActivity extends AppCompatActivity {
         assert extras != null;
         user = (User) extras.getSerializable(NavigationHandler.USER);
 
+        Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this))
+                .subscribe(DataType.TYPE_ACTIVITY_SAMPLES)
+                .addOnSuccessListener(new OnSuccessListener<Void>() {
+                    @Override
+                    public void onSuccess(Void aVoid) {
+                        Log.i("dfds", "Successfully subscribed!");
+                    }
+                })
+                .addOnFailureListener(new OnFailureListener() {
+                    @Override
+                    public void onFailure(@NonNull Exception e) {
+                        Log.i("dsad", "There was a problem subscribing.");
+                    }
+                });
+
         FitnessOptions fitnessOptions = FitnessOptions.builder()
-                .addDataType(AGGREGATE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
+                //.addDataType(DataType.AGGREGATE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
+                //.addDataType(DataType.AGGREGATE_ACTIVITY_SUMMARY, FitnessOptions.ACCESS_READ)
+                .addDataType(DataType.TYPE_ACTIVITY_SEGMENT, FitnessOptions.ACCESS_READ)
                 .addDataType(DataType.TYPE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
                 .build();
 
@@ -61,27 +78,15 @@ public class GoogleFitActivity extends AppCompatActivity {
                     GoogleSignIn.getLastSignedInAccount(this),
                     fitnessOptions);
         } else {
-
             accessGoogleFit();
         }
-
-        Calendar cal = Calendar.getInstance();
-        Date now = new Date();
-        cal.setTime(now);
-        long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.WEEK_OF_YEAR, -1);
-        long startTime = cal.getTimeInMillis();
-
-        java.text.DateFormat dateFormat = getDateInstance();
-        Log.i("TAG", "Range Start: " + dateFormat.format(startTime));
-        Log.i("TAG", "Range End: " + dateFormat.format(endTime));
     }
 
-    private static void dumpDataSet(DataSet totalSet) {
+    private static void getGoogleFitValues(DataSet totalSet) {
         Log.i("data", "Data returned for Data type: " + totalSet.getDataType().getName());
         DateFormat dateFormat;
         dateFormat = getTimeInstance();
-
+        float totalCaloriesExpended = 0;
         for (DataPoint dp : totalSet.getDataPoints()) {
             Log.i("data", "Data point:");
             Log.i("data", "\tType: " + dp.getDataType().getName());
@@ -89,8 +94,16 @@ public class GoogleFitActivity extends AppCompatActivity {
             Log.i("data", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
             for (Field field : dp.getDataType().getFields()) {
                 Log.i("data", "\tField: " + field.getName() + " Value: " + dp.getValue(field));
+                if (dp.getDataType().getName().equals("com.google.calories.expended")) {
+                    totalCaloriesExpended += dp.getValue(field).asFloat();
+                }
+              /*  else if(dp.getDataType().getName().equals("com.google.activity.segment")) {
+
+                }*/
             }
+            Log.v("Total Calories:", "" + totalCaloriesExpended);
         }
+        DataHolder.totalCaloriesBurnedDuringDay = (int) totalCaloriesExpended;
     }
 
     @Override
@@ -104,13 +117,26 @@ public class GoogleFitActivity extends AppCompatActivity {
 
     private void accessGoogleFit() {
         Calendar cal = Calendar.getInstance();
-        cal.setTime(new Date());
+        Date now = new Date();
+        cal.setTime(now);
+        cal.set(Calendar.HOUR_OF_DAY, 21);
+        cal.set(Calendar.MINUTE, 0);
+        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.MILLISECOND, 0);
+
         long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.YEAR, -1);
+        cal.add(Calendar.HOUR_OF_DAY, -12);
         long startTime = cal.getTimeInMillis();
 
+        java.text.DateFormat dateFormat = getDateInstance();
+        Log.i("TAG", "Range Start: " + dateFormat.format(startTime));
+        Log.i("TAG", "Range End: " + dateFormat.format(endTime));
+
         DataReadRequest readRequest = new DataReadRequest.Builder()
-                .read(AGGREGATE_CALORIES_EXPENDED)
+                //aggregate(DataType.TYPE_CALORIES_EXPENDED,DataType.AGGREGATE_CALORIES_EXPENDED)
+                .read(DataType.TYPE_ACTIVITY_SEGMENT)
+                .read(DataType.AGGREGATE_CALORIES_EXPENDED)
+                //.bucketByTime(1000, TimeUnit.HOURS)
                 .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
                 .build();
 
@@ -133,8 +159,11 @@ public class GoogleFitActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task task) {
                         Log.d(LOG_TAG, "onComplete()");
                         List<DataSet> dataSets = ((Task<DataReadResponse>) task).getResult().getDataSets();
+
                         for (DataSet dataSet : dataSets) {
-                            dumpDataSet(dataSet);
+
+                            getGoogleFitValues(dataSet);
+
                         }
                     }
                 });
