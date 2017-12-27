@@ -3,20 +3,17 @@ package ee490g.epfl.ch.dwarfsleepy.sensor;
 import android.hardware.Sensor;
 import android.hardware.SensorEvent;
 import android.hardware.SensorEventListener;
-import android.os.Vibrator;
 import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 
-import ee490g.epfl.ch.dwarfsleepy.MainActivity;
 import ee490g.epfl.ch.dwarfsleepy.models.AbnormalAccelerometerEvent;
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 
-import static android.content.Context.VIBRATOR_SERVICE;
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerDataList;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalAccelerometerEvents;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerDataList;
 
 public class AccelerometerEventListener implements SensorEventListener {
 

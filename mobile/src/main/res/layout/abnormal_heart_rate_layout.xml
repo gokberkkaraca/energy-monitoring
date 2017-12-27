@@ -7,9 +7,9 @@
         android:id="@+id/heartAttackImage"
         android:layout_width="150dp"
         android:layout_height="150dp"
+        android:layout_marginStart="8dp"
         android:contentDescription="@string/null_description"
-        android:src="@drawable/heart_attack"
-        android:layout_marginStart="8dp"/>
+        android:src="@drawable/heart_attack" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -29,8 +29,8 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="40dp"
-            android:orientation="vertical"
-            android:gravity="center_vertical">
+            android:gravity="center_vertical"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/abnormal_hr_duration"
@@ -38,7 +38,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:textColor="@color/ap_white"
-                android:textSize="25sp"/>
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/abnormal_hr_begin_time"
@@ -46,7 +46,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:textColor="@color/ap_white"
-                android:textSize="25sp"/>
+                android:textSize="25sp" />
 
             <TextView
                 android:id="@+id/abnormal_hr_end_time"
@@ -54,7 +54,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:textColor="@color/ap_white"
-                android:textSize="25sp"/>
+                android:textSize="25sp" />
 
         </LinearLayout>
     </LinearLayout>

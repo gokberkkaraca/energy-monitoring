@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout android:id="@+id/actionBarLayout"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/actionBarLayout"
     android:layout_width="match_parent"
     android:layout_height="68dp"
     android:background="@color/colorBlack"
-    android:gravity="center_vertical"
-    xmlns:android="http://schemas.android.com/apk/res/android">
+    android:gravity="center_vertical">
 
     <TextView
         android:id="@+id/applicationName"

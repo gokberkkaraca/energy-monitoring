@@ -7,12 +7,11 @@ import android.os.Bundle;
 
 import ee490g.epfl.ch.dwarfsleepy.AbnormalHeartRateActivity;
 import ee490g.epfl.ch.dwarfsleepy.DashboardActivity;
+import ee490g.epfl.ch.dwarfsleepy.DayMonitoringActivity;
 import ee490g.epfl.ch.dwarfsleepy.GoogleAccountActivity;
 import ee490g.epfl.ch.dwarfsleepy.GoogleFitActivity;
 import ee490g.epfl.ch.dwarfsleepy.LoginActivity;
 import ee490g.epfl.ch.dwarfsleepy.UserProfileActivity;
-import ee490g.epfl.ch.dwarfsleepy.DayMonitoringActivity;
-import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 
 public class NavigationHandler {

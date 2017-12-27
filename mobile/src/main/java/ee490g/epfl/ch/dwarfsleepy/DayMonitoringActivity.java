@@ -65,7 +65,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
 
     private void configureHeartRatePlot() {
         heartRatePlot.setRangeBoundaries(MIN_HR, MAX_HR, BoundaryMode.FIXED);
-        heartRatePlot.setDomainBoundaries(0, NUMBER_OF_POINTS-1, BoundaryMode.FIXED);
+        heartRatePlot.setDomainBoundaries(0, NUMBER_OF_POINTS - 1, BoundaryMode.FIXED);
         heartRatePlot.setRangeStepValue(9);
         heartRatePlot.setDomainStepValue(9);
 
@@ -76,7 +76,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
         LineAndPointFormatter formatterHeartRate = new LineAndPointFormatter(Color.BLUE, Color.TRANSPARENT, Color.TRANSPARENT, null);
         formatterHeartRate.getLinePaint().setStrokeWidth(8);
 
-        xyPlotSeriesList.initializeSeriesAndAddToList("Heart Rate" , MIN_HR, NUMBER_OF_POINTS, formatterHeartRate);
+        xyPlotSeriesList.initializeSeriesAndAddToList("Heart Rate", MIN_HR, NUMBER_OF_POINTS, formatterHeartRate);
 
         XYSeries heartRateSeries = new SimpleXYSeries(
                 xyPlotSeriesList.getSeriesFromList("Heart Rate"),
@@ -107,7 +107,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
         final Runnable r = new Runnable() {
             public void run() {
                 handler.postDelayed(this, 10000);
-                if(!averagedHeartRateDataList.isEmpty()) {
+                if (!averagedHeartRateDataList.isEmpty()) {
                     HeartRateData lastHeartRateData = averagedHeartRateDataList.get(averagedHeartRateDataList.size() - 1);
                     int heartRateValue = (int) lastHeartRateData.getValue().floatValue();
                     heartRateTextView.setText(String.valueOf(heartRateValue));

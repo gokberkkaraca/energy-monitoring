@@ -36,9 +36,33 @@ import static java.text.DateFormat.getTimeInstance;
 
 public class GoogleFitActivity extends AppCompatActivity {
 
-    private User user;
     private static final String LOG_TAG = "GoogleFitActivity";
+    private User user;
     private int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1905;
+
+    private static void getGoogleFitValues(DataSet totalSet) {
+        Log.i("data", "Data returned for Data type: " + totalSet.getDataType().getName());
+        DateFormat dateFormat;
+        dateFormat = getTimeInstance();
+        float totalCaloriesExpended = 0;
+        for (DataPoint dp : totalSet.getDataPoints()) {
+            Log.i("data", "Data point:");
+            Log.i("data", "\tType: " + dp.getDataType().getName());
+            Log.i("data", "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
+            Log.i("data", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
+            for (Field field : dp.getDataType().getFields()) {
+                Log.i("data", "\tField: " + field.getName() + " Value: " + dp.getValue(field));
+                if (dp.getDataType().getName().equals("com.google.calories.expended")) {
+                    totalCaloriesExpended += dp.getValue(field).asFloat();
+                }
+              /*  else if(dp.getDataType().getName().equals("com.google.activity.segment")) {
+
+                }*/
+            }
+            Log.v("Total Calories:", "" + totalCaloriesExpended);
+        }
+        DataHolder.totalCaloriesBurnedDuringDay = (int) totalCaloriesExpended;
+    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -80,30 +104,6 @@ public class GoogleFitActivity extends AppCompatActivity {
         } else {
             accessGoogleFit();
         }
-    }
-
-    private static void getGoogleFitValues(DataSet totalSet) {
-        Log.i("data", "Data returned for Data type: " + totalSet.getDataType().getName());
-        DateFormat dateFormat;
-        dateFormat = getTimeInstance();
-        float totalCaloriesExpended = 0;
-        for (DataPoint dp : totalSet.getDataPoints()) {
-            Log.i("data", "Data point:");
-            Log.i("data", "\tType: " + dp.getDataType().getName());
-            Log.i("data", "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
-            Log.i("data", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
-            for (Field field : dp.getDataType().getFields()) {
-                Log.i("data", "\tField: " + field.getName() + " Value: " + dp.getValue(field));
-                if (dp.getDataType().getName().equals("com.google.calories.expended")) {
-                    totalCaloriesExpended += dp.getValue(field).asFloat();
-                }
-              /*  else if(dp.getDataType().getName().equals("com.google.activity.segment")) {
-
-                }*/
-            }
-            Log.v("Total Calories:", "" + totalCaloriesExpended);
-        }
-        DataHolder.totalCaloriesBurnedDuringDay = (int) totalCaloriesExpended;
     }
 
     @Override

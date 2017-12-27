@@ -29,9 +29,9 @@ public class AbnormalAccelerometerEvent {
 
         long duration = endTime.getTime() - beginTime.getTime();
         this.durationMilliseconds = (int) (duration) % 1000;
-        this.durationSeconds = (int) (duration / 1000) % 60 ;
-        this.durationMinutes = (int) ((duration / (1000*60)) % 60);
-        this.durationHours = (int) ((duration / (1000*60*60)) % 24);
+        this.durationSeconds = (int) (duration / 1000) % 60;
+        this.durationMinutes = (int) ((duration / (1000 * 60)) % 60);
+        this.durationHours = (int) ((duration / (1000 * 60 * 60)) % 24);
     }
 
     public AbnormalAccelerometerEvent() {
@@ -49,9 +49,9 @@ public class AbnormalAccelerometerEvent {
 
         long duration = dataMap.getLong("duration");
         this.durationMilliseconds = (int) (duration) % 1000;
-        this.durationSeconds = (int) (duration / 1000) % 60 ;
-        this.durationMinutes = (int) ((duration / (1000*60)) % 60);
-        this.durationHours = (int) ((duration / (1000*60*60)) % 24);
+        this.durationSeconds = (int) (duration / 1000) % 60;
+        this.durationMinutes = (int) ((duration / (1000 * 60)) % 60);
+        this.durationHours = (int) ((duration / (1000 * 60 * 60)) % 24);
     }
 
     public DataMap putToDataMap(DataMap dataMap) {

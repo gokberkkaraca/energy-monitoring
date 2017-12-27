@@ -13,7 +13,7 @@
         android:scaleType="fitXY"
         android:src="@drawable/bg" />
 
-    <include layout="@layout/actionbar_layout"/>
+    <include layout="@layout/actionbar_layout" />
 
     <LinearLayout
         android:id="@+id/userLayout"

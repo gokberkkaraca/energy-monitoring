@@ -15,9 +15,9 @@ import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents
 
 public class AbnormalHeartRateActivity extends AppCompatActivity {
 
+    AbnormalHeartRateAdapter abnormalHeartRateAdapter;
     private User user;
     private RecyclerView recyclerView;
-    AbnormalHeartRateAdapter abnormalHeartRateAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

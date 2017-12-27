@@ -157,8 +157,7 @@ public class DataLayerListenerService extends WearableListenerService {
                 HeartRateData heartRateData = averagedHeartRateDataList.get(averagedHeartRateDataList.size() - i);
                 latestHeartRateData.add(heartRateData);
             }
-        }
-        else {
+        } else {
             latestHeartRateData.addAll(averagedHeartRateDataList);
         }
         DatabaseHandler.addHeartRateData(DashboardActivity.user, latestHeartRateData);

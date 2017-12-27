@@ -72,7 +72,7 @@ public class MainActivity extends WearableActivity {
         final Runnable r = new Runnable() {
             public void run() {
                 handler.postDelayed(this, 1);
-                if(!averagedHeartRateDataList.isEmpty()) {
+                if (!averagedHeartRateDataList.isEmpty()) {
                     HeartRateData lastHeartRateData = averagedHeartRateDataList.get(averagedHeartRateDataList.size() - 1);
                     int heartRateValue = (int) lastHeartRateData.getValue().floatValue();
                     heartRateTextView.setText(String.valueOf(heartRateValue));
@@ -83,7 +83,7 @@ public class MainActivity extends WearableActivity {
                         heartImage.setImageResource(R.drawable.heart_small);
                 }
 
-                if(!averagedAccelerometerDataList.isEmpty()) {
+                if (!averagedAccelerometerDataList.isEmpty()) {
                     AccelerometerData lastAccelerometerData = averagedAccelerometerDataList.get(averagedAccelerometerDataList.size() - 1);
                     float accelerometerValue = lastAccelerometerData.getAccelerometerValue();
                     String accelerometerString = String.valueOf(accelerometerValue).substring(0, 5);
