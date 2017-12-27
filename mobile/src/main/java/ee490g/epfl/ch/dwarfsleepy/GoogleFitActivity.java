@@ -92,7 +92,7 @@ public class GoogleFitActivity extends AppCompatActivity {
         Log.i("data", "Data returned for Data type: " + totalSet.getDataType().getName());
         DateFormat dateFormat;
         dateFormat = getTimeInstance();
-
+        float totalCaloriesExpended=0;
         for (DataPoint dp : totalSet.getDataPoints()) {
             Log.i("data", "Data point:");
             Log.i("data", "\tType: " + dp.getDataType().getName());
@@ -100,8 +100,13 @@ public class GoogleFitActivity extends AppCompatActivity {
             Log.i("data", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
             for (Field field : dp.getDataType().getFields()) {
                 Log.i("data", "\tField: " + field.getName() + " Value: " + dp.getValue(field));
+                if (dp.getDataType().getName().equals("com.google.calories.expended")){
+                    totalCaloriesExpended += dp.getValue(field).asFloat();
+                }
             }
+            Log.v("Total Calories:", "" + totalCaloriesExpended);
         }
+
     }
 
     @Override
@@ -125,9 +130,11 @@ public class GoogleFitActivity extends AppCompatActivity {
         cal.set(Calendar.MINUTE, 0);
         cal.set(Calendar.SECOND, 0);
         cal.set(Calendar.MILLISECOND,0);
-        cal.add(Calendar.DAY_OF_MONTH,-1);
+
         long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.HOUR_OF_DAY, -12);
+        cal.add(Calendar.HOUR_OF_DAY,-12);
+
+    /*    cal.add(Calendar.HOUR_OF_DAY,-12);*/
         long startTime = cal.getTimeInMillis();
 
         java.text.DateFormat dateFormat = getDateInstance();
@@ -136,8 +143,8 @@ public class GoogleFitActivity extends AppCompatActivity {
 
         DataReadRequest readRequest = new DataReadRequest.Builder()
                 //aggregate(DataType.TYPE_CALORIES_EXPENDED,DataType.AGGREGATE_CALORIES_EXPENDED)
-                .read(DataType.AGGREGATE_CALORIES_EXPENDED)
                 .read(DataType.TYPE_ACTIVITY_SEGMENT)
+                .read(DataType.AGGREGATE_CALORIES_EXPENDED)
                 //.bucketByTime(1000, TimeUnit.HOURS)
                 .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
                 .build();
@@ -163,7 +170,7 @@ public class GoogleFitActivity extends AppCompatActivity {
                         List<DataSet> dataSets = ((Task<DataReadResponse>) task).getResult().getDataSets();
 
                         for (DataSet dataSet : dataSets) {
-                            Log.v(LOG_TAG, "in the loop");
+
                             dumpDataSet(dataSet);
 
                         }
