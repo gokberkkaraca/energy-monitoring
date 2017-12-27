@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="wrap_content">
 
     <ImageView
-        android:id="@+id/friendPic"
-        android:layout_width="200dp"
-        android:layout_height="200dp"
+        android:id="@+id/heartAttackImage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
         android:contentDescription="@string/null_description"
-        android:padding="8dp"
         android:src="@drawable/heart_attack" />
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp">
+        android:layout_height="match_parent"
+        android:layout_marginStart="8dp">
 
         <TextView
             android:id="@+id/abnormal_hr_value"
@@ -24,10 +24,12 @@
             android:textColor="@color/ap_white"
             android:textSize="60sp" />
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginStart="20dp">
+            android:layout_marginStart="40dp"
+            android:orientation="vertical"
+            android:gravity="center_vertical">
 
             <TextView
                 android:id="@+id/abnormal_hr_duration"
@@ -35,7 +37,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:textColor="@color/ap_white"
-                android:textSize="40sp"/>
+                android:textSize="25sp"/>
 
             <TextView
                 android:id="@+id/abnormal_hr_begin_time"
@@ -43,8 +45,7 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:textColor="@color/ap_white"
-                android:textSize="40sp"
-                android:layout_below="@id/abnormal_hr_duration"/>
+                android:textSize="25sp"/>
 
             <TextView
                 android:id="@+id/abnormal_hr_end_time"
@@ -52,10 +53,9 @@
                 android:layout_height="wrap_content"
                 android:textAlignment="center"
                 android:textColor="@color/ap_white"
-                android:textSize="40sp"
-                android:layout_below="@id/abnormal_hr_begin_time"/>
+                android:textSize="25sp"/>
 
-        </RelativeLayout>
+        </LinearLayout>
     </LinearLayout>
 
 </LinearLayout>

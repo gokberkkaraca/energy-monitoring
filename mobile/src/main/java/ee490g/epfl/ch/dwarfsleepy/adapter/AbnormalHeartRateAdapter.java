@@ -33,18 +33,18 @@ public class AbnormalHeartRateAdapter extends RecyclerView.Adapter {
         final AbnormalHeartRatesViewHolder abnormalHeartRatesViewHolder = (AbnormalHeartRatesViewHolder) holder;
         final AbnormalHeartRateEvent abnormalHeartRateEvent = abnormalHeartRateEvents.get(position);
 
-        String heartRateValue = String.valueOf(abnormalHeartRateEvent.getAverageHeartRateValue());
+        String heartRateValue = String.valueOf(abnormalHeartRateEvent.getAverageHeartRateValue().intValue());
         String duration = "Duration: " +
-                abnormalHeartRateEvent.getDurationHours() + ":" +
-                abnormalHeartRateEvent.getDurationMinutes() + ":" +
-                abnormalHeartRateEvent.getDurationSeconds();
+                abnormalHeartRateEvent.getDurationHours() + "h " +
+                abnormalHeartRateEvent.getDurationMinutes() + "m " +
+                abnormalHeartRateEvent.getDurationSeconds() + "s";
         String beginTime = "Begin Time: " + simpleDateFormat.format(abnormalHeartRateEvent.getBeginTime());
         String endTime = "End Time: " + simpleDateFormat.format(abnormalHeartRateEvent.getEndTime());
 
         abnormalHeartRatesViewHolder.heartRateValue.setText(heartRateValue);
         abnormalHeartRatesViewHolder.duration.setText(duration);
         abnormalHeartRatesViewHolder.beginTime.setText(beginTime);
-        abnormalHeartRatesViewHolder.duration.setText(endTime);
+        abnormalHeartRatesViewHolder.endTime.setText(endTime);
     }
 
     @Override
