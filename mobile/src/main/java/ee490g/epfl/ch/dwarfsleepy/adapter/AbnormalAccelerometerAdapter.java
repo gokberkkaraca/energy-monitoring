@@ -33,7 +33,7 @@ public class AbnormalAccelerometerAdapter extends RecyclerView.Adapter {
         final AbnormalAccelerometersViewHolder abnormalAccelerometersViewHolder = (AbnormalAccelerometersViewHolder) holder;
         final AbnormalAccelerometerEvent abnormalAccelerometerEvent = abnormalAccelerometerEvents.get(position);
 
-        String accelerometerValue = String.valueOf(abnormalAccelerometerEvent.getAccelerometerValue());
+        String accelerometerValue = String.valueOf(abnormalAccelerometerEvent.getAccelerometerValue()).substring(0,4);
         String duration = "Duration: " +
                 abnormalAccelerometerEvent.getDurationHours() + "h " +
                 abnormalAccelerometerEvent.getDurationMinutes() + "m " +

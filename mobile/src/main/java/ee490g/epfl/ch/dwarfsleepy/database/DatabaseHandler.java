@@ -58,4 +58,8 @@ public class DatabaseHandler {
     public static void addAbnormalAccelerometerEvents(User user, ArrayList<AbnormalAccelerometerEvent> abnormalAccelerometerEvents) {
         databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(ABNORMAL_ACCELEROMETER_PATH).setValue(abnormalAccelerometerEvents);
     }
+
+    public static void getAbnormalAccelerometerData(User user, ValueEventListener valueEventListener) {
+        databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(ABNORMAL_ACCELEROMETER_PATH).addValueEventListener(valueEventListener);
+    }
 }

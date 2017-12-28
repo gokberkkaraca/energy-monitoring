@@ -20,13 +20,17 @@ import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
 
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
+import ee490g.epfl.ch.dwarfsleepy.models.AbnormalAccelerometerEvent;
 import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
+import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.service.DataLayerListenerService;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalAccelerometerEvents;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerData;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
 
 public class DashboardActivity extends AppCompatActivity implements View.OnClickListener {
@@ -85,6 +89,38 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     AbnormalHeartRateEvent abnormalHeartRateEvent = postSnapshot.getValue(AbnormalHeartRateEvent.class);
                     abnormalHeartRateEvents.add(abnormalHeartRateEvent);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseHandler.getAbnormalAccelerometerData(user, new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                abnormalAccelerometerEvents = new ArrayList<>();
+                for (DataSnapshot postSnapshot: dataSnapshot.getChildren()) {
+                    AbnormalAccelerometerEvent abnormalAccelerometerEvent = postSnapshot.getValue(AbnormalAccelerometerEvent.class);
+                    abnormalAccelerometerEvents.add(abnormalAccelerometerEvent);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+
+            }
+        });
+
+        DatabaseHandler.getAccelerometerData(user, new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                averagedAccelerometerData = new ArrayList<>();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    AccelerometerData accelerometerData = postSnapshot.getValue(AccelerometerData.class);
+                    averagedAccelerometerData.add(accelerometerData);
                 }
             }
 
