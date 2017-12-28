@@ -40,7 +40,7 @@ public class DatabaseHandler {
     }
 
     public static void getAccelerometerData(User user, ValueEventListener valueEventListener) {
-        databaseReference.child(DATABASE_ACCELEROMETER_PATH).addListenerForSingleValueEvent(valueEventListener);
+        databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(DATABASE_ACCELEROMETER_PATH).addListenerForSingleValueEvent(valueEventListener);
     }
 
     public static void addAccelerometerData(User user, ArrayList<AccelerometerData> accelerometerData) {
@@ -59,7 +59,7 @@ public class DatabaseHandler {
         databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(ABNORMAL_ACCELEROMETER_PATH).setValue(abnormalAccelerometerEvents);
     }
 
-    public static void getAbnormalAccelerometerData(User user, ValueEventListener valueEventListener) {
+    public static void getAbnormalAccelerometerEvents(User user, ValueEventListener valueEventListener) {
         databaseReference.child(DATABASE_USERS_PATH).child(user.getUserId()).child(ABNORMAL_ACCELEROMETER_PATH).addValueEventListener(valueEventListener);
     }
 }

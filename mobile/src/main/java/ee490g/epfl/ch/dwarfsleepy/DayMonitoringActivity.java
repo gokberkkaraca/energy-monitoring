@@ -18,11 +18,13 @@ import com.androidplot.xy.XYSeries;
 import java.text.DecimalFormat;
 
 import ee490g.epfl.ch.dwarfsleepy.data.DataHolder;
+import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.plotting.XYPlotSeriesList;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerData;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
 
 public class DayMonitoringActivity extends AppCompatActivity implements View.OnClickListener {
@@ -37,6 +39,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
 
     private User user;
     private TextView heartRateTextView;
+    private TextView accelerometerTextView;
     private TextView caloriesBurntTextView;
 
     private XYPlot heartRatePlot;
@@ -53,13 +56,12 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
         user = (User) extras.getSerializable(NavigationHandler.USER);
 
         initializeViews();
-        caloriesBurntTextView.setText(String.valueOf(DataHolder.totalCaloriesBurnedDuringDay));
 
         heartRateButton.setOnClickListener(this);
         accelerometerButton.setOnClickListener(this);
         physicalActivityButton.setOnClickListener(this);
 
-        updateHeartRateValueAndPlot();
+        updateViewsAndPlots();
         configureHeartRatePlot();
     }
 
@@ -102,11 +104,13 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
         heartRatePlot.redraw();
     }
 
-    private void updateHeartRateValueAndPlot() {
+    private void updateViewsAndPlots() {
         final Handler handler = new Handler();
         final Runnable r = new Runnable() {
             public void run() {
                 handler.postDelayed(this, 10000);
+
+                // Heart Rate
                 if (!averagedHeartRateDataList.isEmpty()) {
                     HeartRateData lastHeartRateData = averagedHeartRateDataList.get(averagedHeartRateDataList.size() - 1);
                     int heartRateValue = (int) lastHeartRateData.getValue().floatValue();
@@ -116,6 +120,27 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                 for (int i = 0; i < averagedHeartRateDataList.size(); i++) {
                     updateHeartRatePlot(averagedHeartRateDataList.get(i).getValue().intValue());
                 }
+
+                // Calories
+                caloriesBurntTextView.setText(String.valueOf(DataHolder.totalCaloriesBurnedDuringDay));
+
+                // Accelerometer
+
+                if(!averagedAccelerometerData.isEmpty()) {
+                    AccelerometerData lastAccelerometerData = averagedAccelerometerData.get(averagedAccelerometerData.size() -1);
+                    String xAxisValue = lastAccelerometerData.getXAxisValue().toString().substring(0,4);
+                    String yAxisValue = lastAccelerometerData.getYAxisValue().toString().substring(0,4);
+                    String zAxisValue = lastAccelerometerData.getZAxisValue().toString().substring(0,4);
+
+                    String resultingText =
+                            "x: " + xAxisValue + "\n" +
+                            "y: " + yAxisValue + "\n" +
+                            "z: " + zAxisValue + "\n";
+
+                    accelerometerTextView.setText(resultingText);
+                }
+
+
             }
         };
         handler.postDelayed(r, 0);
@@ -123,6 +148,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
 
     private void initializeViews() {
         heartRateTextView = findViewById(R.id.heartRateTextView);
+        accelerometerTextView = findViewById(R.id.accelerometerTextView);
         caloriesBurntTextView = findViewById(R.id.caloriesBurntTextView);
 
         heartRatePlot = findViewById(R.id.heartRatePlot);

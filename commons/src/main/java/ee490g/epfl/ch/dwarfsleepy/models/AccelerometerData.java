@@ -6,17 +6,17 @@ import java.util.Date;
 
 public class AccelerometerData {
 
-    private Float xAxisValue;
-    private Float yAxisValue;
-    private Float zAxisValue;
+    private Float xaxisValue;
+    private Float yaxisValue;
+    private Float zaxisValue;
     private Float accelerometerValue;
     private Date date;
 
-    public AccelerometerData(Float xAxisValue, Float yAxisValue, Float zAxisValue, Date date) {
-        this.xAxisValue = xAxisValue;
-        this.yAxisValue = yAxisValue;
-        this.zAxisValue = zAxisValue;
-        this.accelerometerValue = (float) Math.sqrt(Math.pow(xAxisValue, 2) + Math.pow(yAxisValue, 2) + Math.pow(zAxisValue, 2));
+    public AccelerometerData(Float xaxisValue, Float yaxisValue, Float zaxisValue, Date date) {
+        this.xaxisValue = xaxisValue;
+        this.yaxisValue = yaxisValue;
+        this.zaxisValue = zaxisValue;
+        this.accelerometerValue = (float) Math.sqrt(Math.pow(xaxisValue, 2) + Math.pow(yaxisValue, 2) + Math.pow(zaxisValue, 2));
         this.date = date;
     }
 
@@ -26,23 +26,23 @@ public class AccelerometerData {
     }
 
     public AccelerometerData(DataMap dataMap) {
-        this.xAxisValue = dataMap.getFloat("xAxisValue");
-        this.yAxisValue = dataMap.getFloat("yAxisValue");
-        this.zAxisValue = dataMap.getFloat("zAxisValue");
+        this.xaxisValue = dataMap.getFloat("xaxisValue");
+        this.yaxisValue = dataMap.getFloat("yaxisValue");
+        this.zaxisValue = dataMap.getFloat("zaxisValue");
         this.accelerometerValue = dataMap.getFloat("accelerometerValue");
         this.date = new Date(dataMap.getLong("date"));
     }
 
     public Float getXAxisValue() {
-        return xAxisValue;
+        return xaxisValue;
     }
 
     public Float getYAxisValue() {
-        return yAxisValue;
+        return yaxisValue;
     }
 
     public Float getZAxisValue() {
-        return zAxisValue;
+        return zaxisValue;
     }
 
     public Date getDate() {
@@ -50,9 +50,9 @@ public class AccelerometerData {
     }
 
     public DataMap putToDataMap(DataMap dataMap) {
-        dataMap.putFloat("xAxisValue", xAxisValue);
-        dataMap.putFloat("yAxisValue", yAxisValue);
-        dataMap.putFloat("zAxisValue", zAxisValue);
+        dataMap.putFloat("xaxisValue", xaxisValue);
+        dataMap.putFloat("yaxisValue", yaxisValue);
+        dataMap.putFloat("zaxisValue", zaxisValue);
         dataMap.putFloat("accelerometerValue", accelerometerValue);
         dataMap.putLong("date", date.getTime());
         return dataMap;

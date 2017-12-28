@@ -98,7 +98,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
-        DatabaseHandler.getAbnormalAccelerometerData(user, new ValueEventListener() {
+        DatabaseHandler.getAbnormalAccelerometerEvents(user, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
                 abnormalAccelerometerEvents = new ArrayList<>();
