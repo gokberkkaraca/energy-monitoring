@@ -11,6 +11,7 @@ import java.util.Calendar;
 
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
+import ee490g.epfl.ch.dwarfsleepy.service.DataLayerListenerService;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 public class GoogleAccountActivity extends CreateAccountActivity {
@@ -63,6 +64,7 @@ public class GoogleAccountActivity extends CreateAccountActivity {
         if (checkFields()) {
             User user = new User(firebaseUser, name, gender, birthday);
             DatabaseHandler.addUser(user);
+            DataLayerListenerService.setUser(user);
             NavigationHandler.goToDashboardActivity(GoogleAccountActivity.this, user);
         }
     }

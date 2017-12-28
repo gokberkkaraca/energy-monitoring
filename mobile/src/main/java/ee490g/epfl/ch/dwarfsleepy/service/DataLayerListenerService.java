@@ -1,8 +1,14 @@
 package ee490g.epfl.ch.dwarfsleepy.service;
 
+import android.app.Notification;
+import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.content.Intent;
+import android.media.RingtoneManager;
 import android.net.Uri;
+import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -21,6 +27,7 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 import java.util.ArrayList;
 
+import ee490g.epfl.ch.dwarfsleepy.AbnormalAccelerometerActivity;
 import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
 import ee490g.epfl.ch.dwarfsleepy.DashboardActivity;
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
@@ -29,10 +36,14 @@ import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 
+import ee490g.epfl.ch.dwarfsleepy.R;
+import ee490g.epfl.ch.dwarfsleepy.models.User;
+
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalAccelerometerEvents;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerData;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
+import static ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler.USER;
 
 public class DataLayerListenerService extends WearableListenerService {
 
@@ -44,6 +55,7 @@ public class DataLayerListenerService extends WearableListenerService {
     private static final String TAG = "WearListenerService";
     // Member for the Wear API handle
     private GoogleApiClient mGoogleApiClient;
+    private static User user;
 
     @Override
     public void onCreate() {
@@ -136,7 +148,32 @@ public class DataLayerListenerService extends WearableListenerService {
             AbnormalAccelerometerEvent abnormalAccelerometerEvent = new AbnormalAccelerometerEvent(dataMap);
             abnormalAccelerometerEvents.add(abnormalAccelerometerEvent);
         }
-        DatabaseHandler.addAbnormalAccelerometerEvents(DashboardActivity.user, abnormalAccelerometerEvents);
+
+        if(!abnormalAccelerometerDataMapList.isEmpty()) {
+            DatabaseHandler.addAbnormalAccelerometerEvents(user, abnormalAccelerometerEvents);
+            sendAbnormalAccelerometerNotification();
+        }
+    }
+
+    private void sendAbnormalAccelerometerNotification() {
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(this)
+                .setContentTitle("Be careful!")
+                .setContentText("Hey sleepy! We realized that you are moving too fast!")
+                .setSmallIcon(R.drawable.logo)
+                .setAutoCancel(true)
+                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
+
+        Intent notificationIntent = new Intent(this, AbnormalAccelerometerActivity.class);
+        Bundle extras = new Bundle();
+        extras.putSerializable(USER, user);
+        notificationIntent.putExtras(extras);
+        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        mNotifyBuilder.setContentIntent(pendingIntent);
+
+        Notification abnormalAccelerometerNotification = mNotifyBuilder.build();
+        assert mNotificationManager != null;
+        mNotificationManager.notify(0, abnormalAccelerometerNotification);
     }
 
     private void retrieveAndUploadAccelerometerData(DataMapItem dataMapItem) {
@@ -160,7 +197,7 @@ public class DataLayerListenerService extends WearableListenerService {
             latestAccelerometerData.addAll(averagedAccelerometerData);
         }
 
-        DatabaseHandler.addAccelerometerData(DashboardActivity.user, latestAccelerometerData);
+        DatabaseHandler.addAccelerometerData(user, latestAccelerometerData);
     }
 
     private void retrieveAndUploadAbnormalHeartRateData(DataMapItem dataMapItem) {
@@ -171,7 +208,7 @@ public class DataLayerListenerService extends WearableListenerService {
             AbnormalHeartRateEvent abnormalHeartRateEvent = new AbnormalHeartRateEvent(dataMap);
             abnormalHeartRateEvents.add(abnormalHeartRateEvent);
         }
-        DatabaseHandler.addAbnormalHeartEvents(DashboardActivity.user, abnormalHeartRateEvents);
+        DatabaseHandler.addAbnormalHeartEvents(user, abnormalHeartRateEvents);
     }
 
     private void retrieveAndUploadHeartRateData(DataMapItem dataMapItem) {
@@ -193,7 +230,7 @@ public class DataLayerListenerService extends WearableListenerService {
         } else {
             latestHeartRateData.addAll(averagedHeartRateDataList);
         }
-        DatabaseHandler.addHeartRateData(DashboardActivity.user, latestHeartRateData);
+        DatabaseHandler.addHeartRateData(user, latestHeartRateData);
     }
 
     @Override
@@ -237,5 +274,9 @@ public class DataLayerListenerService extends WearableListenerService {
                 }
             }
         });
+    }
+
+    public static void setUser(User newUser) {
+        user = newUser;
     }
 }

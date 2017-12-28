@@ -13,6 +13,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
+import ee490g.epfl.ch.dwarfsleepy.service.DataLayerListenerService;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 public class MainActivity extends AppCompatActivity {
@@ -45,6 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         @Override
                         public void onDataChange(DataSnapshot dataSnapshot) {
                             User user = dataSnapshot.getValue(User.class);
+                            DataLayerListenerService.setUser(user);
                             NavigationHandler.goToDashboardActivity(MainActivity.this, user);
                         }
 
