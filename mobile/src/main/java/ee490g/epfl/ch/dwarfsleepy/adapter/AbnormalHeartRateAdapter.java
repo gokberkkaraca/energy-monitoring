@@ -31,7 +31,7 @@ public class AbnormalHeartRateAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final AbnormalHeartRatesViewHolder abnormalHeartRatesViewHolder = (AbnormalHeartRatesViewHolder) holder;
-        final AbnormalHeartRateEvent abnormalHeartRateEvent = abnormalHeartRateEvents.get(position);
+        final AbnormalHeartRateEvent abnormalHeartRateEvent = abnormalHeartRateEvents.get(abnormalHeartRateEvents.size() - 1 - position);
 
         String heartRateValue = String.valueOf(abnormalHeartRateEvent.getAverageHeartRateValue().intValue());
         String duration = "Duration: " +

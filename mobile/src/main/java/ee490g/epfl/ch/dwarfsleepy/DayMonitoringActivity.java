@@ -147,6 +147,8 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
             case R.id.heartButton:
                 NavigationHandler.goToAbnormalHeartRateActivity(this, user);
                 break;
+            case R.id.accelerometerButton:
+                NavigationHandler.goToAbnormalAccelerometerActivity(this, user);
             default:
                 break;
         }

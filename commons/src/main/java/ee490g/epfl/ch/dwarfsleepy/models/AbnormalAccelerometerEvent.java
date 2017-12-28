@@ -27,7 +27,7 @@ public class AbnormalAccelerometerEvent {
 
         this.accelerometerValue = (float) Math.sqrt(Math.pow(xAxisValue, 2) + Math.pow(yAxisValue, 2) + Math.pow(zAxisValue, 2));
 
-        long duration = endTime.getTime() - beginTime.getTime();
+        long duration = endTime.getTime() - beginTime.getTime() + 1;
         this.durationMilliseconds = (int) (duration) % 1000;
         this.durationSeconds = (int) (duration / 1000) % 60;
         this.durationMinutes = (int) ((duration / (1000 * 60)) % 60);
@@ -60,7 +60,7 @@ public class AbnormalAccelerometerEvent {
         dataMap.putFloat("zAxisValue", zAxisValue);
         dataMap.putLong("beginTime", beginTime.getTime());
         dataMap.putLong("endTime", endTime.getTime());
-        dataMap.putLong("duration", endTime.getTime() - beginTime.getTime());
+        dataMap.putLong("duration", endTime.getTime() - beginTime.getTime() + 1);
         return dataMap;
     }
 
