@@ -31,7 +31,7 @@ public class AbnormalAccelerometerAdapter extends RecyclerView.Adapter {
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final AbnormalAccelerometersViewHolder abnormalAccelerometersViewHolder = (AbnormalAccelerometersViewHolder) holder;
-        final AbnormalAccelerometerEvent abnormalAccelerometerEvent = abnormalAccelerometerEvents.get(position);
+        final AbnormalAccelerometerEvent abnormalAccelerometerEvent = abnormalAccelerometerEvents.get(abnormalAccelerometerEvents.size() - 1 - position);
 
         String accelerometerValue = String.valueOf(abnormalAccelerometerEvent.getAccelerometerValue()).substring(0,4);
         String duration = "Duration: " +

@@ -20,17 +20,20 @@ import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataLi
 
 public class MainActivity extends WearableActivity {
 
-    public static final int HIGH_HR_LIMIT = 100;
+    private static final int HIGH_HR_LIMIT = 100;
     private static final int NUMBER_OF_AVERAGED_HR_DATA = 1;
     private static final int HR_SENSOR_SAMPLING_TIME = 0;
 
-    private static final int HIGH_ACCELEROMETER_LIMIT = 15;
-    private static final int NUMBER_OF_AVERAGED_ACCELEROMETER_DATA = 25;
+    private static final int HIGH_ACCELEROMETER_LIMIT = 25;
+    private static final int NUMBER_OF_AVERAGED_ACCELEROMETER_DATA = 20;
     private static final int ACCELEROMETER_SENSOR_SAMPLING_TIME = 3;
 
     private ImageView heartImage;
     private TextView heartRateTextView;
     private TextView accelerometerTextView;
+
+    private AccelerometerEventListener accelerometerEventListener;
+    private HeartRateEventListener heartRateEventListener;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,15 +53,27 @@ public class MainActivity extends WearableActivity {
         assert sensorManager != null;
 
         Sensor heartRateSensor = sensorManager.getDefaultSensor(Sensor.TYPE_HEART_RATE);
-        HeartRateEventListener heartRateEventListener = new HeartRateEventListener(NUMBER_OF_AVERAGED_HR_DATA, HIGH_HR_LIMIT);
+        heartRateEventListener = new HeartRateEventListener(NUMBER_OF_AVERAGED_HR_DATA, HIGH_HR_LIMIT);
         sensorManager.registerListener(heartRateEventListener, heartRateSensor, HR_SENSOR_SAMPLING_TIME);
 
         Sensor accelerometerSensor = sensorManager.getDefaultSensor(Sensor.TYPE_ACCELEROMETER);
-        AccelerometerEventListener accelerometerEventListener = new AccelerometerEventListener(NUMBER_OF_AVERAGED_ACCELEROMETER_DATA, HIGH_ACCELEROMETER_LIMIT);
+        accelerometerEventListener = new AccelerometerEventListener(NUMBER_OF_AVERAGED_ACCELEROMETER_DATA, HIGH_ACCELEROMETER_LIMIT);
         sensorManager.registerListener(accelerometerEventListener, accelerometerSensor, ACCELEROMETER_SENSOR_SAMPLING_TIME);
 
         initializeViews();
         updateViews();
+    }
+
+    @Override
+    public void onEnterAmbient(Bundle ambientDetails) {
+        super.onEnterAmbient(ambientDetails);
+        accelerometerEventListener.setNumberOfAveragedData(1);
+    }
+
+    @Override
+    public void onExitAmbient() {
+        super.onExitAmbient();
+        accelerometerEventListener.setNumberOfAveragedData(20);
     }
 
     private void initializeViews() {
