@@ -76,7 +76,6 @@ public class AccelerometerEventListener implements SensorEventListener {
             AccelerometerData accelerometerData = new AccelerometerData(xAverage, yAverage, zAverage, averageTime);
 
             averagedAccelerometerDataList.add(accelerometerData);
-            Log.v("AccelerometerListener", String.valueOf(accelerometerData.getAccelerometerValue()));
             this.accelerometerDataList.clear();
         }
 

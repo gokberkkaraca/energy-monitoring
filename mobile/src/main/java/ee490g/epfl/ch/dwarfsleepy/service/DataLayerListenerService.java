@@ -19,15 +19,20 @@ import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
 import ee490g.epfl.ch.dwarfsleepy.DashboardActivity;
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
+import ee490g.epfl.ch.dwarfsleepy.models.AbnormalAccelerometerEvent;
 import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
+import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalAccelerometerEvents;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerData;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
 
 public class DataLayerListenerService extends WearableListenerService {
@@ -98,20 +103,13 @@ public class DataLayerListenerService extends WearableListenerService {
                         // Extract the data behind the key you know contains data
                         retrieveAndUploadHeartRateData(dataMapItem);
                         retrieveAndUploadAbnormalHeartRateData(dataMapItem);
-
-                        /*ArrayList<DataMap> accelerometerDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
-                        Log.i(TAG, "Got accelerometer list");
-                        ArrayList<AccelerometerData> accelerometerDataList = new ArrayList<>();
-                        for (DataMap dataMap : accelerometerDataMapList) {
-                            AccelerometerData accelerometerData = new AccelerometerData(dataMap);
-                            accelerometerDataList.add(accelerometerData);
-                        }
-                        DatabaseHandler.addAccelerometerData(DashboardActivity.user, accelerometerDataList);
-                        */
+                        retrieveAndUploadAccelerometerData(dataMapItem);
+                        retrieveAndUploadAbnormalAccelerometerData(dataMapItem);
 
                         intent = new Intent("STRING_OF_ANOTHER_ACTION_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY");
                         intent.putExtra("STRING_OF_INTEGER_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", abnormalHeartRateEvents);
                         intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", averagedHeartRateDataList);
+                        intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY NEW", averagedAccelerometerData);
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                         break;
                     default:
@@ -130,9 +128,31 @@ public class DataLayerListenerService extends WearableListenerService {
         }
     }
 
+    private void retrieveAndUploadAbnormalAccelerometerData(DataMapItem dataMapItem) {
+        ArrayList<DataMap> abnormalAccelerometerDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.b_key);
+        Log.i(TAG, "Got abnormal accelerometer of size: " + abnormalAccelerometerDataMapList.size());
+        for (int i = 0; i < abnormalAccelerometerDataMapList.size(); i++) {
+            DataMap dataMap = abnormalAccelerometerDataMapList.get(i);
+            AbnormalAccelerometerEvent abnormalAccelerometerEvent = new AbnormalAccelerometerEvent(dataMap);
+            abnormalAccelerometerEvents.add(abnormalAccelerometerEvent);
+        }
+        DatabaseHandler.addAbnormalAccelerometerEvents(DashboardActivity.user, abnormalAccelerometerEvents);
+    }
+
+    private void retrieveAndUploadAccelerometerData(DataMapItem dataMapItem) {
+        ArrayList<DataMap> accelerometerDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.more_other_key);
+        Log.i(TAG, "Got accelerometer list of size: " + accelerometerDataMapList.size());
+        for (int i = 0; i < accelerometerDataMapList.size(); i++) {
+            DataMap dataMap = accelerometerDataMapList.get(i);
+            AccelerometerData accelerometerData = new AccelerometerData(dataMap);
+            averagedAccelerometerData.add(accelerometerData);
+        }
+        DatabaseHandler.addAccelerometerData(DashboardActivity.user, averagedAccelerometerData);
+    }
+
     private void retrieveAndUploadAbnormalHeartRateData(DataMapItem dataMapItem) {
         ArrayList<DataMap> abnormalHeartRateDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
-        Log.i(TAG, "Got abnormal hear rate list of size: " + abnormalHeartRateDataMapList.size());
+        Log.i(TAG, "Got abnormal heart rate list of size: " + abnormalHeartRateDataMapList.size());
         for (int i = 0; i < abnormalHeartRateDataMapList.size(); i++) {
             DataMap dataMap = abnormalHeartRateDataMapList.get(i);
             AbnormalHeartRateEvent abnormalHeartRateEvent = new AbnormalHeartRateEvent(dataMap);

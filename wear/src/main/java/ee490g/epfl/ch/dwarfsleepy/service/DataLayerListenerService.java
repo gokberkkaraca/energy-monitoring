@@ -130,7 +130,7 @@ public class DataLayerListenerService extends WearableListenerService {
         putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.a_key, abnormalHeartRateList);
         putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.some_other_key, heartRateList);
         putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.b_key, abnormalAccelerometerList);
-        putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.more_other_key, abnormalAccelerometerList);
+        putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.more_other_key, accelerometerList);
         sendPutDataMapRequest(putDataMapRequest);
     }
 
