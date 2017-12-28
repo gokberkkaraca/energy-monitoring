@@ -29,7 +29,9 @@ allprojects {
                      acknowledge   : "/ACKNOWLEDGE_PATH",
                      start_activity: "/START_ACTIVITY",
                      a_key         : "a_key",
-                     some_other_key: "some_other_key"];
+                     some_other_key: "some_other_key",
+                     b_key         : "b_key",
+                     more_other_key: "more_other_key"]
     }
 
 }
