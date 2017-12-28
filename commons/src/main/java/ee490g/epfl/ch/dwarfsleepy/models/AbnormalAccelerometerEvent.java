@@ -41,7 +41,7 @@ public class AbnormalAccelerometerEvent {
     public AbnormalAccelerometerEvent(DataMap dataMap) {
         this.xAxisValue = dataMap.getFloat("xAxisValue");
         this.yAxisValue = dataMap.getFloat("yAxisValue");
-        this.zAxisValue = dataMap.getFloat("xAxisValue");
+        this.zAxisValue = dataMap.getFloat("zAxisValue");
         this.accelerometerValue = (float) Math.sqrt(Math.pow(xAxisValue, 2) + Math.pow(yAxisValue, 2) + Math.pow(zAxisValue, 2));
 
         this.beginTime = new Date(dataMap.getLong("beginTime"));
