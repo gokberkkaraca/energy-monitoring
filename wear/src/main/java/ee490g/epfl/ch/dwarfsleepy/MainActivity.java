@@ -24,8 +24,8 @@ public class MainActivity extends WearableActivity {
     private static final int NUMBER_OF_AVERAGED_HR_DATA = 1;
     private static final int HR_SENSOR_SAMPLING_TIME = 0;
 
-    private static final int HIGH_ACCELEROMETER_LIMIT = 25;
-    private static final int NUMBER_OF_AVERAGED_ACCELEROMETER_DATA = 10;
+    private static final int HIGH_ACCELEROMETER_LIMIT = 15;
+    private static final int NUMBER_OF_AVERAGED_ACCELEROMETER_DATA = 25;
     private static final int ACCELEROMETER_SENSOR_SAMPLING_TIME = 3;
 
     private ImageView heartImage;

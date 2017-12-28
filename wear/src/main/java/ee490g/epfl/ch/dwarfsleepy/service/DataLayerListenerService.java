@@ -110,7 +110,7 @@ public class DataLayerListenerService extends WearableListenerService {
 
                 Log.v(TAG, "Sending abnormal accelerometer list of size: " + abnormalAccelerometerEvents.size());
                 ArrayList<DataMap> dataMapAbnormalAccelerometer = new ArrayList<>();
-                for (int i = 0; i < abnormalHeartRateEvents.size(); i++) {
+                for (int i = 0; i < abnormalAccelerometerEvents.size(); i++) {
                     dataMapAbnormalAccelerometer.add(abnormalAccelerometerEvents.get(i).putToDataMap(new DataMap()));
                 }
                 abnormalAccelerometerEvents.clear();

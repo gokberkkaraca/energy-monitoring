@@ -103,6 +103,7 @@ public class AccelerometerEventListener implements SensorEventListener {
                 Date endTime = abrubtAccelerometerList.get(abrubtAccelerometerList.size() - 1).getDate();
 
                 AbnormalAccelerometerEvent abnormalAccelerometerEvent = new AbnormalAccelerometerEvent(xAverage, yAverage, zAverage, beginTime, endTime);
+                Log.v("AccelerometerListener", "Found new abnormal accelerometer data: " + abnormalAccelerometerEvent.getAccelerometerValue());
                 abnormalAccelerometerEvents.add(abnormalAccelerometerEvent);
                 abrubtAccelerometerList.clear();
             }

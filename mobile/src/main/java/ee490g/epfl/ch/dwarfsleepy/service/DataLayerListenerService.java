@@ -19,7 +19,6 @@ import com.google.android.gms.wearable.NodeApi;
 import com.google.android.gms.wearable.Wearable;
 import com.google.android.gms.wearable.WearableListenerService;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 
 import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
@@ -110,6 +109,7 @@ public class DataLayerListenerService extends WearableListenerService {
                         intent.putExtra("STRING_OF_INTEGER_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", abnormalHeartRateEvents);
                         intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", averagedHeartRateDataList);
                         intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY NEW", averagedAccelerometerData);
+                        intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY NEW 2", abnormalAccelerometerEvents);
                         LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                         break;
                     default:
@@ -147,7 +147,20 @@ public class DataLayerListenerService extends WearableListenerService {
             AccelerometerData accelerometerData = new AccelerometerData(dataMap);
             averagedAccelerometerData.add(accelerometerData);
         }
-        DatabaseHandler.addAccelerometerData(DashboardActivity.user, averagedAccelerometerData);
+
+        ArrayList<AccelerometerData> latestAccelerometerData = new ArrayList<>();
+
+        if (averagedAccelerometerData.size() > 1800) {
+            for (int i = 1800; i >= 1; i--) {
+                AccelerometerData accelerometerData = averagedAccelerometerData.get(averagedAccelerometerData.size() - 1);
+                latestAccelerometerData.add(accelerometerData);
+            }
+        }
+        else {
+            latestAccelerometerData.addAll(averagedAccelerometerData);
+        }
+
+        DatabaseHandler.addAccelerometerData(DashboardActivity.user, latestAccelerometerData);
     }
 
     private void retrieveAndUploadAbnormalHeartRateData(DataMapItem dataMapItem) {
