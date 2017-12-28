@@ -19,7 +19,9 @@ import java.util.ArrayList;
 
 import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
 
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalAccelerometerEvents;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerDataList;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
 
 public class DataLayerListenerService extends WearableListenerService {
@@ -99,7 +101,22 @@ public class DataLayerListenerService extends WearableListenerService {
                 }
                 abnormalHeartRateEvents.clear();
 
+                Log.v(TAG, "Sending accelerometer list of size: " + averagedAccelerometerDataList.size());
+                ArrayList<DataMap> dataMapAccelerometerList = new ArrayList<>();
+                for (int i = 0; i < averagedAccelerometerDataList.size(); i++) {
+                    dataMapAccelerometerList.add(averagedAccelerometerDataList.get(i).putToDataMap(new DataMap()));
+                }
+                averagedAccelerometerDataList.clear();
+
+                Log.v(TAG, "Sending abnormal accelerometer list of size: " + abnormalAccelerometerEvents.size());
+                ArrayList<DataMap> dataMapAbnormalAccelerometer = new ArrayList<>();
+                for (int i = 0; i < abnormalHeartRateEvents.size(); i++) {
+                    dataMapAbnormalAccelerometer.add(abnormalAccelerometerEvents.get(i).putToDataMap(new DataMap()));
+                }
+                abnormalAccelerometerEvents.clear();
+
                 sendSpecificDatamap(dataMapHeartRateList, dataMapAbnormalHeartRate);
+                sendSpecificDatamap(dataMapAccelerometerList, dataMapAbnormalAccelerometer);
                 break;
             default:
                 Log.w(TAG, "Received a message for unknown path " + path + " : " + new String(messageEvent.getData()));
