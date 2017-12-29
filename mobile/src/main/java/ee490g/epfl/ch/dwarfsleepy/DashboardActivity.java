@@ -14,8 +14,6 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import org.w3c.dom.Text;
-
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
@@ -147,8 +145,12 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         dayMonitoringButton = findViewById(R.id.dayMonitoringButton);
         nightMonitoringButton = findViewById(R.id.nightMonitoringButton);
         logoutButton = findViewById(R.id.logoutButton);
+
         nameTextView = findViewById(R.id.nameTextView);
+        nameTextView.setText(user.getName());
+
         emailTextView = findViewById(R.id.emailTextView);
+        emailTextView.setText(user.getEmail());
 
     }
 
