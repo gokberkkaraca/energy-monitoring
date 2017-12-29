@@ -31,7 +31,11 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
 
     private final int MIN_HR = 40;
     private final int MAX_HR = 160;
-    private final int NUMBER_OF_POINTS = 180;
+    private final int NUM_OF_POINTS_HR = 180;
+
+    private final int MIN_ACC = -35;
+    private final int MAX_ACC = 35;
+    private final int NUM_OF_POINTS_ACC = 900;
 
     private ImageButton heartRateButton;
     private ImageButton accelerometerButton;
@@ -57,28 +61,30 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
 
         initializeViews();
 
+        xyPlotSeriesList = new XYPlotSeriesList();
+
         heartRateButton.setOnClickListener(this);
         accelerometerButton.setOnClickListener(this);
         physicalActivityButton.setOnClickListener(this);
 
         updateViewsAndPlots();
         configureHeartRatePlot();
+        configureAccelerometerPlot();
     }
 
     private void configureHeartRatePlot() {
         heartRatePlot.setRangeBoundaries(MIN_HR, MAX_HR, BoundaryMode.FIXED);
-        heartRatePlot.setDomainBoundaries(0, NUMBER_OF_POINTS - 1, BoundaryMode.FIXED);
+        heartRatePlot.setDomainBoundaries(0, NUM_OF_POINTS_HR - 1, BoundaryMode.FIXED);
         heartRatePlot.setRangeStepValue(9);
         heartRatePlot.setDomainStepValue(9);
 
         heartRatePlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.LEFT).setFormat(new DecimalFormat("#"));
         heartRatePlot.setRangeLabel("Heart Rate (bpm)");
 
-        xyPlotSeriesList = new XYPlotSeriesList();
         LineAndPointFormatter formatterHeartRate = new LineAndPointFormatter(Color.BLUE, Color.TRANSPARENT, Color.TRANSPARENT, null);
         formatterHeartRate.getLinePaint().setStrokeWidth(8);
 
-        xyPlotSeriesList.initializeSeriesAndAddToList("Heart Rate", MIN_HR, NUMBER_OF_POINTS, formatterHeartRate);
+        xyPlotSeriesList.initializeSeriesAndAddToList("Heart Rate", MIN_HR, NUM_OF_POINTS_HR, formatterHeartRate);
 
         XYSeries heartRateSeries = new SimpleXYSeries(
                 xyPlotSeriesList.getSeriesFromList("Heart Rate"),
@@ -87,6 +93,47 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
         heartRatePlot.clear();
         heartRatePlot.addSeries(heartRateSeries, formatterHeartRate);
         heartRatePlot.redraw();
+    }
+
+    private void configureAccelerometerPlot() {
+        accelerometerPlot.setRangeBoundaries(MIN_ACC, MAX_ACC, BoundaryMode.FIXED);
+        accelerometerPlot.setDomainBoundaries(0, NUM_OF_POINTS_ACC - 1, BoundaryMode.FIXED);
+        accelerometerPlot.setRangeStepValue(9);
+        accelerometerPlot.setDomainStepValue(9);
+
+        accelerometerPlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.LEFT).setFormat(new DecimalFormat("#"));
+        accelerometerPlot.setRangeLabel("Accelerometer Value (m/s2)");
+
+        LineAndPointFormatter formatterXAxis = new LineAndPointFormatter(Color.BLUE, Color.TRANSPARENT, Color.TRANSPARENT, null);
+        formatterXAxis.getLinePaint().setStrokeWidth(8);
+
+        LineAndPointFormatter formatterYAxis = new LineAndPointFormatter(Color.RED, Color.TRANSPARENT, Color.TRANSPARENT, null);
+        formatterYAxis.getLinePaint().setStrokeWidth(8);
+
+        LineAndPointFormatter formatterZAxis = new LineAndPointFormatter(Color.GREEN, Color.TRANSPARENT, Color.TRANSPARENT, null);
+        formatterZAxis.getLinePaint().setStrokeWidth(8);
+
+        xyPlotSeriesList.initializeSeriesAndAddToList("X Axis", MIN_ACC, NUM_OF_POINTS_ACC, formatterXAxis);
+        xyPlotSeriesList.initializeSeriesAndAddToList("Y Axis", MIN_ACC, NUM_OF_POINTS_ACC, formatterYAxis);
+        xyPlotSeriesList.initializeSeriesAndAddToList("Z Axis", MIN_ACC, NUM_OF_POINTS_ACC, formatterZAxis);
+
+        XYSeries xAxisSeries =
+                new SimpleXYSeries(xyPlotSeriesList.getSeriesFromList("X Axis"),
+                        SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "X Axis");
+
+        XYSeries yAxisSeries =
+                new SimpleXYSeries(xyPlotSeriesList.getSeriesFromList("Y Axis"),
+                        SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "Y Axis");
+
+        XYSeries zAxisSeries =
+                new SimpleXYSeries(xyPlotSeriesList.getSeriesFromList("Z Axis"),
+                        SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "Z Axis");
+
+        accelerometerPlot.clear();
+        accelerometerPlot.addSeries(xAxisSeries, formatterXAxis);
+        accelerometerPlot.addSeries(yAxisSeries, formatterYAxis);
+        accelerometerPlot.addSeries(zAxisSeries, formatterZAxis);
+        accelerometerPlot.redraw();
     }
 
     private void updateHeartRatePlot(int data) {
@@ -103,6 +150,35 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
         heartRatePlot.addSeries(heartRateSeries, formatterHeartRate);
         heartRatePlot.redraw();
     }
+
+    private void updateAccelerometerPlot(int xValue, int yValue, int zValue) {
+        xyPlotSeriesList.updateSeries("X Axis", xValue);
+        xyPlotSeriesList.updateSeries("Y Axis", yValue);
+        xyPlotSeriesList.updateSeries("Z Axis", zValue);
+
+        XYSeries xAxisSeries =
+                new SimpleXYSeries(xyPlotSeriesList.getSeriesFromList("X Axis"),
+                SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "X Axis");
+
+        XYSeries yAxisSeries =
+                new SimpleXYSeries(xyPlotSeriesList.getSeriesFromList("Y Axis"),
+                        SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "Y Axis");
+
+        XYSeries zAxisSeries =
+                new SimpleXYSeries(xyPlotSeriesList.getSeriesFromList("Z Axis"),
+                        SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "Z Axis");
+
+        LineAndPointFormatter formatterXAxis = xyPlotSeriesList.getFormatterFromList("X Axis");
+        LineAndPointFormatter formatterYAxis = xyPlotSeriesList.getFormatterFromList("Y Axis");
+        LineAndPointFormatter formatterZAxis = xyPlotSeriesList.getFormatterFromList("Z Axis");
+
+        accelerometerPlot.clear();
+        accelerometerPlot.addSeries(xAxisSeries, formatterXAxis);
+        accelerometerPlot.addSeries(yAxisSeries, formatterYAxis);
+        accelerometerPlot.addSeries(zAxisSeries, formatterZAxis);
+        accelerometerPlot.redraw();
+    }
+
 
     private void updateViewsAndPlots() {
         final Handler handler = new Handler();
@@ -133,13 +209,19 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                     String zAxisValue = lastAccelerometerData.getZAxisValue().toString().substring(0, 4);
 
                     String resultingText =
-                            "x: " + xAxisValue + "\n" +
+                                    "x: " + xAxisValue + "\n" +
                                     "y: " + yAxisValue + "\n" +
                                     "z: " + zAxisValue + "\n";
 
                     accelerometerTextView.setText(resultingText);
                 }
 
+                for(int i = 0; i < averagedAccelerometerData.size(); i++) {
+                    int xValue = averagedAccelerometerData.get(i).getXAxisValue().intValue();
+                    int yValue = averagedAccelerometerData.get(i).getYAxisValue().intValue();
+                    int zValue = averagedAccelerometerData.get(i).getZAxisValue().intValue();
+                    updateAccelerometerPlot(xValue, yValue, zValue);
+                }
 
             }
         };
