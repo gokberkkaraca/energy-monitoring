@@ -13,7 +13,6 @@ import ee490g.epfl.ch.dwarfsleepy.GoogleAccountActivity;
 import ee490g.epfl.ch.dwarfsleepy.GoogleFitActivity;
 import ee490g.epfl.ch.dwarfsleepy.LoginActivity;
 import ee490g.epfl.ch.dwarfsleepy.UserProfileActivity;
-import ee490g.epfl.ch.dwarfsleepy.models.AbnormalAccelerometerEvent;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 
 public class NavigationHandler {

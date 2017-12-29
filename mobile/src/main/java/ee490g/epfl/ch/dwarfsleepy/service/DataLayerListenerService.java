@@ -29,14 +29,12 @@ import java.util.ArrayList;
 
 import ee490g.epfl.ch.dwarfsleepy.AbnormalAccelerometerActivity;
 import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
-import ee490g.epfl.ch.dwarfsleepy.DashboardActivity;
+import ee490g.epfl.ch.dwarfsleepy.R;
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
 import ee490g.epfl.ch.dwarfsleepy.models.AbnormalAccelerometerEvent;
 import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
-
-import ee490g.epfl.ch.dwarfsleepy.R;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalAccelerometerEvents;
@@ -53,9 +51,13 @@ public class DataLayerListenerService extends WearableListenerService {
     public static final String PATH = "PATH";
     // Tag for Logcat
     private static final String TAG = "WearListenerService";
+    private static User user;
     // Member for the Wear API handle
     private GoogleApiClient mGoogleApiClient;
-    private static User user;
+
+    public static void setUser(User newUser) {
+        user = newUser;
+    }
 
     @Override
     public void onCreate() {
@@ -67,7 +69,6 @@ public class DataLayerListenerService extends WearableListenerService {
                 .build();
         mGoogleApiClient.connect();
     }
-
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -149,7 +150,7 @@ public class DataLayerListenerService extends WearableListenerService {
             abnormalAccelerometerEvents.add(abnormalAccelerometerEvent);
         }
 
-        if(!abnormalAccelerometerDataMapList.isEmpty()) {
+        if (!abnormalAccelerometerDataMapList.isEmpty()) {
             DatabaseHandler.addAbnormalAccelerometerEvents(user, abnormalAccelerometerEvents);
             sendAbnormalAccelerometerNotification();
         }
@@ -192,8 +193,7 @@ public class DataLayerListenerService extends WearableListenerService {
                 AccelerometerData accelerometerData = averagedAccelerometerData.get(averagedAccelerometerData.size() - 1);
                 latestAccelerometerData.add(accelerometerData);
             }
-        }
-        else {
+        } else {
             latestAccelerometerData.addAll(averagedAccelerometerData);
         }
 
@@ -274,9 +274,5 @@ public class DataLayerListenerService extends WearableListenerService {
                 }
             }
         });
-    }
-
-    public static void setUser(User newUser) {
-        user = newUser;
     }
 }

@@ -19,8 +19,8 @@ public class DatabaseHandler {
     private static final String DATABASE_HEART_RATES_PATH = "heartRates";
     private static final String ABNORMAL_HEART_RATES_PATH = "abnormalHeartRates";
     private static final String DATABASE_ACCELEROMETER_PATH = "accelerometerData";
-    private static String ABNORMAL_ACCELEROMETER_PATH = "abnormalAccelerometerData";
     private static final DatabaseReference databaseReference = FirebaseDatabase.getInstance(FIREBASE_DATABASE_URL).getReference();
+    private static String ABNORMAL_ACCELEROMETER_PATH = "abnormalAccelerometerData";
 
     public static void getUser(String userId, ValueEventListener valueEventListener) {
         databaseReference.child(DATABASE_USERS_PATH).child(userId).addListenerForSingleValueEvent(valueEventListener);

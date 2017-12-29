@@ -126,16 +126,16 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
 
                 // Accelerometer
 
-                if(!averagedAccelerometerData.isEmpty()) {
-                    AccelerometerData lastAccelerometerData = averagedAccelerometerData.get(averagedAccelerometerData.size() -1);
-                    String xAxisValue = lastAccelerometerData.getXAxisValue().toString().substring(0,4);
-                    String yAxisValue = lastAccelerometerData.getYAxisValue().toString().substring(0,4);
-                    String zAxisValue = lastAccelerometerData.getZAxisValue().toString().substring(0,4);
+                if (!averagedAccelerometerData.isEmpty()) {
+                    AccelerometerData lastAccelerometerData = averagedAccelerometerData.get(averagedAccelerometerData.size() - 1);
+                    String xAxisValue = lastAccelerometerData.getXAxisValue().toString().substring(0, 4);
+                    String yAxisValue = lastAccelerometerData.getYAxisValue().toString().substring(0, 4);
+                    String zAxisValue = lastAccelerometerData.getZAxisValue().toString().substring(0, 4);
 
                     String resultingText =
                             "x: " + xAxisValue + "\n" +
-                            "y: " + yAxisValue + "\n" +
-                            "z: " + zAxisValue + "\n";
+                                    "y: " + yAxisValue + "\n" +
+                                    "z: " + zAxisValue + "\n";
 
                     accelerometerTextView.setText(resultingText);
                 }
