@@ -67,9 +67,9 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
         accelerometerButton.setOnClickListener(this);
         physicalActivityButton.setOnClickListener(this);
 
-        updateViewsAndPlots();
         configureHeartRatePlot();
         configureAccelerometerPlot();
+        updateViewsAndPlots();
     }
 
     private void configureHeartRatePlot() {
