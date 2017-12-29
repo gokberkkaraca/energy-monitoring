@@ -56,10 +56,10 @@ public class AbnormalAccelerometerAdapter extends RecyclerView.Adapter {
 
     class AbnormalAccelerometersViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView accelerometerValue;
-        final TextView duration;
-        final TextView beginTime;
-        final TextView endTime;
+        private final TextView accelerometerValue;
+        private final TextView duration;
+        private final TextView beginTime;
+        private final TextView endTime;
 
         AbnormalAccelerometersViewHolder(View itemView) {
             super(itemView);

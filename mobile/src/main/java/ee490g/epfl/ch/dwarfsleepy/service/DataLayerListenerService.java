@@ -244,6 +244,7 @@ public class DataLayerListenerService extends WearableListenerService {
         switch (path) {
             default:
                 Log.w(TAG, "Received a message for unknown path " + path + " : " + new String(messageEvent.getData()));
+                break;
         }
     }
 
@@ -263,7 +264,7 @@ public class DataLayerListenerService extends WearableListenerService {
         sendMessageToNodes(message, path);
     }
 
-    void sendMessageToNodes(final String message, final String path) {
+    private void sendMessageToNodes(final String message, final String path) {
         Log.v(TAG, "Sending message " + message);
         // Lists all the nodes (devices) connected to the Wear API
         Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {

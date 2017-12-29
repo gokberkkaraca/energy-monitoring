@@ -259,6 +259,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                 break;
             case R.id.accelerometerButton:
                 NavigationHandler.goToAbnormalAccelerometerActivity(this, user);
+                break;
             default:
                 break;
         }

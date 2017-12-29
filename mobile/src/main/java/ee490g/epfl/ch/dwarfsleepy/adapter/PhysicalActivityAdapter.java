@@ -63,12 +63,12 @@ public class PhysicalActivityAdapter extends RecyclerView.Adapter {
 
     private class PhysicalActivityViewHolder extends RecyclerView.ViewHolder {
 
-        final ImageView activityImage;
-        final TextView duration;
-        final TextView beginTime;
-        final TextView endTime;
+        private final ImageView activityImage;
+        private final TextView duration;
+        private final TextView beginTime;
+        private final TextView endTime;
 
-        public PhysicalActivityViewHolder(View itemView) {
+        PhysicalActivityViewHolder(View itemView) {
             super(itemView);
 
             activityImage = itemView.findViewById(R.id.physicalActivityImage);

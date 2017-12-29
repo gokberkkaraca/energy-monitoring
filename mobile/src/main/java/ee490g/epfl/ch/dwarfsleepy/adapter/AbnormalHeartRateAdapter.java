@@ -55,10 +55,10 @@ public class AbnormalHeartRateAdapter extends RecyclerView.Adapter {
 
     class AbnormalHeartRatesViewHolder extends RecyclerView.ViewHolder {
 
-        final TextView heartRateValue;
-        final TextView duration;
-        final TextView beginTime;
-        final TextView endTime;
+        private final TextView heartRateValue;
+        private final TextView duration;
+        private final TextView beginTime;
+        private final TextView endTime;
 
         AbnormalHeartRatesViewHolder(View itemView) {
             super(itemView);
