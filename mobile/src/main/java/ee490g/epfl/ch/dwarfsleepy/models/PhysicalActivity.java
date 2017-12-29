@@ -8,6 +8,7 @@ public class PhysicalActivity {
     private ActivityType activityType;
     private Date beginTime;
     private Date endTime;
+
     public PhysicalActivity(ActivityType activityType, Date beginTime, Date endTime) {
         this.activityType = activityType;
         this.beginTime = beginTime;
@@ -31,5 +32,12 @@ public class PhysicalActivity {
         WALKING,
         RUNNING,
         OTHER
+    }
+
+    @Override
+    public String toString() {
+        return "Begin Time: " + beginTime.toString() + "\n" +
+                "End Time: " + endTime.toString() + "\n" +
+                "Activity Type: " + activityType.toString();
     }
 }

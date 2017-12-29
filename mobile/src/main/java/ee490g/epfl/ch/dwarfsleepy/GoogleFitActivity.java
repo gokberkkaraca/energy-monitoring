@@ -21,13 +21,16 @@ import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 
+import java.sql.Time;
 import java.text.DateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import ee490g.epfl.ch.dwarfsleepy.data.DataHolder;
+import ee490g.epfl.ch.dwarfsleepy.models.PhysicalActivity;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
@@ -45,6 +48,7 @@ public class GoogleFitActivity extends AppCompatActivity {
         DateFormat dateFormat;
         dateFormat = getTimeInstance();
         float totalCaloriesExpended = 0;
+        DataHolder.physicalActivities = new ArrayList<>();
         for (DataPoint dp : totalSet.getDataPoints()) {
             Log.i("data", "Data point:");
             Log.i("data", "\tType: " + dp.getDataType().getName());
@@ -55,9 +59,29 @@ public class GoogleFitActivity extends AppCompatActivity {
                 if (dp.getDataType().getName().equals("com.google.calories.expended")) {
                     totalCaloriesExpended += dp.getValue(field).asFloat();
                 }
-              /*  else if(dp.getDataType().getName().equals("com.google.activity.segment")) {
+                else if(dp.getDataType().getName().equals("com.google.activity.segment")) {
+                    Date beginTime = new Date(dp.getStartTime(TimeUnit.MILLISECONDS));
+                    Date endTime = new Date(dp.getEndTime(TimeUnit.MILLISECONDS));
+                    PhysicalActivity.ActivityType activityType;
 
-                }*/
+
+                    if (dp.getValue(field).asInt() == 7 || dp.getValue(field).asInt()== 95) {
+                        activityType = PhysicalActivity.ActivityType.WALKING;
+                    }
+                    else if (dp.getValue(field).asInt() == 8) {
+                        activityType = PhysicalActivity.ActivityType.RUNNING;
+                    }
+                    else if (dp.getValue(field).asInt() == 1) {
+                        activityType = PhysicalActivity.ActivityType.BIKING;
+                    }
+                    else {
+                        activityType = PhysicalActivity.ActivityType.OTHER;
+                    }
+
+                    PhysicalActivity physicalActivity = new PhysicalActivity(activityType, beginTime, endTime);
+                    DataHolder.physicalActivities.add(physicalActivity);
+                    Log.v("PhysicalActivity", physicalActivity.toString());
+                }
             }
             Log.v("Total Calories:", "" + totalCaloriesExpended);
         }
