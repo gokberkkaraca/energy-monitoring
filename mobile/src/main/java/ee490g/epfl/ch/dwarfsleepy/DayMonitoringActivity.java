@@ -158,7 +158,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
 
         XYSeries xAxisSeries =
                 new SimpleXYSeries(xyPlotSeriesList.getSeriesFromList("X Axis"),
-                SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "X Axis");
+                        SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "X Axis");
 
         XYSeries yAxisSeries =
                 new SimpleXYSeries(xyPlotSeriesList.getSeriesFromList("Y Axis"),
@@ -209,14 +209,14 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                     String zAxisValue = lastAccelerometerData.getZAxisValue().toString().substring(0, 4);
 
                     String resultingText =
-                                    "x: " + xAxisValue + "\n" +
+                            "x: " + xAxisValue + "\n" +
                                     "y: " + yAxisValue + "\n" +
                                     "z: " + zAxisValue + "\n";
 
                     accelerometerTextView.setText(resultingText);
                 }
 
-                for(int i = 0; i < averagedAccelerometerData.size(); i++) {
+                for (int i = 0; i < averagedAccelerometerData.size(); i++) {
                     int xValue = averagedAccelerometerData.get(i).getXAxisValue().intValue();
                     int yValue = averagedAccelerometerData.get(i).getYAxisValue().intValue();
                     int zValue = averagedAccelerometerData.get(i).getZAxisValue().intValue();
