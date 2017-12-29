@@ -51,4 +51,11 @@ public class PhysicalActivity {
         RUNNING,
         OTHER
     }
+
+    @Override
+    public String toString() {
+        return "Begin Time: " + beginTime.toString() + "\n" +
+                "End Time: " + endTime.toString() + "\n" +
+                "Activity Type: " + activityType.toString();
+    }
 }
