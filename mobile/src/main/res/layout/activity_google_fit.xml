@@ -1,8 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
-<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/parentLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="ee490g.epfl.ch.dwarfsleepy.GoogleFitActivity">
+    tools:context=".GoogleFitActivity">
 
-</android.support.constraint.ConstraintLayout>
+    <ImageView
+        android:id="@+id/bgImageView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:contentDescription="@string/null_description"
+        android:scaleType="fitXY"
+        android:src="@drawable/bg" />
+
+    <include layout="@layout/actionbar_layout" />
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/physicalActivityRecyclerView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="70dp"
+        android:background="@null"
+        android:scrollbars="vertical" />
+
+</RelativeLayout>

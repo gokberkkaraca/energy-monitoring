@@ -5,6 +5,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -27,10 +30,12 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
+import ee490g.epfl.ch.dwarfsleepy.adapter.PhysicalActivityAdapter;
 import ee490g.epfl.ch.dwarfsleepy.data.DataHolder;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.physicalActivities;
 import static java.text.DateFormat.getDateInstance;
 import static java.text.DateFormat.getTimeInstance;
 
@@ -40,30 +45,8 @@ public class GoogleFitActivity extends AppCompatActivity {
     private User user;
     private int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1905;
 
-    private static void getGoogleFitValues(DataSet totalSet) {
-        Log.i("data", "Data returned for Data type: " + totalSet.getDataType().getName());
-        DateFormat dateFormat;
-        dateFormat = getTimeInstance();
-        float totalCaloriesExpended = 0;
-        for (DataPoint dp : totalSet.getDataPoints()) {
-            Log.i("data", "Data point:");
-            Log.i("data", "\tType: " + dp.getDataType().getName());
-            Log.i("data", "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
-            Log.i("data", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
-            for (Field field : dp.getDataType().getFields()) {
-                Log.i("data", "\tField: " + field.getName() + " Value: " + dp.getValue(field));
-                if (dp.getDataType().getName().equals("com.google.calories.expended")) {
-                    totalCaloriesExpended += dp.getValue(field).asFloat();
-                }
-              /*  else if(dp.getDataType().getName().equals("com.google.activity.segment")) {
-
-                }*/
-            }
-            Log.v("Total Calories:", "" + totalCaloriesExpended);
-        }
-        DataHolder.totalCaloriesBurnedDuringDay = (int) totalCaloriesExpended;
-    }
-
+    private PhysicalActivityAdapter physicalActivityAdapter;
+    private RecyclerView recyclerView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -73,24 +56,44 @@ public class GoogleFitActivity extends AppCompatActivity {
         assert extras != null;
         user = (User) extras.getSerializable(NavigationHandler.USER);
 
+        physicalActivityAdapter = new PhysicalActivityAdapter(physicalActivities);
+        physicalActivityAdapter.notifyDataSetChanged();
+
+        recyclerView = findViewById(R.id.physicalActivityRecyclerView);
+        LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        recyclerView.setItemAnimator(new DefaultItemAnimator());
+        recyclerView.setAdapter(physicalActivityAdapter);
+
+        getGoogleFitData();
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        if (resultCode == Activity.RESULT_OK) {
+            if (requestCode == GOOGLE_FIT_PERMISSIONS_REQUEST_CODE) {
+                accessGoogleFit();
+            }
+        }
+    }
+
+    private void getGoogleFitData() {
         Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .subscribe(DataType.TYPE_ACTIVITY_SAMPLES)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
                     @Override
                     public void onSuccess(Void aVoid) {
-                        Log.i("dfds", "Successfully subscribed!");
+                        Log.i("GoogleFitActivity", "Successfully subscribed!");
                     }
                 })
                 .addOnFailureListener(new OnFailureListener() {
                     @Override
                     public void onFailure(@NonNull Exception e) {
-                        Log.i("dsad", "There was a problem subscribing.");
+                        Log.i("GoogleFitActivity", "There was a problem subscribing.");
                     }
                 });
 
         FitnessOptions fitnessOptions = FitnessOptions.builder()
-                //.addDataType(DataType.AGGREGATE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
-                //.addDataType(DataType.AGGREGATE_ACTIVITY_SUMMARY, FitnessOptions.ACCESS_READ)
                 .addDataType(DataType.TYPE_ACTIVITY_SEGMENT, FitnessOptions.ACCESS_READ)
                 .addDataType(DataType.TYPE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
                 .build();
@@ -106,14 +109,6 @@ public class GoogleFitActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == GOOGLE_FIT_PERMISSIONS_REQUEST_CODE) {
-                accessGoogleFit();
-            }
-        }
-    }
 
     private void accessGoogleFit() {
         Calendar cal = Calendar.getInstance();
@@ -133,10 +128,8 @@ public class GoogleFitActivity extends AppCompatActivity {
         Log.i("TAG", "Range End: " + dateFormat.format(endTime));
 
         DataReadRequest readRequest = new DataReadRequest.Builder()
-                //aggregate(DataType.TYPE_CALORIES_EXPENDED,DataType.AGGREGATE_CALORIES_EXPENDED)
                 .read(DataType.TYPE_ACTIVITY_SEGMENT)
                 .read(DataType.AGGREGATE_CALORIES_EXPENDED)
-                //.bucketByTime(1000, TimeUnit.HOURS)
                 .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
                 .build();
 
@@ -159,14 +152,33 @@ public class GoogleFitActivity extends AppCompatActivity {
                     public void onComplete(@NonNull Task task) {
                         Log.d(LOG_TAG, "onComplete()");
                         List<DataSet> dataSets = ((Task<DataReadResponse>) task).getResult().getDataSets();
-
                         for (DataSet dataSet : dataSets) {
-
                             getGoogleFitValues(dataSet);
-
                         }
+                        physicalActivityAdapter.notifyDataSetChanged();
                     }
                 });
+    }
+
+    private static void getGoogleFitValues(DataSet totalSet) {
+        Log.i("data", "Data returned for Data type: " + totalSet.getDataType().getName());
+        DateFormat dateFormat;
+        dateFormat = getTimeInstance();
+        float totalCaloriesExpended = 0;
+        for (DataPoint dp : totalSet.getDataPoints()) {
+            Log.i("data", "Data point:");
+            Log.i("data", "\tType: " + dp.getDataType().getName());
+            Log.i("data", "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
+            Log.i("data", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
+            for (Field field : dp.getDataType().getFields()) {
+                Log.i("data", "\tField: " + field.getName() + " Value: " + dp.getValue(field));
+                if (dp.getDataType().getName().equals("com.google.calories.expended")) {
+                    totalCaloriesExpended += dp.getValue(field).asFloat();
+                }
+            }
+            Log.v("Total Calories:", "" + totalCaloriesExpended);
+        }
+        DataHolder.totalCaloriesBurnedDuringDay = (int) totalCaloriesExpended;
     }
 
     @Override
