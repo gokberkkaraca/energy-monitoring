@@ -6,8 +6,6 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
-import android.widget.ImageButton;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.google.firebase.database.DataSnapshot;
@@ -38,12 +36,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     // Tag for Logcat
     public static User user;
     boolean doubleBackToExitPressedOnce = false;
-    private ImageButton profileButton;
-    private Button polarBeltButton;
-    private Button accelerometerButton;
     private Button dayMonitoringButton;
     private Button nightMonitoringButton;
-    private TextView heartRateTextView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,9 +49,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         user = (User) extras.getSerializable(NavigationHandler.USER);
 
         initializeViews();
-        profileButton.setOnClickListener(this);
-        polarBeltButton.setOnClickListener(this);
-        accelerometerButton.setOnClickListener(this);
         dayMonitoringButton.setOnClickListener(this);
         nightMonitoringButton.setOnClickListener(this);
 
@@ -147,25 +138,13 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initializeViews() {
-        profileButton = findViewById(R.id.profileButton);
-        polarBeltButton = findViewById(R.id.polarBeltButton);
-        accelerometerButton = findViewById(R.id.accelerometerButton);
         dayMonitoringButton = findViewById(R.id.dayMonitoringButton);
         nightMonitoringButton = findViewById(R.id.nightMonitoringButton);
-        heartRateTextView = findViewById(R.id.heartRateTextView);
     }
 
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.profileButton:
-                NavigationHandler.goToUserProfileActivity(this, user);
-                break;
-            case R.id.polarBeltButton:
-                //TODO
-                break;
-            case R.id.accelerometerButton:
-                break;
             case R.id.dayMonitoringButton:
                 NavigationHandler.goToDayMonitoringActivity(this, user);
                 break;

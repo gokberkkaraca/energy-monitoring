@@ -3,7 +3,7 @@
     android:id="@+id/actionBarLayout"
     android:layout_width="match_parent"
     android:layout_height="68dp"
-    android:background="@color/colorBlack"
+    android:background="#80000000"
     android:gravity="center_vertical">
 
     <TextView
@@ -15,15 +15,4 @@
         android:textColor="@color/colorWhite"
         android:textSize="42sp" />
 
-    <ImageButton
-        android:id="@+id/profileButton"
-        android:layout_width="48dp"
-        android:layout_height="48dp"
-        android:layout_marginEnd="20dp"
-        android:layout_marginStart="180dp"
-        android:layout_marginTop="12dp"
-        android:layout_toEndOf="@id/applicationName"
-        android:backgroundTint="@android:color/transparent"
-        android:contentDescription="@string/null_description"
-        android:src="@drawable/ic_user" />
 </RelativeLayout>
