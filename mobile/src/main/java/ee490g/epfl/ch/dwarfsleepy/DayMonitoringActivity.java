@@ -199,7 +199,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                 }
 
                 // Calories
-                caloriesBurntTextView.setText(String.valueOf(DataHolder.totalCaloriesBurnedDuringDay));
+                caloriesBurntTextView.setText(String.valueOf(totalCaloriesBurnedDuringDay));
 
                 // Accelerometer
 

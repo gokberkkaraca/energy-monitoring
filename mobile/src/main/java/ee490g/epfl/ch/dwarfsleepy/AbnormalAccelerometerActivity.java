@@ -15,7 +15,7 @@ import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalAccelerometerEv
 
 public class AbnormalAccelerometerActivity extends AppCompatActivity {
 
-    AbnormalAccelerometerAdapter abnormalAccelerometerAdapter;
+    private AbnormalAccelerometerAdapter abnormalAccelerometerAdapter;
     private User user;
     private RecyclerView recyclerView;
 

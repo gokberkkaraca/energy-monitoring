@@ -114,7 +114,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.v("DatabaseHandler", "An error occured while fetching data");
             }
         });
 
@@ -277,7 +277,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         cal.add(Calendar.HOUR_OF_DAY, -12);
         long startTime = cal.getTimeInMillis();
 
-        java.text.DateFormat dateFormat = getDateInstance();
+        DateFormat dateFormat = getDateInstance();
         Log.i("TAG", "Range Start: " + dateFormat.format(startTime));
         Log.i("TAG", "Range End: " + dateFormat.format(endTime));
 
