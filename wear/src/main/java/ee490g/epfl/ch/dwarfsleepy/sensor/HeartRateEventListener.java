@@ -17,8 +17,6 @@ import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataLi
 
 public class HeartRateEventListener implements SensorEventListener {
 
-    private static String TAG = "HeartRateEventListener";
-
     private int numberOfAveragedData;
     private int highHeartRateLimit;
 
@@ -96,5 +94,9 @@ public class HeartRateEventListener implements SensorEventListener {
             }
         }
 
+    }
+
+    public void setNumberOfAveragedData(int numberOfAveragedData) {
+        this.numberOfAveragedData = numberOfAveragedData;
     }
 }

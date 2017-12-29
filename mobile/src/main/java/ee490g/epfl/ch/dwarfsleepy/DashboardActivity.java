@@ -130,7 +130,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.v("DatabaseHandler", "An error occured while fetching data");
             }
         });
 

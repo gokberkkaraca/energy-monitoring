@@ -17,7 +17,6 @@ import com.androidplot.xy.XYSeries;
 
 import java.text.DecimalFormat;
 
-import ee490g.epfl.ch.dwarfsleepy.data.DataHolder;
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
