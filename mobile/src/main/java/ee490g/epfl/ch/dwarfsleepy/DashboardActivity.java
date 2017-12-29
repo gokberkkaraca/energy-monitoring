@@ -6,11 +6,15 @@ import android.os.Handler;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.Button;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
+
+import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.concurrent.Executors;
@@ -38,7 +42,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     boolean doubleBackToExitPressedOnce = false;
     private Button dayMonitoringButton;
     private Button nightMonitoringButton;
-
+    private Button logoutButton;
+    private TextView nameTextView;
+    private TextView emailTextView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +57,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         initializeViews();
         dayMonitoringButton.setOnClickListener(this);
         nightMonitoringButton.setOnClickListener(this);
-
+        logoutButton.setOnClickListener(this);
         fetchPreviousData();
         setMessageScheduler();
     }
@@ -140,6 +146,10 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private void initializeViews() {
         dayMonitoringButton = findViewById(R.id.dayMonitoringButton);
         nightMonitoringButton = findViewById(R.id.nightMonitoringButton);
+        logoutButton = findViewById(R.id.logoutButton);
+        nameTextView = findViewById(R.id.nameTextView);
+        emailTextView = findViewById(R.id.emailTextView);
+
     }
 
     @Override
@@ -151,11 +161,18 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             case R.id.nightMonitoringButton:
                 //TODO
                 break;
+            case R.id.logoutButton:
+                logOut();
+                startActivity(new Intent(DashboardActivity.this, LoginActivity.class));
+                finish();
             default:
                 break;
         }
     }
-
+    private void setViews() {
+        nameTextView.setText(user.getName());
+        emailTextView.setText(user.getEmail());
+    }
     @Override
     public void onBackPressed() {
         if (doubleBackToExitPressedOnce) {
@@ -173,5 +190,10 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 doubleBackToExitPressedOnce = false;
             }
         }, 2000);
+    }
+
+    private void logOut() {
+        FirebaseAuth.getInstance().signOut();
+        NavigationHandler.goToLoginActivity(this);
     }
 }

@@ -74,6 +74,9 @@ public class GoogleFitActivity extends AppCompatActivity {
                     else if (dp.getValue(field).asInt() == 1) {
                         activityType = PhysicalActivity.ActivityType.BIKING;
                     }
+                    else if (dp.getValue(field).asInt() == 3) {
+                        continue;
+                    }
                     else {
                         activityType = PhysicalActivity.ActivityType.OTHER;
                     }
