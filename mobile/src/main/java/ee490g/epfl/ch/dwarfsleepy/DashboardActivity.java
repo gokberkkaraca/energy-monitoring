@@ -9,6 +9,8 @@ import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -55,6 +57,7 @@ import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerData;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.physicalActivities;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.totalCaloriesBurnedDuringDay;
 import static java.text.DateFormat.getDateInstance;
 import static java.text.DateFormat.getTimeInstance;
 
@@ -237,6 +240,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 startActivity(new Intent(DashboardActivity.this, LoginActivity.class));
                 finish();
                 break;
+            case R.id.calculateButton:
+                caloriesCalculator();
+                break;
             default:
                 break;
         }
@@ -353,5 +359,25 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         }
                     }
                 });
+    }
+
+
+    private void caloriesCalculator() {
+        String targetCalories = ((EditText) findViewById(R.id.targetCaloriesEditText)).getText().toString();
+        if (("").equals(targetCalories)) {
+            Toast.makeText(this, "Please enter required calories", Toast.LENGTH_SHORT).show();
+        }
+        else {
+            int targetCaloriesValue = Integer.parseInt(targetCalories);
+            int remainingCalories = targetCaloriesValue - totalCaloriesBurnedDuringDay;
+            ((TextView) findViewById(R.id.burntCaloriesTextView)).setText(String.valueOf(totalCaloriesBurnedDuringDay));
+            if (remainingCalories > 0) {
+                ((TextView) findViewById(R.id.remainingCaloriesTextView)).setText(String.valueOf(remainingCalories));
+            }
+            else {
+                ((TextView) findViewById(R.id.remainingCaloriesTextView)).setText(String.valueOf(0));
+                ((ImageView) findViewById(R.id.remainingCaloriesImageView)).setImageResource(R.drawable.check_mark);
+            }
+        }
     }
 }
