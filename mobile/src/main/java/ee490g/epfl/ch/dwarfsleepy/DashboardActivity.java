@@ -93,7 +93,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.polarBeltButton:
                 //TODO
-                NavigationHandler.goToPolarBeltActivity(this, user);
+                NavigationHandler.goToPolarBeltActivity(this);
                 break;
             case R.id.accelerometerButton:
                 NavigationHandler.goToAccelerometerActivity(this, user);

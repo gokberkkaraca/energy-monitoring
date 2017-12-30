@@ -7,6 +7,7 @@ import android.os.Bundle;
 
 import ee490g.epfl.ch.dwarfsleepy.AccelerometerActivity;
 import ee490g.epfl.ch.dwarfsleepy.DashboardActivity;
+import ee490g.epfl.ch.dwarfsleepy.DeviceScanActivity;
 import ee490g.epfl.ch.dwarfsleepy.LoginActivity;
 import ee490g.epfl.ch.dwarfsleepy.UserProfileActivity;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
@@ -46,11 +47,8 @@ public class NavigationHandler {
         activity.startActivity(intent);
     }
 
-    public static void goToPolarBeltActivity(Activity activity, User user){
-/*        Intent intent = new Intent(activity, BluetoothLeService.class);
-        Bundle extras = new Bundle();
-        extras.putSerializable(USER, user);
-        intent.putExtras(extras);
-        activity.startActivity(intent);*/
+    public static void goToPolarBeltActivity(Activity activity){
+        Intent intent = new Intent(activity, DeviceScanActivity.class);
+        activity.startActivity(intent);
     }
 }
