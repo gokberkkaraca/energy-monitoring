@@ -105,6 +105,118 @@
 
     </LinearLayout>
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/monitoringLinearLayout"
+        android:layout_marginTop="20dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/caloriesCalculator"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:maxLines="1"
+            android:text="@string/calories_calculator"
+            android:textColor="@color/colorWhite"
+            android:textSize="52sp"
+            android:textStyle="bold" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="15dp">
+
+            <ImageView
+                android:id="@+id/targetCaloriesImageView"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:contentDescription="@string/null_description"
+                android:src="@drawable/target" />
+
+            <EditText
+                android:id="@+id/targetCaloriesEditText"
+                android:textAlignment="center"
+                android:layout_width="100sp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:ems="3"
+                android:backgroundTint="@color/ap_white"
+                android:inputType="number"
+                android:textSize="36sp"
+                android:maxLength="4"
+                android:layout_marginStart="50dp"
+                android:textStyle="bold"
+                android:textColorHint="@color/ap_white"
+                android:hint="@string/kcal"
+                android:textColor="@color/ap_white"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="15dp">
+
+            <ImageView
+                android:id="@+id/burntCaloriesImageView"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:contentDescription="@string/null_description"
+                android:src="@drawable/fire" />
+
+            <TextView
+                android:id="@+id/burntCaloriesTextView"
+                android:textAlignment="center"
+                android:layout_width="100sp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:textColor="@color/colorWhite"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:layout_marginStart="50dp"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="center"
+            android:layout_margin="15dp">
+
+            <ImageView
+                android:id="@+id/remainingCaloriesImageView"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
+                android:contentDescription="@string/null_description"
+                android:src="@drawable/calculator" />
+
+            <TextView
+                android:id="@+id/remainingCaloriesTextView"
+                android:textAlignment="center"
+                android:layout_width="100sp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:maxLines="1"
+                android:textColor="@color/colorWhite"
+                android:textSize="36sp"
+                android:textStyle="bold"
+                android:layout_marginStart="50dp"/>
+        </LinearLayout>
+
+        <Button
+            android:layout_width="250dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="20dp"
+            android:text="@string/calculate"
+            android:textSize="24sp"/>
+
+    </LinearLayout>
+
     <Button
         android:id="@+id/logoutButton"
         android:layout_width="match_parent"
@@ -114,7 +226,7 @@
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:backgroundTint="@color/colorRed"
-        android:text="LOGOUT"
+        android:text="@string/logout"
         android:textAllCaps="true"
         android:textColor="@color/colorWhite" />
 
