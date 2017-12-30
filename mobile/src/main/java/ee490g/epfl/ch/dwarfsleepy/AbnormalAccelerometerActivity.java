@@ -15,9 +15,8 @@ import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalAccelerometerEv
 
 public class AbnormalAccelerometerActivity extends AppCompatActivity {
 
-    AbnormalAccelerometerAdapter abnormalAccelerometerAdapter;
+    private AbnormalAccelerometerAdapter abnormalAccelerometerAdapter;
     private User user;
-    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,7 @@ public class AbnormalAccelerometerActivity extends AppCompatActivity {
         abnormalAccelerometerAdapter = new AbnormalAccelerometerAdapter(abnormalAccelerometerEvents);
         abnormalAccelerometerAdapter.notifyDataSetChanged();
 
-        recyclerView = findViewById(R.id.abnormal_accelerometer_recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.abnormal_accelerometer_recycler_view);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

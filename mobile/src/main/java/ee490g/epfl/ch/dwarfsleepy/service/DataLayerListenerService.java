@@ -188,8 +188,8 @@ public class DataLayerListenerService extends WearableListenerService {
 
         ArrayList<AccelerometerData> latestAccelerometerData = new ArrayList<>();
 
-        if (averagedAccelerometerData.size() > 1800) {
-            for (int i = 1800; i >= 1; i--) {
+        if (averagedAccelerometerData.size() > 600) {
+            for (int i = 600; i >= 1; i--) {
                 AccelerometerData accelerometerData = averagedAccelerometerData.get(averagedAccelerometerData.size() - 1);
                 latestAccelerometerData.add(accelerometerData);
             }
@@ -244,6 +244,7 @@ public class DataLayerListenerService extends WearableListenerService {
         switch (path) {
             default:
                 Log.w(TAG, "Received a message for unknown path " + path + " : " + new String(messageEvent.getData()));
+                break;
         }
     }
 
@@ -263,7 +264,7 @@ public class DataLayerListenerService extends WearableListenerService {
         sendMessageToNodes(message, path);
     }
 
-    void sendMessageToNodes(final String message, final String path) {
+    private void sendMessageToNodes(final String message, final String path) {
         Log.v(TAG, "Sending message " + message);
         // Lists all the nodes (devices) connected to the Wear API
         Wearable.NodeApi.getConnectedNodes(mGoogleApiClient).setResultCallback(new ResultCallback<NodeApi.GetConnectedNodesResult>() {

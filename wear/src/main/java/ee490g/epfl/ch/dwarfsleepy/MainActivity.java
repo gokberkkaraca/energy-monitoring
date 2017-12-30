@@ -68,12 +68,14 @@ public class MainActivity extends WearableActivity {
     public void onEnterAmbient(Bundle ambientDetails) {
         super.onEnterAmbient(ambientDetails);
         accelerometerEventListener.setNumberOfAveragedData(1);
+        heartRateEventListener.setNumberOfAveragedData(1);
     }
 
     @Override
     public void onExitAmbient() {
         super.onExitAmbient();
         accelerometerEventListener.setNumberOfAveragedData(20);
+        heartRateEventListener.setNumberOfAveragedData(1);
     }
 
     private void initializeViews() {

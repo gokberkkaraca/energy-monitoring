@@ -16,9 +16,6 @@ public class GoogleFitActivity extends AppCompatActivity {
 
     private User user;
 
-    private PhysicalActivityAdapter physicalActivityAdapter;
-    private RecyclerView recyclerView;
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,10 +25,10 @@ public class GoogleFitActivity extends AppCompatActivity {
         assert extras != null;
         user = (User) extras.getSerializable(NavigationHandler.USER);
 
-        physicalActivityAdapter = new PhysicalActivityAdapter(physicalActivities);
+        PhysicalActivityAdapter physicalActivityAdapter = new PhysicalActivityAdapter(physicalActivities);
         physicalActivityAdapter.notifyDataSetChanged();
 
-        recyclerView = findViewById(R.id.physicalActivityRecyclerView);
+        RecyclerView recyclerView = findViewById(R.id.physicalActivityRecyclerView);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());

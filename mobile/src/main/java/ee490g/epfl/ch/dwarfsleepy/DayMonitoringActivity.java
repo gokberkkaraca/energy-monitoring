@@ -17,7 +17,6 @@ import com.androidplot.xy.XYSeries;
 
 import java.text.DecimalFormat;
 
-import ee490g.epfl.ch.dwarfsleepy.data.DataHolder;
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
@@ -36,7 +35,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
 
     private final int MIN_ACC = -35;
     private final int MAX_ACC = 35;
-    private final int NUM_OF_POINTS_ACC = 900;
+    private final int NUM_OF_POINTS_ACC = 600;
 
     private ImageButton heartRateButton;
     private ImageButton accelerometerButton;
@@ -68,9 +67,9 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
         accelerometerButton.setOnClickListener(this);
         physicalActivityButton.setOnClickListener(this);
 
-        updateViewsAndPlots();
         configureHeartRatePlot();
         configureAccelerometerPlot();
+        updateViewsAndPlots();
     }
 
     private void configureHeartRatePlot() {
@@ -199,7 +198,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                 }
 
                 // Calories
-                caloriesBurntTextView.setText(String.valueOf(DataHolder.totalCaloriesBurnedDuringDay));
+                caloriesBurntTextView.setText(String.valueOf(totalCaloriesBurnedDuringDay));
 
                 // Accelerometer
 
@@ -217,7 +216,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                     accelerometerTextView.setText(resultingText);
                 }
 
-                for (int i = 0; i < averagedAccelerometerData.size(); i++) {
+                for (int i = averagedAccelerometerData.size() - 600; i < averagedAccelerometerData.size(); i++) {
                     int xValue = averagedAccelerometerData.get(i).getXAxisValue().intValue();
                     int yValue = averagedAccelerometerData.get(i).getYAxisValue().intValue();
                     int zValue = averagedAccelerometerData.get(i).getZAxisValue().intValue();
@@ -259,6 +258,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                 break;
             case R.id.accelerometerButton:
                 NavigationHandler.goToAbnormalAccelerometerActivity(this, user);
+                break;
             default:
                 break;
         }

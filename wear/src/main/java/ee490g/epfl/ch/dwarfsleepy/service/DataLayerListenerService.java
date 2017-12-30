@@ -119,10 +119,11 @@ public class DataLayerListenerService extends WearableListenerService {
                 break;
             default:
                 Log.w(TAG, "Received a message for unknown path " + path + " : " + new String(messageEvent.getData()));
+                break;
         }
     }
 
-    void sendSpecificDatamap(ArrayList<DataMap> heartRateList, ArrayList<DataMap> abnormalHeartRateList, ArrayList<DataMap> accelerometerList, ArrayList<DataMap> abnormalAccelerometerList) {
+    private void sendSpecificDatamap(ArrayList<DataMap> heartRateList, ArrayList<DataMap> abnormalHeartRateList, ArrayList<DataMap> accelerometerList, ArrayList<DataMap> abnormalAccelerometerList) {
         // Sends data (a datamap) through the Wear API
         // It's specific to a datamap containing an int and an arraylist. Duplicate and change
         // according to your needs
@@ -134,7 +135,7 @@ public class DataLayerListenerService extends WearableListenerService {
         sendPutDataMapRequest(putDataMapRequest);
     }
 
-    void sendPutDataMapRequest(PutDataMapRequest putDataMapRequest) {
+    private void sendPutDataMapRequest(PutDataMapRequest putDataMapRequest) {
         putDataMapRequest.getDataMap().putLong("time", System.nanoTime());
         PutDataRequest request = putDataMapRequest.asPutDataRequest();
         request.setUrgent();

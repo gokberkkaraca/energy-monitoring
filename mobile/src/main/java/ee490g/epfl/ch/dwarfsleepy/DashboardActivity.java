@@ -62,12 +62,10 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     // Tag for Logcat
     public static User user;
-    boolean doubleBackToExitPressedOnce = false;
+    private boolean doubleBackToExitPressedOnce = false;
     private Button dayMonitoringButton;
     private Button nightMonitoringButton;
     private Button logoutButton;
-    private TextView nameTextView;
-    private TextView emailTextView;
     private int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1905;
 
     private static void getGoogleFitValues(DataSet totalSet) {
@@ -142,7 +140,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.v("DatabaseHandler", "An error occured while fetching data");
             }
         });
 
@@ -158,7 +156,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.v("DatabaseHandler", "An error occured while fetching data");
             }
         });
 
@@ -174,7 +172,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.v("DatabaseHandler", "An error occured while fetching data");
             }
         });
 
@@ -190,7 +188,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void onCancelled(DatabaseError databaseError) {
-
+                Log.v("DatabaseHandler", "An error occured while fetching data");
             }
         });
 
@@ -217,10 +215,10 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         nightMonitoringButton = findViewById(R.id.nightMonitoringButton);
         logoutButton = findViewById(R.id.logoutButton);
 
-        nameTextView = findViewById(R.id.nameTextView);
+        TextView nameTextView = findViewById(R.id.nameTextView);
         nameTextView.setText(user.getName());
 
-        emailTextView = findViewById(R.id.emailTextView);
+        TextView emailTextView = findViewById(R.id.emailTextView);
         emailTextView.setText(user.getEmail());
 
     }
@@ -238,6 +236,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 logOut();
                 startActivity(new Intent(DashboardActivity.this, LoginActivity.class));
                 finish();
+                break;
             default:
                 break;
         }
@@ -264,10 +263,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK) {
-            if (requestCode == GOOGLE_FIT_PERMISSIONS_REQUEST_CODE) {
-                accessGoogleFit();
-            }
+        if (resultCode == Activity.RESULT_OK && requestCode == GOOGLE_FIT_PERMISSIONS_REQUEST_CODE) {
+            accessGoogleFit();
         }
     }
 
@@ -321,7 +318,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         cal.add(Calendar.HOUR_OF_DAY, -12);
         long startTime = cal.getTimeInMillis();
 
-        java.text.DateFormat dateFormat = getDateInstance();
+        DateFormat dateFormat = getDateInstance();
         Log.i("TAG", "Range Start: " + dateFormat.format(startTime));
         Log.i("TAG", "Range End: " + dateFormat.format(endTime));
 

@@ -15,9 +15,8 @@ import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents
 
 public class AbnormalHeartRateActivity extends AppCompatActivity {
 
-    AbnormalHeartRateAdapter abnormalHeartRateAdapter;
+    private AbnormalHeartRateAdapter abnormalHeartRateAdapter;
     private User user;
-    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,7 +30,7 @@ public class AbnormalHeartRateActivity extends AppCompatActivity {
         abnormalHeartRateAdapter = new AbnormalHeartRateAdapter(abnormalHeartRateEvents);
         abnormalHeartRateAdapter.notifyDataSetChanged();
 
-        recyclerView = findViewById(R.id.abnormal_hr_recycler_view);
+        RecyclerView recyclerView = findViewById(R.id.abnormal_hr_recycler_view);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getApplicationContext());
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
