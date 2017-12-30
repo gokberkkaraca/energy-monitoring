@@ -20,8 +20,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/actionBarLayout"
-        android:layout_marginTop="44dp"
         android:layout_marginStart="40dp"
+        android:layout_marginTop="44dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -42,19 +42,20 @@
                 android:maxLines="1"
                 android:text="@string/name"
                 android:textColor="@color/colorWhite"
-                android:textStyle="bold"
-                android:textSize="36sp"/>
+                android:textSize="36sp"
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content">
+
             <ImageView
                 android:id="@+id/emailImageView"
                 android:layout_width="100dp"
                 android:layout_height="100dp"
-                android:src="@drawable/ic_email"
-                android:contentDescription="@string/null_description" />
+                android:contentDescription="@string/null_description"
+                android:src="@drawable/ic_email" />
 
             <TextView
                 android:id="@+id/emailTextView"
@@ -64,8 +65,8 @@
                 android:maxLines="1"
                 android:text="@string/email"
                 android:textColor="@color/colorWhite"
-                android:textStyle="bold"
-                android:textSize="36sp"/>
+                android:textSize="36sp"
+                android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
 
