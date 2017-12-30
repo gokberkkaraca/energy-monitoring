@@ -34,16 +34,16 @@ tracking system).
 
 ## night-monitoring
 
-- [] Usage of a Polar belt to gather RR intervals, as well as collection of heartrate from
+- [ ] Usage of a Polar belt to gather RR intervals, as well as collection of heartrate from
 smartwatch and accelerometer data.
 
-- [] Development of a UI on the able to visualize all the data during the night (RR, HR and
+- [ ] Development of a UI on the able to visualize all the data during the night (RR, HR and
 accelerometer throughout the night).
 
-- [] Development of simple algorithm on the tablet and/or watch to process data and track the
+- [ ] Development of simple algorithm on the tablet and/or watch to process data and track the
 different types of sleep: light/deep or whether the subject is awake.
 
-- [] Development of UI that computes the total calories spent during the night, and that
+- [ ] Development of UI that computes the total calories spent during the night, and that
 correlates sleep quality with the physical activity and diet followed on the previous day
 
 ## energy-monitoring
