@@ -69,6 +69,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private Button dayMonitoringButton;
     private Button nightMonitoringButton;
     private Button logoutButton;
+    private Button calculateButton;
     private int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1905;
 
     private static void getGoogleFitValues(DataSet totalSet) {
@@ -126,6 +127,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         dayMonitoringButton.setOnClickListener(this);
         nightMonitoringButton.setOnClickListener(this);
         logoutButton.setOnClickListener(this);
+        calculateButton.setOnClickListener(this);
         fetchPreviousData();
         setMessageScheduler();
     }
@@ -217,6 +219,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         dayMonitoringButton = findViewById(R.id.dayMonitoringButton);
         nightMonitoringButton = findViewById(R.id.nightMonitoringButton);
         logoutButton = findViewById(R.id.logoutButton);
+        calculateButton = findViewById(R.id.calculateButton);
 
         TextView nameTextView = findViewById(R.id.nameTextView);
         nameTextView.setText(user.getName());
