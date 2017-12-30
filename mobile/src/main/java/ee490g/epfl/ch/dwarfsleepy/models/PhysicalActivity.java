@@ -34,7 +34,7 @@ public class PhysicalActivity {
     }
 
     public int getDurationSeconds() {
-        return  (int) (duration / 1000) % 60;
+        return (int) (duration / 1000) % 60;
     }
 
     public int getDurationMinutes() {
@@ -45,17 +45,17 @@ public class PhysicalActivity {
         return (int) ((duration / (1000 * 60 * 60)) % 24);
     }
 
-    public enum ActivityType {
-        BIKING,
-        WALKING,
-        RUNNING,
-        OTHER
-    }
-
     @Override
     public String toString() {
         return "Begin Time: " + beginTime.toString() + "\n" +
                 "End Time: " + endTime.toString() + "\n" +
                 "Activity Type: " + activityType.toString();
+    }
+
+    public enum ActivityType {
+        BIKING,
+        WALKING,
+        RUNNING,
+        OTHER
     }
 }

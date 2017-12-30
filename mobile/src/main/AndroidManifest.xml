@@ -45,7 +45,6 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".UserProfileActivity" />
         <activity android:name=".CreateAccountActivity" />
         <activity android:name=".LoginActivity" />
         <activity android:name=".ResetPasswordActivity" />

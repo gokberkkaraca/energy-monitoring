@@ -70,6 +70,48 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private TextView emailTextView;
     private int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1905;
 
+    private static void getGoogleFitValues(DataSet totalSet) {
+        Log.i("data", "Data returned for Data type: " + totalSet.getDataType().getName());
+        DateFormat dateFormat;
+        dateFormat = getTimeInstance();
+        float totalCaloriesExpended = 0;
+        for (DataPoint dp : totalSet.getDataPoints()) {
+            Log.i("data", "Data point:");
+            Log.i("data", "\tType: " + dp.getDataType().getName());
+            Log.i("data", "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
+            Log.i("data", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
+            for (Field field : dp.getDataType().getFields()) {
+                Log.i("data", "\tField: " + field.getName() + " Value: " + dp.getValue(field));
+                if (dp.getDataType().getName().equals("com.google.calories.expended")) {
+                    totalCaloriesExpended += dp.getValue(field).asFloat();
+                } else if (dp.getDataType().getName().equals("com.google.activity.segment")) {
+                    Date beginTime = new Date(dp.getStartTime(TimeUnit.MILLISECONDS));
+                    Date endTime = new Date(dp.getEndTime(TimeUnit.MILLISECONDS));
+                    PhysicalActivity.ActivityType activityType;
+
+
+                    if (dp.getValue(field).asInt() == 7 || dp.getValue(field).asInt() == 95) {
+                        activityType = PhysicalActivity.ActivityType.WALKING;
+                    } else if (dp.getValue(field).asInt() == 8) {
+                        activityType = PhysicalActivity.ActivityType.RUNNING;
+                    } else if (dp.getValue(field).asInt() == 1) {
+                        activityType = PhysicalActivity.ActivityType.BIKING;
+                    } else if (dp.getValue(field).asInt() == 3) {
+                        continue;
+                    } else {
+                        activityType = PhysicalActivity.ActivityType.OTHER;
+                    }
+
+                    PhysicalActivity physicalActivity = new PhysicalActivity(activityType, beginTime, endTime);
+                    DataHolder.physicalActivities.add(physicalActivity);
+                    Log.v("PhysicalActivity", physicalActivity.toString());
+                }
+            }
+            Log.v("Total Calories:", "" + totalCaloriesExpended);
+        }
+        DataHolder.totalCaloriesBurnedDuringDay = (int) totalCaloriesExpended;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -266,7 +308,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         }
     }
 
-
     private void accessGoogleFit() {
         Calendar cal = Calendar.getInstance();
         Date now = new Date();
@@ -315,52 +356,5 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                         }
                     }
                 });
-    }
-
-    private static void getGoogleFitValues(DataSet totalSet) {
-        Log.i("data", "Data returned for Data type: " + totalSet.getDataType().getName());
-        DateFormat dateFormat;
-        dateFormat = getTimeInstance();
-        float totalCaloriesExpended = 0;
-        for (DataPoint dp : totalSet.getDataPoints()) {
-            Log.i("data", "Data point:");
-            Log.i("data", "\tType: " + dp.getDataType().getName());
-            Log.i("data", "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
-            Log.i("data", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
-            for (Field field : dp.getDataType().getFields()) {
-                Log.i("data", "\tField: " + field.getName() + " Value: " + dp.getValue(field));
-                if (dp.getDataType().getName().equals("com.google.calories.expended")) {
-                    totalCaloriesExpended += dp.getValue(field).asFloat();
-                }
-                else if(dp.getDataType().getName().equals("com.google.activity.segment")) {
-                    Date beginTime = new Date(dp.getStartTime(TimeUnit.MILLISECONDS));
-                    Date endTime = new Date(dp.getEndTime(TimeUnit.MILLISECONDS));
-                    PhysicalActivity.ActivityType activityType;
-
-
-                    if (dp.getValue(field).asInt() == 7 || dp.getValue(field).asInt()== 95) {
-                        activityType = PhysicalActivity.ActivityType.WALKING;
-                    }
-                    else if (dp.getValue(field).asInt() == 8) {
-                        activityType = PhysicalActivity.ActivityType.RUNNING;
-                    }
-                    else if (dp.getValue(field).asInt() == 1) {
-                        activityType = PhysicalActivity.ActivityType.BIKING;
-                    }
-                    else if (dp.getValue(field).asInt() == 3) {
-                        continue;
-                    }
-                    else {
-                        activityType = PhysicalActivity.ActivityType.OTHER;
-                    }
-
-                    PhysicalActivity physicalActivity = new PhysicalActivity(activityType, beginTime, endTime);
-                    DataHolder.physicalActivities.add(physicalActivity);
-                    Log.v("PhysicalActivity", physicalActivity.toString());
-                }
-            }
-            Log.v("Total Calories:", "" + totalCaloriesExpended);
-        }
-        DataHolder.totalCaloriesBurnedDuringDay = (int) totalCaloriesExpended;
     }
 }

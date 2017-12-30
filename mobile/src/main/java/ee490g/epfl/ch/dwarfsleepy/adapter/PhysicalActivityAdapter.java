@@ -53,7 +53,8 @@ public class PhysicalActivityAdapter extends RecyclerView.Adapter {
             physicalActivityViewHolder.activityImage.setImageResource(R.drawable.running);
         else if (physicalActivity.getActivityType() == PhysicalActivity.ActivityType.WALKING)
             physicalActivityViewHolder.activityImage.setImageResource(R.drawable.walking);
-        else physicalActivityViewHolder.activityImage.setImageResource(R.drawable.physical_activity);
+        else
+            physicalActivityViewHolder.activityImage.setImageResource(R.drawable.physical_activity);
     }
 
     @Override
