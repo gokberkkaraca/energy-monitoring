@@ -364,7 +364,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     private void caloriesCalculator() {
         String targetCalories = ((EditText) findViewById(R.id.targetCaloriesEditText)).getText().toString();
-        if (targetCalories.equals("")) {
+        if (("").equals(targetCalories)) {
             Toast.makeText(this, "Please enter required calories", Toast.LENGTH_SHORT).show();
         }
         else {
