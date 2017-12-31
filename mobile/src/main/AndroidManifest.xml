@@ -53,7 +53,9 @@
         <activity android:name=".GoogleAccountActivity" />
         <activity android:name=".GoogleFitActivity" />
         <activity android:name=".AbnormalHeartRateActivity" />
-        <activity android:name=".AbnormalAccelerometerActivity"></activity>
+        <activity android:name=".AbnormalAccelerometerActivity" />
+        <activity android:name=".NightMonitoringActivity" />
+        <activity android:name=".SleepAnalysesActivity"/>
     </application>
 
 </manifest>

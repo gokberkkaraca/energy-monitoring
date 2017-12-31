@@ -12,6 +12,8 @@ import ee490g.epfl.ch.dwarfsleepy.DayMonitoringActivity;
 import ee490g.epfl.ch.dwarfsleepy.GoogleAccountActivity;
 import ee490g.epfl.ch.dwarfsleepy.GoogleFitActivity;
 import ee490g.epfl.ch.dwarfsleepy.LoginActivity;
+import ee490g.epfl.ch.dwarfsleepy.NightMonitoringActivity;
+import ee490g.epfl.ch.dwarfsleepy.SleepAnalysesActivity;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 
 public class NavigationHandler {
@@ -42,6 +44,15 @@ public class NavigationHandler {
         activity.finish();
     }
 
+    public static void goToNightMonitoringActivity(Activity activity, User user) {
+        Intent intent = new Intent(activity, NightMonitoringActivity.class);
+        Bundle extras = new Bundle();
+        extras.putSerializable(USER, user);
+        intent.putExtras(extras);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
     public static void goToGoogleAccountActivity(Activity activity) {
         Intent intent = new Intent(activity, GoogleAccountActivity.class);
         activity.startActivity(intent);
@@ -59,6 +70,15 @@ public class NavigationHandler {
 
     public static void goToAbnormalHeartRateActivity(Activity activity, User user) {
         Intent intent = new Intent(activity, AbnormalHeartRateActivity.class);
+        Bundle extras = new Bundle();
+        extras.putSerializable(USER, user);
+        intent.putExtras(extras);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    public static void goToSleepAnalysesActivity(Activity activity, User user) {
+        Intent intent = new Intent(activity, SleepAnalysesActivity.class);
         Bundle extras = new Bundle();
         extras.putSerializable(USER, user);
         intent.putExtras(extras);

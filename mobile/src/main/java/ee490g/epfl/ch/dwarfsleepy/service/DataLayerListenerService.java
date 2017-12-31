@@ -190,7 +190,7 @@ public class DataLayerListenerService extends WearableListenerService {
 
         if (averagedAccelerometerData.size() > 600) {
             for (int i = 600; i >= 1; i--) {
-                AccelerometerData accelerometerData = averagedAccelerometerData.get(averagedAccelerometerData.size() - 1);
+                AccelerometerData accelerometerData = averagedAccelerometerData.get(averagedAccelerometerData.size() - i);
                 latestAccelerometerData.add(accelerometerData);
             }
         } else {
