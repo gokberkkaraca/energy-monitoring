@@ -51,6 +51,7 @@ public class NightMonitoringActivity extends AppCompatActivity implements View.O
     private EditText sleepDurationEditText;
 
     private XYPlot nightHeartRatePlot;
+    private XYPlot nightPolarHeartRatePlot;
     private XYPlot nightAccelerometerPlot;
     private XYPlotSeriesList xyPlotSeriesList;
 
@@ -100,6 +101,29 @@ public class NightMonitoringActivity extends AppCompatActivity implements View.O
         nightHeartRatePlot.clear();
         nightHeartRatePlot.addSeries(heartRateSeries, formatterHeartRate);
         nightHeartRatePlot.redraw();
+    }
+
+    private void configurePolarHeartRatePlot() {
+        nightPolarHeartRatePlot.setRangeBoundaries(MIN_HR, MAX_HR, BoundaryMode.FIXED);
+        nightPolarHeartRatePlot.setDomainBoundaries(0, NUM_OF_POINTS_HR - 1, BoundaryMode.FIXED);
+        nightPolarHeartRatePlot.setRangeStepValue(9);
+        nightPolarHeartRatePlot.setDomainStepValue(9);
+
+        nightPolarHeartRatePlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.LEFT).setFormat(new DecimalFormat("#"));
+        nightPolarHeartRatePlot.setRangeLabel("Night Heart Rate (bpm)");
+
+        LineAndPointFormatter formatterHeartRate = new LineAndPointFormatter(Color.BLUE, Color.TRANSPARENT, Color.TRANSPARENT, null);
+        formatterHeartRate.getLinePaint().setStrokeWidth(8);
+
+        xyPlotSeriesList.initializeSeriesAndAddToList("Night Heart Rate", MIN_HR, NUM_OF_POINTS_HR, formatterHeartRate);
+
+        XYSeries heartRateSeries = new SimpleXYSeries(
+                xyPlotSeriesList.getSeriesFromList("Night Heart Rate"),
+                SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "Night Heart Rate");
+
+        nightPolarHeartRatePlot.clear();
+        nightPolarHeartRatePlot.addSeries(heartRateSeries, formatterHeartRate);
+        nightPolarHeartRatePlot.redraw();
     }
 
     private void configureAccelerometerPlot() {
@@ -158,6 +182,21 @@ public class NightMonitoringActivity extends AppCompatActivity implements View.O
         nightHeartRatePlot.redraw();
     }
 
+    private void updatePolarHeartRatePlot(int data) {
+
+        xyPlotSeriesList.updateSeries("Night Heart Rate", data);
+
+        XYSeries heartRateSeries = new
+                SimpleXYSeries(xyPlotSeriesList.getSeriesFromList("Night Heart Rate"),
+                SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "Night Heart Rate");
+
+        LineAndPointFormatter formatterHeartRate = xyPlotSeriesList.getFormatterFromList("Night Heart Rate");
+
+        nightPolarHeartRatePlot.clear();
+        nightPolarHeartRatePlot.addSeries(heartRateSeries, formatterHeartRate);
+        nightPolarHeartRatePlot.redraw();
+    }
+
     private void updateAccelerometerPlot(int xValue, int yValue, int zValue) {
         xyPlotSeriesList.updateSeries("X Axis", xValue);
         xyPlotSeriesList.updateSeries("Y Axis", yValue);
@@ -198,6 +237,13 @@ public class NightMonitoringActivity extends AppCompatActivity implements View.O
                 for (int i = 0; i < nightHeartRates.size(); i++) {
                     for (int j = 0; j < nightHeartRates.get(i).size(); j++) {
                         updateHeartRatePlot(nightHeartRates.get(i).get(j).getValue().intValue());
+                    }
+                }
+
+                //Polar heart rate
+                for (int i = 0; i < nightHeartRates.size(); i++) {
+                    for (int j = 0; j < nightHeartRates.get(i).size(); j++) {
+                        updatePolarHeartRatePlot(nightHeartRates.get(i).get(j).getValue().intValue());
                     }
                 }
 
