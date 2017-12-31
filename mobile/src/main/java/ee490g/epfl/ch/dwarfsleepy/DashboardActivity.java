@@ -79,7 +79,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private Button logoutButton;
 
     private EditText weightEditText;
-
+    private Button calculateButton;
     private int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1905;
 
     private static void getGoogleFitValues(DataSet totalSet) {
@@ -142,6 +142,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         nightMonitoringButton.setOnClickListener(this);
         calculateCaloriesBurnedButton.setOnClickListener(this);
         logoutButton.setOnClickListener(this);
+        calculateButton.setOnClickListener(this);
         fetchPreviousData();
         setMessageScheduler();
     }
@@ -276,6 +277,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         nightMonitoringButton = findViewById(R.id.nightMonitoringButton);
         calculateCaloriesBurnedButton = findViewById(R.id.calculateButton);
         logoutButton = findViewById(R.id.logoutButton);
+
         weightEditText = findViewById(R.id.weightEditTxt);
 
         if (userWeight != 0) {
@@ -303,6 +305,8 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             public void afterTextChanged(Editable editable) {
             }
         });
+
+        calculateButton = findViewById(R.id.calculateButton);
 
         TextView nameTextView = findViewById(R.id.nameTextView);
         nameTextView.setText(user.getName());
