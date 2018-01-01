@@ -50,7 +50,9 @@ import com.androidplot.xy.SimpleXYSeries;
 import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 import com.androidplot.xy.*;
-import com.example.android.sporttrackerwatch.R;
+
+import ee490g.epfl.ch.dwarfsleepy.R;
+//import com.example.android.sporttrackerwatch.R;
 
 /**
  * For a given BLE device, this Activity provides the user interface to connect, display data,
@@ -75,7 +77,7 @@ public class DeviceControlActivity extends FragmentActivity {
 
 
     private TextView mConnectionState;
-    private TextView mDataField;
+    //private TextView mDataField;
     private String mDeviceName;
     private String mDeviceAddress;
     private BluetoothLeService mBluetoothLeService;
@@ -144,7 +146,7 @@ public class DeviceControlActivity extends FragmentActivity {
     // list of supported characteristic features.
 
     private void clearUI() {
-        mDataField.setText(R.string.no_data);
+        //mDataField.setText(R.string.no_data);
     }
 
     /*
@@ -181,7 +183,8 @@ public class DeviceControlActivity extends FragmentActivity {
         mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
         mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
 
-        setContentView(R.layout.gatt_services_characteristics);
+        setContentView(R.layout.activity_night_monitoring);
+        //setContentView(R.layout.gatt_services_characteristics);
 
         //Attach fragment to activity
         /*
@@ -222,9 +225,9 @@ public class DeviceControlActivity extends FragmentActivity {
         //}
 
         // Sets up UI references.
-        ((TextView) findViewById(R.id.device_address)).setText(mDeviceAddress);
-        mConnectionState = (TextView) findViewById(R.id.connection_state);
-        mDataField = (TextView) findViewById(R.id.data_value);
+        //((TextView) findViewById(R.id.device_address)).setText(mDeviceAddress);
+        //mConnectionState = (TextView) findViewById(R.id.connection_state);
+        //mDataField = (TextView) findViewById(R.id.data_value);
 
         //Receive HR from watch
         //LocalBroadcastManager.getInstance(this).registerReceiver(mHeartRateReceiver,
@@ -261,7 +264,7 @@ public class DeviceControlActivity extends FragmentActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.gatt_services, menu);
+        getMenuInflater().inflate(R.menu.bluetooth_gatt_service, menu);
         if (mConnected) {
             menu.findItem(R.id.menu_connect).setVisible(false);
             menu.findItem(R.id.menu_disconnect).setVisible(true);
@@ -292,14 +295,14 @@ public class DeviceControlActivity extends FragmentActivity {
         runOnUiThread(new Runnable() {
             @Override
             public void run() {
-                mConnectionState.setText(resourceId);
+                //mConnectionState.setText(resourceId);
             }
         });
     }
 
     private void displayData(Integer data) {
         if (data != null) {
-            mDataField.setText(data.toString());
+            //mDataField.setText(data.toString());
             /*
             if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                 runAnimation();

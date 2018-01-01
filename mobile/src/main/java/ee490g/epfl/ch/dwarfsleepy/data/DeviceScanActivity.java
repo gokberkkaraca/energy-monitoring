@@ -36,9 +36,11 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.example.android.sporttrackerwatch.R;
+//import com.example.android.sporttrackerwatch.R;
 
 import java.util.ArrayList;
+
+import ee490g.epfl.ch.dwarfsleepy.R;
 
 /**
  * Activity for scanning and displaying available Bluetooth LE devices.
@@ -62,7 +64,7 @@ public class DeviceScanActivity extends ListActivity {
         // Use this check to determine whether BLE is supported on the device.  Then you can
         // selectively disable BLE-related features.
         if (!getPackageManager().hasSystemFeature(PackageManager.FEATURE_BLUETOOTH_LE)) {
-            Toast.makeText(this, R.string.ble_not_supported, Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.ble_is_not_supported, Toast.LENGTH_SHORT).show();
             finish();
         }
 
@@ -82,7 +84,7 @@ public class DeviceScanActivity extends ListActivity {
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.actions, menu);
         if (!mScanning) {
             menu.findItem(R.id.menu_stop).setVisible(false);
             menu.findItem(R.id.menu_scan).setVisible(true);
@@ -90,8 +92,7 @@ public class DeviceScanActivity extends ListActivity {
         } else {
             menu.findItem(R.id.menu_stop).setVisible(true);
             menu.findItem(R.id.menu_scan).setVisible(false);
-            menu.findItem(R.id.menu_refresh).setActionView(
-                    R.layout.actionbar_indeterminate_progress);
+            //menu.findItem(R.id.menu_refresh).setActionView(R.layout.actionbar_indeterminate_progress);
         }
         return true;
     }
@@ -221,12 +222,13 @@ public class DeviceScanActivity extends ListActivity {
             return i;
         }
 
+
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
             ViewHolder viewHolder;
             // General ListView optimization code.
             if (view == null) {
-                view = mInflator.inflate(R.layout.listitem_device, null);
+                view = mInflator.inflate(R.layout.listof_device, null);
                 viewHolder = new ViewHolder();
                 viewHolder.deviceAddress = (TextView) view.findViewById(R.id.device_address);
                 viewHolder.deviceName = (TextView) view.findViewById(R.id.device_name);
@@ -238,12 +240,15 @@ public class DeviceScanActivity extends ListActivity {
             BluetoothDevice device = mLeDevices.get(i);
             final String deviceName = device.getName();
             if (deviceName != null && deviceName.length() > 0)
+
                 viewHolder.deviceName.setText(deviceName);
+
             else
                 viewHolder.deviceName.setText(R.string.unknown_device);
-            viewHolder.deviceAddress.setText(device.getAddress());
+                viewHolder.deviceAddress.setText(device.getAddress());
 
             return view;
+
         }
     }
 
