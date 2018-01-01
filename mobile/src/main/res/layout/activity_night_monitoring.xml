@@ -103,6 +103,19 @@
             ap:title="Night Heart Rate - Time Plot" />
 
         <com.androidplot.xy.XYPlot
+            android:id="@+id/nightPolarHeartRatePlot"
+            style="@style/APDefacto.Light"
+            android:layout_width="match_parent"
+            android:layout_height="300dp"
+            android:layout_below="@id/nightHeartRatePlot"
+            android:layout_margin="20dp"
+            ap:domainTitle="Time"
+            ap:lineLabelRotationBottom="-45"
+            ap:lineLabels="left|bottom"
+            ap:rangeTitle="range"
+            ap:title="Night Polar Hear Rate - Time Plot" />
+
+        <com.androidplot.xy.XYPlot
             android:id="@+id/nightAccelerometerPlot"
             style="@style/APDefacto.Light"
             android:layout_width="match_parent"
@@ -114,6 +127,7 @@
             ap:lineLabels="left|bottom"
             ap:rangeTitle="range"
             ap:title="Night Accelerometer - Time Plot" />
+
     </RelativeLayout>
 
 </RelativeLayout>

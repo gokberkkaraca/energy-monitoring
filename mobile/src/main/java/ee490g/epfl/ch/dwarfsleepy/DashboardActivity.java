@@ -191,6 +191,39 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
+        DatabaseHandler.getPolarHeartRateData(user, new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                averagedHeartRateDataList = new ArrayList<>();
+                nightPolarHeartRates = new ArrayList<>();
+                todayPolarHeartRates = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    HeartRateData heartRateData = postSnapshot.getValue(HeartRateData.class);
+                    averagedHeartRateDataList.add(heartRateData);
+
+                    // Get heart rate night activity
+                    if (heartRateData.getDate().getHours() >= 0 && heartRateData.getDate().getHours() <= 8) {
+                        if (!nightPolarHeartRates.isEmpty() && heartRateData.getDate().getDate() == nightPolarHeartRates.get(nightPolarHeartRates.size() - 1).get(0).getDate().getDate() &&
+                                heartRateData.getDate().getMonth() == nightPolarHeartRates.get(nightPolarHeartRates.size() - 1).get(0).getDate().getMonth() &&
+                                heartRateData.getDate().getYear() == nightPolarHeartRates.get(nightPolarHeartRates.size() - 1).get(0).getDate().getYear()) {
+                            nightPolarHeartRates.get(nightPolarHeartRates.size() - 1).add(heartRateData);
+                        } else {
+                            List<HeartRateData> heartRates = new ArrayList<>();
+                            heartRates.add(heartRateData);
+                            nightPolarHeartRates.add(heartRates);
+                        }
+                    }
+                    //calculateCaloriesBurnedToday();
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.v("DatabaseHandler", "An error occured while fetching data");
+            }
+        });
+
         DatabaseHandler.getAbnormalHeartRateEvents(user, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {

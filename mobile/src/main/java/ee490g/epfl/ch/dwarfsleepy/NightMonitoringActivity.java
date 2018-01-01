@@ -187,10 +187,10 @@ public class NightMonitoringActivity extends AppCompatActivity implements View.O
         xyPlotSeriesList.updateSeries("Night Heart Rate", data);
 
         XYSeries heartRateSeries = new
-                SimpleXYSeries(xyPlotSeriesList.getSeriesFromList("Night Heart Rate"),
+                SimpleXYSeries(xyPlotSeriesList.getSeriesFromList("Night Heart Rate from Polar Belt"),
                 SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "Night Heart Rate");
 
-        LineAndPointFormatter formatterHeartRate = xyPlotSeriesList.getFormatterFromList("Night Heart Rate");
+        LineAndPointFormatter formatterHeartRate = xyPlotSeriesList.getFormatterFromList("Night Heart Rate from Polar Belt");
 
         nightPolarHeartRatePlot.clear();
         nightPolarHeartRatePlot.addSeries(heartRateSeries, formatterHeartRate);
@@ -241,9 +241,9 @@ public class NightMonitoringActivity extends AppCompatActivity implements View.O
                 }
 
                 //Polar heart rate
-                for (int i = 0; i < nightHeartRates.size(); i++) {
-                    for (int j = 0; j < nightHeartRates.get(i).size(); j++) {
-                        updatePolarHeartRatePlot(nightHeartRates.get(i).get(j).getValue().intValue());
+                for (int i = 0; i < nightPolarHeartRates.size(); i++) {
+                    for (int j = 0; j < nightPolarHeartRates.get(i).size(); j++) {
+                        updatePolarHeartRatePlot(nightPolarHeartRates.get(i).get(j).getValue().intValue());
                     }
                 }
 
@@ -275,6 +275,7 @@ public class NightMonitoringActivity extends AppCompatActivity implements View.O
         sleepDurationEditText = findViewById(R.id.sleepDurationEditText);
 
         nightHeartRatePlot = findViewById(R.id.nightHeartRatePlot);
+        nightPolarHeartRatePlot = findViewById(R.id.nightPolarHeartRatePlot);
         nightAccelerometerPlot = findViewById(R.id.nightAccelerometerPlot);
 
         nightSleepButton = findViewById(R.id.nightSleepButton);

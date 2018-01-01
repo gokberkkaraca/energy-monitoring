@@ -23,5 +23,8 @@
     <string name="calories_calculator">Calories Calculator</string>
     <string name="kcal">kcal</string>
     <string name="calculate">Calculate</string>
+    <string name="no_data">No data</string>
     <string name="logout">LOGOUT</string>
+    <string name="connected">Connected</string>
+    <string name="disconnected">Disconnected</string>
 </resources>

@@ -22,7 +22,9 @@ public class DataHolder {
     public static ArrayList<PhysicalActivity> physicalActivities = new ArrayList<>();
 
     public static ArrayList<HeartRateData> todayHeartRates = new ArrayList<>();
+    public static ArrayList<HeartRateData> todayPolarHeartRates = new ArrayList<>();
     public static ArrayList<List<HeartRateData>> nightHeartRates = new ArrayList<>();
+    public static ArrayList<List<HeartRateData>> nightPolarHeartRates = new ArrayList<>();
     public static ArrayList<List<AccelerometerData>> nightAccelerometerData = new ArrayList<>();
 
 }

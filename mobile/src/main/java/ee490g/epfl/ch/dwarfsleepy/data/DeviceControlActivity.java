@@ -64,13 +64,14 @@ public class DeviceControlActivity extends FragmentActivity {
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
     public static final String HR_POLAR = "HR from Polar Belt";
-    public static final String HR_WATCH = "HR from SmartWatch";
+    //public static final String HR_WATCH = "HR from SmartWatch";
     //public static final String AC = "AC from SmartWatch";
     public static final Integer MAX_HR = 200;
     public static final Integer MIN_HR = 40;
-    public static final String ACTION_SEND_HEART_RATE = "ACTION_SEND_HEART_RATE";
+    public static final Integer NUM_OF_POINTS_HR = 80;
+    //public static final String ACTION_SEND_HEART_RATE = "ACTION_SEND_HEART_RATE";
     public static final String INT_HEART_RATE = "INT_HEART_RATE";
-    public static final String INT_AC = "INT_ACCELERATION";
+    //public static final String INT_AC = "INT_ACCELERATION";
 
 
     private TextView mConnectionState;
@@ -80,13 +81,13 @@ public class DeviceControlActivity extends FragmentActivity {
     private BluetoothLeService mBluetoothLeService;
     private boolean mConnected = false;
 
-    private ImageView mHeartImage;
+    //private ImageView mHeartImage;
 
     private final static int NUMBER_OF_POINTS = 50;
 
 
-    private XYPlot HeartRatePlot;
-    private XYPlot ACPlot;
+    private XYPlot PolarHeartRatePlot;
+    //private XYPlot ACPlot;
 
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
@@ -146,6 +147,7 @@ public class DeviceControlActivity extends FragmentActivity {
         mDataField.setText(R.string.no_data);
     }
 
+    /*
     private int heartRateWatch = 0;
     private BroadcastReceiver mHeartRateReceiver = new BroadcastReceiver() {
         @Override
@@ -158,6 +160,7 @@ public class DeviceControlActivity extends FragmentActivity {
         }
     };
 
+
     private int ACWatch = 0;
     private BroadcastReceiver mHeartRateReceiver = new BroadcastReceiver() {
         @Override
@@ -169,7 +172,7 @@ public class DeviceControlActivity extends FragmentActivity {
             textView.setText(textString);
         }
     };
-
+    */
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -181,38 +184,42 @@ public class DeviceControlActivity extends FragmentActivity {
         setContentView(R.layout.gatt_services_characteristics);
 
         //Attach fragment to activity
+        /*
         MapsFragment mapsFragment = new MapsFragment();
         FragmentTransaction fragmentTransaction =
                 getSupportFragmentManager().beginTransaction();
         fragmentTransaction.add(R.id.map_container, mapsFragment);
         fragmentTransaction.commit();
-
+        */
         xyPlotSeriesList = new XYplotSeriesList();
 
-
+        /*
         if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
             mHeartImage = findViewById(R.id.heartImage);
             mHeartImage.setImageDrawable(getDrawable(R.mipmap.heart_icon));
         }else {
-            HeartRatePlot = findViewById(R.id.HRplot);
-            configurePlot();
-            HeartRatePlot.setVisibility(View.VISIBLE);
+        */
+        PolarHeartRatePlot = findViewById(R.id.nightPolarHeartRatePlot);
+        configurePolarHeartRatePlot();
+        //configurePlot();
+        PolarHeartRatePlot.setVisibility(View.VISIBLE);
 
 
-            LineAndPointFormatter formatterPolar = new LineAndPointFormatter(Color.BLUE, Color.TRANSPARENT, Color.TRANSPARENT, null);
-            formatterPolar.getLinePaint().setStrokeWidth(8);
-            xyPlotSeriesList.initializeSeriesAndAddToList(HR_POLAR,MIN_HR,NUMBER_OF_POINTS,formatterPolar);
+        LineAndPointFormatter formatterPolar = new LineAndPointFormatter(Color.BLUE, Color.TRANSPARENT, Color.TRANSPARENT, null);
+        formatterPolar.getLinePaint().setStrokeWidth(8);
+        xyPlotSeriesList.initializeSeriesAndAddToList(HR_POLAR,MIN_HR,NUMBER_OF_POINTS,formatterPolar);
 
-            LineAndPointFormatter formatterWatch = new LineAndPointFormatter(Color.RED, Color.TRANSPARENT, Color.TRANSPARENT, null);
-            formatterWatch.getLinePaint().setStrokeWidth(8);
-            xyPlotSeriesList.initializeSeriesAndAddToList(HR_WATCH,MIN_HR,NUMBER_OF_POINTS,formatterWatch);
+        /*
+        LineAndPointFormatter formatterWatch = new LineAndPointFormatter(Color.RED, Color.TRANSPARENT, Color.TRANSPARENT, null);
+        formatterWatch.getLinePaint().setStrokeWidth(8);
+        xyPlotSeriesList.initializeSeriesAndAddToList(HR_WATCH,MIN_HR,NUMBER_OF_POINTS,formatterWatch);
+        */
+        XYSeries HRseries = new SimpleXYSeries(xyPlotSeriesList.getSeriesFromList(HR_POLAR), SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, HR_POLAR);
 
-            XYSeries HRseries = new SimpleXYSeries(xyPlotSeriesList.getSeriesFromList(HR_POLAR), SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, HR_POLAR);
-
-            HeartRatePlot.clear();
-            HeartRatePlot.addSeries(HRseries, formatterPolar);
-            HeartRatePlot.redraw();
-        }
+        PolarHeartRatePlot.clear();
+        PolarHeartRatePlot.addSeries(HRseries, formatterPolar);
+        PolarHeartRatePlot.redraw();
+        //}
 
         // Sets up UI references.
         ((TextView) findViewById(R.id.device_address)).setText(mDeviceAddress);
@@ -220,8 +227,8 @@ public class DeviceControlActivity extends FragmentActivity {
         mDataField = (TextView) findViewById(R.id.data_value);
 
         //Receive HR from watch
-        LocalBroadcastManager.getInstance(this).registerReceiver(mHeartRateReceiver,
-                new IntentFilter(ACTION_SEND_HEART_RATE));
+        //LocalBroadcastManager.getInstance(this).registerReceiver(mHeartRateReceiver,
+        //        new IntentFilter(ACTION_SEND_HEART_RATE));
 
         getActionBar().setTitle(mDeviceName);
         getActionBar().setDisplayHomeAsUpEnabled(true);
@@ -293,23 +300,24 @@ public class DeviceControlActivity extends FragmentActivity {
     private void displayData(Integer data) {
         if (data != null) {
             mDataField.setText(data.toString());
+            /*
             if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT) {
                 runAnimation();
             }else{
-
-                xyPlotSeriesList.updateSeries(HR_POLAR,data);
-                XYSeries HRseries = new SimpleXYSeries(xyPlotSeriesList.getSeriesFromList(HR_POLAR), SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, HR_POLAR);
-                LineAndPointFormatter formatterPolar = xyPlotSeriesList.getFormatterFromList(HR_POLAR);
-
-                xyPlotSeriesList.updateSeries(HR_WATCH,heartRateWatch);
-                XYSeries HRwatchSeries = new SimpleXYSeries(xyPlotSeriesList.getSeriesFromList(HR_WATCH), SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, HR_WATCH);
-                LineAndPointFormatter formatterWatch = xyPlotSeriesList.getFormatterFromList(HR_WATCH);
-
-                HeartRatePlot.clear();
-                HeartRatePlot.addSeries(HRseries, formatterPolar);
-                HeartRatePlot.addSeries(HRwatchSeries,formatterWatch);
-                HeartRatePlot.redraw();
-            }
+            */
+            xyPlotSeriesList.updateSeries(HR_POLAR,data);
+            XYSeries HRseries = new SimpleXYSeries(xyPlotSeriesList.getSeriesFromList(HR_POLAR), SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, HR_POLAR);
+            LineAndPointFormatter formatterPolar = xyPlotSeriesList.getFormatterFromList(HR_POLAR);
+            /*
+            xyPlotSeriesList.updateSeries(HR_WATCH,heartRateWatch);
+            XYSeries HRwatchSeries = new SimpleXYSeries(xyPlotSeriesList.getSeriesFromList(HR_WATCH), SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, HR_WATCH);
+            LineAndPointFormatter formatterWatch = xyPlotSeriesList.getFormatterFromList(HR_WATCH);
+            */
+            PolarHeartRatePlot.clear();
+            PolarHeartRatePlot.addSeries(HRseries, formatterPolar);
+            //HeartRatePlot.addSeries(HRwatchSeries,formatterWatch);
+            PolarHeartRatePlot.redraw();
+            //}
         }
     }
 
@@ -348,14 +356,15 @@ public class DeviceControlActivity extends FragmentActivity {
         intentFilter.addAction(BluetoothLeService.ACTION_DATA_AVAILABLE);
         return intentFilter;
     }
-
+/*
     private void runAnimation(){
         Animation animation = AnimationUtils.loadAnimation(this,R.anim.scale);
         mHeartImage.clearAnimation();
         mHeartImage.startAnimation(animation);
     }
-
-    private void configurePlot() {
+*/
+/*
+    private void configurePlot() { //their
         // Set background colors
         HeartRatePlot.setBorderPaint(null);
         HeartRatePlot.setBackgroundPaint(null);
@@ -377,5 +386,30 @@ public class DeviceControlActivity extends FragmentActivity {
         HeartRatePlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.LEFT).setFormat(new DecimalFormat("#")); //This line is to force the Axis to be integer
         HeartRatePlot.setRangeLabel(getString(R.string.heart_rate));
     }
-    
+*/
+
+    private void configurePolarHeartRatePlot() {
+        PolarHeartRatePlot.setRangeBoundaries(MIN_HR, MAX_HR, BoundaryMode.FIXED);
+        PolarHeartRatePlot.setDomainBoundaries(0, NUM_OF_POINTS_HR - 1, BoundaryMode.FIXED);
+        PolarHeartRatePlot.setRangeStepValue(9);
+        PolarHeartRatePlot.setDomainStepValue(9);
+
+        PolarHeartRatePlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.LEFT).setFormat(new DecimalFormat("#"));
+        PolarHeartRatePlot.setRangeLabel("Night Heart Rate (bpm)");
+
+        LineAndPointFormatter formatterHeartRate = new LineAndPointFormatter(Color.BLUE, Color.TRANSPARENT, Color.TRANSPARENT, null);
+        formatterHeartRate.getLinePaint().setStrokeWidth(8);
+
+        xyPlotSeriesList.initializeSeriesAndAddToList("Night Heart Rate", MIN_HR, NUM_OF_POINTS_HR, formatterHeartRate);
+
+        XYSeries heartRateSeries = new SimpleXYSeries(
+                xyPlotSeriesList.getSeriesFromList("Night Heart Rate"),
+                SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "Night Heart Rate");
+
+        PolarHeartRatePlot.clear();
+        PolarHeartRatePlot.addSeries(heartRateSeries, formatterHeartRate);
+        PolarHeartRatePlot.redraw();
+    }
+
+
 }
