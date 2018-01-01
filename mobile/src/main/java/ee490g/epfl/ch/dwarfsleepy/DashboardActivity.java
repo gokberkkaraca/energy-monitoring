@@ -61,9 +61,11 @@ import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerDa
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.nightAccelerometerData;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.nightHeartRates;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.nightPolarHeartRates;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.physicalActivities;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.totalCaloriesBurnedDuringDay;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.todayHeartRates;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.todayPolarHeartRates;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.userWeight;
 import static java.text.DateFormat.getDateInstance;
 import static java.text.DateFormat.getTimeInstance;

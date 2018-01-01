@@ -30,6 +30,7 @@ import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.nightAccelerometerData;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.nightHeartRates;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.nightPolarHeartRates;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.userWeight;
 
 public class NightMonitoringActivity extends AppCompatActivity implements View.OnClickListener {
@@ -76,6 +77,7 @@ public class NightMonitoringActivity extends AppCompatActivity implements View.O
         polarBeltButton.setOnClickListener(this);
 
         configureHeartRatePlot();
+        configurePolarHeartRatePlot();
         configureAccelerometerPlot();
         updateViewsAndPlots();
     }
@@ -186,14 +188,14 @@ public class NightMonitoringActivity extends AppCompatActivity implements View.O
 
         xyPlotSeriesList.updateSeries("Night Heart Rate", data);
 
-        XYSeries heartRateSeries = new
+        XYSeries polarheartRateSeries = new
                 SimpleXYSeries(xyPlotSeriesList.getSeriesFromList("Night Heart Rate from Polar Belt"),
                 SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, "Night Heart Rate");
 
         LineAndPointFormatter formatterHeartRate = xyPlotSeriesList.getFormatterFromList("Night Heart Rate from Polar Belt");
 
         nightPolarHeartRatePlot.clear();
-        nightPolarHeartRatePlot.addSeries(heartRateSeries, formatterHeartRate);
+        nightPolarHeartRatePlot.addSeries(polarheartRateSeries, formatterHeartRate);
         nightPolarHeartRatePlot.redraw();
     }
 
