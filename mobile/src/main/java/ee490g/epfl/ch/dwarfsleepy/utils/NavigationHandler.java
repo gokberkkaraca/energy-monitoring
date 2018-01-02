@@ -13,6 +13,7 @@ import ee490g.epfl.ch.dwarfsleepy.GoogleAccountActivity;
 import ee490g.epfl.ch.dwarfsleepy.GoogleFitActivity;
 import ee490g.epfl.ch.dwarfsleepy.LoginActivity;
 import ee490g.epfl.ch.dwarfsleepy.NightMonitoringActivity;
+import ee490g.epfl.ch.dwarfsleepy.PolarBelt.DeviceScanActivity;
 import ee490g.epfl.ch.dwarfsleepy.SleepAnalysesActivity;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 
@@ -88,6 +89,14 @@ public class NavigationHandler {
 
     public static void goToAbnormalAccelerometerActivity(Activity activity, User user) {
         Intent intent = new Intent(activity, AbnormalAccelerometerActivity.class);
+        Bundle extras = new Bundle();
+        extras.putSerializable(USER, user);
+        intent.putExtras(extras);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+    public static void goToPolarBeltActivity(Activity activity, User user) {
+        Intent intent = new Intent(activity, DeviceScanActivity.class);
         Bundle extras = new Bundle();
         extras.putSerializable(USER, user);
         intent.putExtras(extras);
