@@ -108,6 +108,7 @@
     </LinearLayout>
 
     <LinearLayout
+        android:id="@+id/caloriesCalculatorLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/monitoringLinearLayout"
@@ -129,8 +130,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_margin="15dp">
+            android:layout_margin="15dp"
+            android:paddingStart="260dp"
+            android:paddingEnd="0dp">
 
             <ImageView
                 android:id="@+id/targetCaloriesImageView"
@@ -160,8 +162,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_margin="15dp">
+            android:layout_margin="15dp"
+            android:paddingStart="260dp"
+            android:paddingEnd="0dp">
 
             <ImageView
                 android:id="@+id/burntCaloriesImageView"
@@ -186,8 +189,9 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:gravity="center"
-            android:layout_margin="15dp">
+            android:layout_margin="15dp"
+            android:paddingStart="260dp"
+            android:paddingEnd="0dp">
 
             <ImageView
                 android:id="@+id/remainingCaloriesImageView"
@@ -207,6 +211,75 @@
                 android:textSize="36sp"
                 android:textStyle="bold"
                 android:layout_marginStart="50dp"/>
+
+            <LinearLayout
+                android:id="@+id/suggestionLayout"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:layout_marginStart="50dp"
+                android:visibility="invisible">
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp">
+
+                    <ImageView
+                        android:id="@+id/bikingImageView"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/null_description"
+                        android:src="@drawable/biking" />
+
+                    <TextView
+                        android:id="@+id/bikingSuggestionTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:textColor="@color/ap_white"
+                        android:layout_marginStart="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp">
+
+                    <ImageView
+                        android:id="@+id/walkingImageView"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/null_description"
+                        android:src="@drawable/walking" />
+
+                    <TextView
+                        android:id="@+id/walkingTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:textColor="@color/ap_white"
+                        android:layout_marginStart="10dp" />
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="20dp">
+
+                    <ImageView
+                        android:id="@+id/runningImageView"
+                        android:layout_width="25dp"
+                        android:layout_height="25dp"
+                        android:contentDescription="@string/null_description"
+                        android:src="@drawable/running" />
+
+                    <TextView
+                        android:id="@+id/runningTextView"
+                        android:layout_width="wrap_content"
+                        android:layout_height="25dp"
+                        android:textColor="@color/ap_white"
+                        android:layout_marginStart="10dp" />
+                </LinearLayout>
+            </LinearLayout>
         </LinearLayout>
 
         <Button
