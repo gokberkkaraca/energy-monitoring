@@ -12,6 +12,8 @@ public class User implements Serializable {
     private String email;
     private Gender gender;
     private Date birthday;
+    private double weight;
+    private int height;
 
     public User(FirebaseUser firebaseUser, String name, Gender gender, Date birthday, double weight, int height) {
         this.userId = firebaseUser.getUid();
@@ -19,6 +21,8 @@ public class User implements Serializable {
         this.email = firebaseUser.getEmail();
         this.gender = gender;
         this.birthday = birthday;
+        this.weight = weight;
+        this.height = height;
     }
 
     public User() {
@@ -59,6 +63,14 @@ public class User implements Serializable {
 
     public void setBirthday(Date birthday) {
         this.birthday = birthday;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public int getHeight() {
+        return height;
     }
 
     public enum Gender {
