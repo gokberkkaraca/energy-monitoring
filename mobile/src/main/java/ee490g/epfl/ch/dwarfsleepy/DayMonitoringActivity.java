@@ -216,11 +216,21 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                     accelerometerTextView.setText(resultingText);
                 }
 
-                for (int i = averagedAccelerometerData.size() - 600; i < averagedAccelerometerData.size(); i++) {
-                    int xValue = averagedAccelerometerData.get(i).getXAxisValue().intValue();
-                    int yValue = averagedAccelerometerData.get(i).getYAxisValue().intValue();
-                    int zValue = averagedAccelerometerData.get(i).getZAxisValue().intValue();
-                    updateAccelerometerPlot(xValue, yValue, zValue);
+                if (averagedAccelerometerData.size() >= 600) {
+                    for (int i = averagedAccelerometerData.size() - 600; i < averagedAccelerometerData.size(); i++) {
+                        int xValue = averagedAccelerometerData.get(i).getXAxisValue().intValue();
+                        int yValue = averagedAccelerometerData.get(i).getYAxisValue().intValue();
+                        int zValue = averagedAccelerometerData.get(i).getZAxisValue().intValue();
+                        updateAccelerometerPlot(xValue, yValue, zValue);
+                    }
+                }
+                else {
+                    for (int i = 0; i < averagedAccelerometerData.size(); i++) {
+                        int xValue = averagedAccelerometerData.get(i).getXAxisValue().intValue();
+                        int yValue = averagedAccelerometerData.get(i).getYAxisValue().intValue();
+                        int zValue = averagedAccelerometerData.get(i).getZAxisValue().intValue();
+                        updateAccelerometerPlot(xValue, yValue, zValue);
+                    }
                 }
 
             }
