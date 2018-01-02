@@ -33,12 +33,16 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     protected EditText nameEditText;
     protected EditText emailEditText;
     protected EditText birthdayEditText;
+    protected EditText weightEditText;
+    protected EditText heightEditText;
     protected RadioGroup genderRadioGroup;
     protected Calendar calendar;
     protected String name;
     protected String email;
     protected Date birthday;
     protected User.Gender gender;
+    protected int height;
+    protected double weight;
     private FirebaseAuth mAuth;
     private EditText passwordEditText;
     private String password;
@@ -64,6 +68,8 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         emailEditText = findViewById(R.id.emailEditText);
         passwordEditText = findViewById(R.id.passwordEditText);
         genderRadioGroup = findViewById(R.id.genderRadioGroup);
+        weightEditText = findViewById(R.id.weightEditText);
+        heightEditText = findViewById(R.id.heightEditText);
     }
 
     @Override
@@ -75,7 +81,9 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                 password = passwordEditText.getText().toString();
                 birthday = calendar.getTime();
                 gender = getGenderFromRadioGroup();
-                createAccount(name, email, password);
+                weight = Double.parseDouble(weightEditText.getText().toString());
+                height = Integer.parseInt(heightEditText.getText().toString());
+                createAccount(name, email, password, weight, height);
                 break;
             default:
                 break;
@@ -115,7 +123,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         birthdayEditText.setText(simpleDateFormat.format(birthday));
     }
 
-    protected void createAccount(final String name, final String email, String password) {
+    protected void createAccount(final String name, final String email, String password, final double weight, final int height) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -124,7 +132,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             if (checkFields()) {
-                                User user = new User(firebaseUser, name, gender, birthday);
+                                User user = new User(firebaseUser, name, gender, birthday, weight, height);
                                 DatabaseHandler.addUser(user);
                                 DataLayerListenerService.setUser(user);
                                 NavigationHandler.goToDashboardActivity(CreateAccountActivity.this, user);
