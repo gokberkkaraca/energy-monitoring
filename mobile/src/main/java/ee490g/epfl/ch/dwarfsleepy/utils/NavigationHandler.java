@@ -14,6 +14,7 @@ import ee490g.epfl.ch.dwarfsleepy.GoogleFitActivity;
 import ee490g.epfl.ch.dwarfsleepy.LoginActivity;
 import ee490g.epfl.ch.dwarfsleepy.NightMonitoringActivity;
 import ee490g.epfl.ch.dwarfsleepy.SleepAnalysesActivity;
+import ee490g.epfl.ch.dwarfsleepy.data.DeviceControlActivity;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 
 public class NavigationHandler {
@@ -79,6 +80,15 @@ public class NavigationHandler {
 
     public static void goToSleepAnalysesActivity(Activity activity, User user) {
         Intent intent = new Intent(activity, SleepAnalysesActivity.class);
+        Bundle extras = new Bundle();
+        extras.putSerializable(USER, user);
+        intent.putExtras(extras);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    public static void goToDevicesControlActivity(Activity activity, User user) {
+        Intent intent = new Intent(activity, DeviceControlActivity.class);
         Bundle extras = new Bundle();
         extras.putSerializable(USER, user);
         intent.putExtras(extras);

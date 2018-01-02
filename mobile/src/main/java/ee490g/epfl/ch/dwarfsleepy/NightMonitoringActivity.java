@@ -346,7 +346,7 @@ public class NightMonitoringActivity extends AppCompatActivity implements View.O
                 calculateNightBurntCalories();
                 break;
             case R.id.polarBeltButton:
-                //TODO
+                NavigationHandler.goToDevicesControlActivity(this, user);
                 break;
             default:
                 break;

@@ -16,9 +16,10 @@
 
 package ee490g.epfl.ch.dwarfsleepy.data;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ListActivity;
-import android.bluetooth.BluetoothAdapter;
+import android.bluetooth.BluetoothAdapter; // this crossed stopLeScan
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
@@ -147,6 +148,7 @@ public class DeviceScanActivity extends ListActivity {
         mLeDeviceListAdapter.clear();
     }
 
+    @SuppressLint("MissingPermission")
     @Override
     protected void onListItemClick(ListView l, View v, int position, long id) {
         final BluetoothDevice device = mLeDeviceListAdapter.getDevice(position);
