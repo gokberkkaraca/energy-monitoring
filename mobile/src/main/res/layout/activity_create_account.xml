@@ -83,10 +83,38 @@
     </RadioGroup>
 
     <EditText
-        android:id="@+id/passwordEditText"
+        android:id="@+id/weightEditText"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/genderRadioGroup"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:backgroundTint="@color/colorWhite"
+        android:hint="@string/weight_kg"
+        android:inputType="numberDecimal"
+        android:maxLines="1"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorWhite" />
+
+    <EditText
+        android:id="@+id/heightEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/weightEditText"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:backgroundTint="@color/colorWhite"
+        android:hint="@string/height_cm"
+        android:inputType="numberDecimal"
+        android:maxLines="1"
+        android:textColor="@color/colorWhite"
+        android:textColorHint="@color/colorWhite" />
+
+    <EditText
+        android:id="@+id/passwordEditText"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/heightEditText"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:backgroundTint="@color/colorWhite"

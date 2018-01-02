@@ -13,7 +13,7 @@ public class User implements Serializable {
     private Gender gender;
     private Date birthday;
 
-    public User(FirebaseUser firebaseUser, String name, Gender gender, Date birthday) {
+    public User(FirebaseUser firebaseUser, String name, Gender gender, Date birthday, double weight, int height) {
         this.userId = firebaseUser.getUid();
         this.name = name;
         this.email = firebaseUser.getEmail();

@@ -24,4 +24,6 @@
     <string name="kcal">kcal</string>
     <string name="calculate">Calculate</string>
     <string name="logout">LOGOUT</string>
+    <string name="weight_kg">Weight (kg)</string>
+    <string name="height_cm">Height (cm)</string>
 </resources>
