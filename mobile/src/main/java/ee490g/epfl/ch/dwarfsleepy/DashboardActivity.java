@@ -373,6 +373,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         else {
             int targetCaloriesValue = Integer.parseInt(targetCalories);
             int remainingCalories = targetCaloriesValue - totalCaloriesBurnedDuringDay;
+            double burnRemainingCaloriesWalking=remainingCalories/((0.035*user.getWeight())+(1.96/((double) user.getHeight())/100));
+            double burnRemainingCaloriesRunning=remainingCalories/((0.035*user.getWeight())+(6.25/((double) user.getHeight())/100));
+            double burnRemainingCaloriesBiking=remainingCalories/10;
             ((TextView) findViewById(R.id.burntCaloriesTextView)).setText(String.valueOf(totalCaloriesBurnedDuringDay));
             if (remainingCalories > 0) {
                 ((TextView) findViewById(R.id.remainingCaloriesTextView)).setText(String.valueOf(remainingCalories));
