@@ -253,7 +253,7 @@
                         android:src="@drawable/walking" />
 
                     <TextView
-                        android:id="@+id/walkingTextView"
+                        android:id="@+id/walkingSuggestionTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:textColor="@color/ap_white"
@@ -273,7 +273,7 @@
                         android:src="@drawable/running" />
 
                     <TextView
-                        android:id="@+id/runningTextView"
+                        android:id="@+id/runningSuggestionTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
                         android:textColor="@color/ap_white"

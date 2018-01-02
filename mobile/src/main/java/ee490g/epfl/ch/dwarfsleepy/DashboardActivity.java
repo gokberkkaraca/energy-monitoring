@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -369,18 +370,18 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         String targetCalories = ((EditText) findViewById(R.id.targetCaloriesEditText)).getText().toString();
         if (("").equals(targetCalories)) {
             Toast.makeText(this, "Please enter required calories", Toast.LENGTH_SHORT).show();
-        }
-        else {
+        } else {
             int targetCaloriesValue = Integer.parseInt(targetCalories);
             int remainingCalories = targetCaloriesValue - totalCaloriesBurnedDuringDay;
-            double burnRemainingCaloriesWalking=remainingCalories/((0.035*user.getWeight())+(1.96/((double) user.getHeight())/100));
-            double burnRemainingCaloriesRunning=remainingCalories/((0.035*user.getWeight())+(6.25/((double) user.getHeight())/100));
-            double burnRemainingCaloriesBiking=remainingCalories/10;
             ((TextView) findViewById(R.id.burntCaloriesTextView)).setText(String.valueOf(totalCaloriesBurnedDuringDay));
             if (remainingCalories > 0) {
                 ((TextView) findViewById(R.id.remainingCaloriesTextView)).setText(String.valueOf(remainingCalories));
-            }
-            else {
+
+                ((TextView) findViewById(R.id.bikingSuggestionTextView)).setText(PhysicalActivity.calculateDurationForBiking(remainingCalories));
+                ((TextView) findViewById(R.id.runningSuggestionTextView)).setText(PhysicalActivity.calculateDurationForRunning(remainingCalories, user.getWeight(), user.getHeight()));
+                ((TextView) findViewById(R.id.walkingSuggestionTextView)).setText(PhysicalActivity.calculateDurationForWalking(remainingCalories, user.getWeight(), user.getHeight()));
+                findViewById(R.id.suggestionLayout).setVisibility(View.VISIBLE);
+            } else {
                 ((TextView) findViewById(R.id.remainingCaloriesTextView)).setText(String.valueOf(0));
                 ((ImageView) findViewById(R.id.remainingCaloriesImageView)).setImageResource(R.drawable.check_mark);
             }

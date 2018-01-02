@@ -58,4 +58,31 @@ public class PhysicalActivity {
         RUNNING,
         OTHER
     }
+
+    public static String calculateDurationForBiking(int remainingCalories) {
+        int durationMilliseconds = (int) (((double) remainingCalories / 10) * (60 * 1000)); // Minutes to milliseconds conversion
+        int durationSeconds = (durationMilliseconds / 1000) % 60;
+        int durationMinutes = ((durationMilliseconds / (1000 * 60)) % 60);
+        int durationHours = ((durationMilliseconds / (1000 * 60 * 60)) % 24);
+
+        return durationHours + "h " + durationMinutes + "m " + durationSeconds + "s";
+    }
+
+    public static String calculateDurationForRunning(int remainingCalories, double weight, int height) {
+        int durationMilliseconds = (int) (remainingCalories / ((0.035 * weight) + (6.25 / ((double) height) / 100))) * (60 * 1000);
+        int durationSeconds = (durationMilliseconds / 1000) % 60;
+        int durationMinutes = ((durationMilliseconds / (1000 * 60)) % 60);
+        int durationHours = ((durationMilliseconds / (1000 * 60 * 60)) % 24);
+
+        return durationHours + "h " + durationMinutes + "m " + durationSeconds + "s";
+    }
+
+    public static String calculateDurationForWalking(int remainingCalories, double weight, int height) {
+        int durationMilliseconds = (int) (remainingCalories / ((0.035 * weight) + (1.96 / ((double) height) / 100))) * (60 * 1000);
+        int durationSeconds = (durationMilliseconds / 1000) % 60;
+        int durationMinutes = ((durationMilliseconds / (1000 * 60)) % 60);
+        int durationHours = ((durationMilliseconds / (1000 * 60 * 60)) % 24);
+
+        return durationHours + "h " + durationMinutes + "m " + durationSeconds + "s";
+    }
 }
