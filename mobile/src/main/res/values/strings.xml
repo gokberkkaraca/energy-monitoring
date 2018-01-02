@@ -35,5 +35,7 @@
     <string name="error_bluetooth_not_supported">Bluetooth is not supported!</string>
     <string name="menu_scan">Scan</string>
     <string name="menu_stop">Stop</string>
-
+    <string name="device_address">Device address:</string>
+    <string name="data">Data:</string>
+    <string name="state">State:</string>
 </resources>

@@ -183,7 +183,7 @@ public class DeviceControlActivity extends FragmentActivity {
         mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
         mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
 
-        setContentView(R.layout.activity_night_monitoring);
+        setContentView(R.layout.gatt_service);
         //setContentView(R.layout.gatt_services_characteristics);
 
         //Attach fragment to activity
