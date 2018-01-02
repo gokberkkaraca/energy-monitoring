@@ -43,6 +43,8 @@ public class GoogleAccountActivity extends CreateAccountActivity {
         nameEditText = findViewById(R.id.nameEditText);
         emailEditText = findViewById(R.id.emailEditText);
         genderRadioGroup = findViewById(R.id.genderRadioGroup);
+        weightEditText = findViewById(R.id.weightEditText);
+        heightEditText = findViewById(R.id.heightEditText);
     }
 
     @Override
@@ -53,16 +55,17 @@ public class GoogleAccountActivity extends CreateAccountActivity {
                 email = emailEditText.getText().toString();
                 birthday = calendar.getTime();
                 gender = getGenderFromRadioGroup();
-                createAccount(name, email, null);
+                createAccount(name, email, null, weight, height);
                 break;
             default:
                 break;
         }
     }
 
-    protected void createAccount(final String name, final String email, String password) {
+    @Override
+    protected void createAccount(final String name, final String email, String password, double weight, int height) {
         if (checkFields()) {
-            User user = new User(firebaseUser, name, gender, birthday);
+            User user = new User(firebaseUser, name, gender, birthday, weight, height);
             DatabaseHandler.addUser(user);
             DataLayerListenerService.setUser(user);
             NavigationHandler.goToDashboardActivity(GoogleAccountActivity.this, user);
