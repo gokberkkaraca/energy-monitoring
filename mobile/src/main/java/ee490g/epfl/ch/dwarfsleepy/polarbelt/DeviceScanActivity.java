@@ -131,13 +131,11 @@ public class DeviceScanActivity extends ListActivity {
                     // permission was granted, yay! Do the
                     // contacts-related task you need to do.
 
-                } else {
-
-                    // permission denied, boo! Disable the
-                    // functionality that depends on this permission.
                 }
                 return;
             }
+            default:
+                break;
 
             // other 'case' lines to check for other
             // permissions this app might request
@@ -154,6 +152,8 @@ public class DeviceScanActivity extends ListActivity {
             case R.id.menu_stop:
                 scanLeDevice(false);
                 break;
+            default:
+                break;
         }
         return true;
     }
@@ -165,10 +165,8 @@ public class DeviceScanActivity extends ListActivity {
         // Ensures Bluetooth is enabled on the device.  If Bluetooth is not currently enabled,
         // fire an intent to display a dialog asking the user to grant permission to enable it.
         if (!mBluetoothAdapter.isEnabled()) {
-            if (!mBluetoothAdapter.isEnabled()) {
-                Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
-                startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
-            }
+            Intent enableBtIntent = new Intent(BluetoothAdapter.ACTION_REQUEST_ENABLE);
+            startActivityForResult(enableBtIntent, REQUEST_ENABLE_BT);
         }
 
         // Initializes list view adapter.
@@ -314,7 +312,7 @@ public class DeviceScanActivity extends ListActivity {
         NavigationHandler.goToNightMonitoringActivity(this, user);
     }
     static class ViewHolder {
-        TextView deviceName;
-        TextView deviceAddress;
+        private TextView deviceName;
+        private TextView deviceAddress;
     }
 }

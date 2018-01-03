@@ -13,7 +13,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.ServiceConnection;
-import android.content.res.Configuration;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -21,7 +20,6 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -33,7 +31,6 @@ import com.androidplot.xy.XYPlot;
 import com.androidplot.xy.XYSeries;
 
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.util.List;
 
 import ee490g.epfl.ch.dwarfsleepy.R;
@@ -51,7 +48,6 @@ public class DeviceControlActivity extends Activity {
 
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
-    public ImageView mHeartImage;
     private TextView mConnectionState;
     private TextView mDataField;
     private String mDeviceAddress;
@@ -61,9 +57,7 @@ public class DeviceControlActivity extends Activity {
     public static final Integer MAX_HR = 100;
     public static final Integer MIN_HR = 0;
     public static final Integer NUMBER_OF_POINTS = 50;
-    private double castingVariable = 0;
     public static final String HR_POLAR = "RR from Polar Belt";
-    public static final String heart_rate = "RR X 100";
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -111,7 +105,7 @@ public class DeviceControlActivity extends Activity {
             }
         }
     };
-    private XYPlotSeriesList  xyplot;
+    private XYPlotSeriesList xyplot;
 
     private void configurePlot() {
         // Set all solid colors to "no color"
@@ -124,12 +118,11 @@ public class DeviceControlActivity extends Activity {
         heartRatePlot.getGraph().getRangeOriginLinePaint().setColor(Color.GRAY);
         heartRatePlot.getGraph().getDomainOriginLinePaint().setColor(Color.GRAY);
         heartRatePlot.setRangeBoundaries(MIN_HR, MAX_HR, BoundaryMode.FIXED);
-        heartRatePlot.setDomainBoundaries(0, NUMBER_OF_POINTS-1, BoundaryMode.FIXED);
+        heartRatePlot.setDomainBoundaries(0, NUMBER_OF_POINTS - 1, BoundaryMode.FIXED);
         heartRatePlot.setRangeStepValue(9);
         heartRatePlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.LEFT).setFormat(new DecimalFormat("#"));
         heartRatePlot.setRangeLabel(getString(R.string.heart_rate));
     }
-
 
 
     @Override
@@ -152,9 +145,9 @@ public class DeviceControlActivity extends Activity {
         heartRatePlot = findViewById(R.id.HRplot);
         configurePlot();
         heartRatePlot.setVisibility(View.VISIBLE);
-        LineAndPointFormatter formatterPolar = new LineAndPointFormatter(Color.BLUE, Color.TRANSPARENT, Color.TRANSPARENT,null);
+        LineAndPointFormatter formatterPolar = new LineAndPointFormatter(Color.BLUE, Color.TRANSPARENT, Color.TRANSPARENT, null);
         formatterPolar.getLinePaint().setStrokeWidth(8);
-        xyplot.initializeSeriesAndAddToList(HR_POLAR, MIN_HR,NUMBER_OF_POINTS,formatterPolar);
+        xyplot.initializeSeriesAndAddToList(HR_POLAR, MIN_HR, NUMBER_OF_POINTS, formatterPolar);
         XYSeries HRseries = new SimpleXYSeries(xyplot.getSeriesFromList(HR_POLAR), SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, HR_POLAR);
         heartRatePlot.clear();
         heartRatePlot.addSeries(HRseries, formatterPolar);
@@ -204,7 +197,7 @@ public class DeviceControlActivity extends Activity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
+        switch (item.getItemId()) {
             case R.id.menu_connect:
                 mBluetoothLeService.connect(mDeviceAddress);
                 return true;
@@ -231,10 +224,10 @@ public class DeviceControlActivity extends Activity {
 
     private void displayData(Integer data) {
         if (data != null) {
-            Log.e(TAG,"data: " +data);
+            Log.e(TAG, "data: " + data);
             Double a;
             Integer b;
-            a = 6000/(double)data;
+            a = 6000 / (double) data;
             b = a.intValue();
             mDataField.setText(b.toString());
             xyplot.updateSeries(HR_POLAR, b);
@@ -244,9 +237,8 @@ public class DeviceControlActivity extends Activity {
             heartRatePlot.clear();
             heartRatePlot.addSeries(HRseries, formatterPolar);
             heartRatePlot.redraw();
-        }
-        else {
-            Log.e(TAG,"Data is null");
+        } else {
+            Log.e(TAG, "Data is null");
         }
     }
 
