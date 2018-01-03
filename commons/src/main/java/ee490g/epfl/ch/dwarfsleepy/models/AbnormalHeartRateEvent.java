@@ -1,5 +1,6 @@
 package ee490g.epfl.ch.dwarfsleepy.models;
 
+import com.google.android.gms.common.data.DataHolder;
 import com.google.android.gms.wearable.DataMap;
 
 import java.util.ArrayList;
@@ -86,7 +87,7 @@ public class AbnormalHeartRateEvent {
         }
 
         for (PhysicalActivity physicalActivity: physicalActivities ) {
-            boolean isContained = false; // TODO Check if physicalActivity time contains heart rate time
+            boolean isContained = physicalActivity.getBeginTime().getTime() < beginTime.getTime() && beginTime.getTime() < physicalActivity.getEndTime().getTime() && physicalActivity.getBeginTime().getTime() < endTime.getTime() && endTime.getTime() < physicalActivity.getEndTime().getTime();
 
             if (isContained) {
                 return true;
