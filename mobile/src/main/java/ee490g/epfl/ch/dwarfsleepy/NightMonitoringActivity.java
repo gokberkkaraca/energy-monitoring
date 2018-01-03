@@ -86,7 +86,7 @@ public class NightMonitoringActivity extends AppCompatActivity implements View.O
         nightHeartRatePlot.setDomainStepValue(9);
 
         nightHeartRatePlot.getGraph().getLineLabelStyle(XYGraphWidget.Edge.LEFT).setFormat(new DecimalFormat("#"));
-        nightHeartRatePlot.setRangeLabel("Night Heart Rate (bpm)");
+        nightHeartRatePlot.setRangeLabel("RR X 100");
 
         LineAndPointFormatter formatterHeartRate = new LineAndPointFormatter(Color.BLUE, Color.TRANSPARENT, Color.TRANSPARENT, null);
         formatterHeartRate.getLinePaint().setStrokeWidth(8);

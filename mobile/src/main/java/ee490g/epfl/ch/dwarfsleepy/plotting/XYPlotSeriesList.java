@@ -59,4 +59,5 @@ public class XYPlotSeriesList {
     public int getSizeList(){
         return xyList.size();
     }
+
 }

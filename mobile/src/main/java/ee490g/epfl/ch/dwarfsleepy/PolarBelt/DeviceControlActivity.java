@@ -65,12 +65,12 @@ public class DeviceControlActivity extends Activity {
     private XYPlot heartRatePlot;
     private final String LIST_NAME = "NAME";
     private final String LIST_UUID = "UUID";
-    public static final Integer MAX_HR = 200;
-    public static final Integer MIN_HR = 40;
+    public static final Integer MAX_HR = 100;
+    public static final Integer MIN_HR = 0;
     public static final Integer NUMBER_OF_POINTS = 50;
     double castingVariable = 0;
-    public static final String HR_POLAR = "HR from Polar Belt";
-    public static final String heart_rate = "Heart Rate (bpm)";
+    public static final String HR_POLAR = "RR from Polar Belt";
+    public static final String heart_rate = "RR X 100";
     // Code to manage Service lifecycle.
     private final ServiceConnection mServiceConnection = new ServiceConnection() {
 
@@ -246,8 +246,12 @@ public class DeviceControlActivity extends Activity {
     private void displayData(Integer data) {
         if (data != null) {
             Log.e(TAG,"data: " +data);
-            mDataField.setText(data.toString());
-            xyplot.updateSeries(HR_POLAR, data);
+            Double a;
+            Integer b;
+            a = 6000/(double)data;
+            b = a.intValue();
+            mDataField.setText(b.toString());
+            xyplot.updateSeries(HR_POLAR, b);
             XYSeries HRseries = new SimpleXYSeries(xyplot.getSeriesFromList(HR_POLAR), SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, HR_POLAR);
             LineAndPointFormatter formatterPolar = xyplot.getFormatterFromList(HR_POLAR);
 
