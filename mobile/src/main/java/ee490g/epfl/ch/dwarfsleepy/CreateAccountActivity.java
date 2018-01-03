@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -91,8 +92,10 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     protected User.Gender getGenderFromRadioGroup() {
-        int index = genderRadioGroup.getCheckedRadioButtonId();
-        if (index == 2131165278)
+        int radioButtonId = genderRadioGroup.getCheckedRadioButtonId();
+        View selectedButton = genderRadioGroup.findViewById(radioButtonId);
+        String genderText = ((RadioButton) selectedButton).getText().toString();
+        if ("Male".equals(genderText))
             return User.Gender.MALE;
         else
             return User.Gender.FEMALE;
