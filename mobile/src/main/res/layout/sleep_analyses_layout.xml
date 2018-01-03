@@ -17,9 +17,9 @@
         android:layout_height="match_parent"
         android:layout_marginLeft="30dp"
         android:gravity="center"
+        android:text="2017-30-12"
         android:textAlignment="center"
         android:textColor="@color/ap_white"
-        android:textSize="60sp"
-        android:text="2017-30-12"/>
+        android:textSize="60sp" />
 
 </LinearLayout>

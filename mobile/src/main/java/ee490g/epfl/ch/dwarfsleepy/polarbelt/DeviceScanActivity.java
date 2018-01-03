@@ -15,8 +15,6 @@
  */
 
 package ee490g.epfl.ch.dwarfsleepy.polarbelt;
-import ee490g.epfl.ch.dwarfsleepy.R;
-import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 import android.app.Activity;
 import android.app.ListActivity;
@@ -42,6 +40,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+
+import ee490g.epfl.ch.dwarfsleepy.R;
+import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 import static ee490g.epfl.ch.dwarfsleepy.DashboardActivity.user;
 

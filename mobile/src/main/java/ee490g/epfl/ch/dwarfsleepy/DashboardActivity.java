@@ -62,8 +62,8 @@ import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataLi
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.nightAccelerometerData;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.nightHeartRates;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.physicalActivities;
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.totalCaloriesBurnedDuringDay;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.todayHeartRates;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.totalCaloriesBurnedDuringDay;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.userWeight;
 import static java.text.DateFormat.getDateInstance;
 import static java.text.DateFormat.getTimeInstance;
@@ -142,11 +142,84 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         calculateCaloriesBurnedButton.setOnClickListener(this);
         logoutButton.setOnClickListener(this);
         calculateButton.setOnClickListener(this);
-        fetchPreviousData();
+        fetchPreviousHeartRateData();
+        fetchPreviousAbnormalHeartRateData();
+        fetchPreviousAbnormalAccelerometerData();
+        fetchPreviousAccelerometerData();
+        fetchGoogleFitData();
         setMessageScheduler();
     }
 
-    private void fetchPreviousData() {
+    private void fetchPreviousAccelerometerData() {
+        DatabaseHandler.getAccelerometerData(user, new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                averagedAccelerometerData = new ArrayList<>();
+                nightAccelerometerData = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    AccelerometerData accelerometerData = postSnapshot.getValue(AccelerometerData.class);
+                    averagedAccelerometerData.add(accelerometerData);
+
+                    // Get accelerometer night activity
+                    if (accelerometerData.getDate().getHours() >= 0 && accelerometerData.getDate().getHours() <= 8) {
+                        if (!nightAccelerometerData.isEmpty() && accelerometerData.getDate().getDate() == nightAccelerometerData.get(nightAccelerometerData.size() - 1).get(0).getDate().getDate() &&
+                                accelerometerData.getDate().getMonth() == nightAccelerometerData.get(nightAccelerometerData.size() - 1).get(0).getDate().getMonth() &&
+                                accelerometerData.getDate().getYear() == nightAccelerometerData.get(nightAccelerometerData.size() - 1).get(0).getDate().getYear()) {
+                            nightAccelerometerData.get(nightAccelerometerData.size() - 1).add(accelerometerData);
+                        } else {
+                            List<AccelerometerData> data = new ArrayList<>();
+                            data.add(accelerometerData);
+                            nightAccelerometerData.add(data);
+                        }
+                    }
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.v("DatabaseHandler", "An error occured while fetching data");
+            }
+        });
+    }
+
+    private void fetchPreviousAbnormalAccelerometerData() {
+        DatabaseHandler.getAbnormalAccelerometerEvents(user, new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                abnormalAccelerometerEvents = new ArrayList<>();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    AbnormalAccelerometerEvent abnormalAccelerometerEvent = postSnapshot.getValue(AbnormalAccelerometerEvent.class);
+                    abnormalAccelerometerEvents.add(abnormalAccelerometerEvent);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.v("DatabaseHandler", "An error occured while fetching data");
+            }
+        });
+    }
+
+    private void fetchPreviousAbnormalHeartRateData() {
+        DatabaseHandler.getAbnormalHeartRateEvents(user, new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                abnormalHeartRateEvents = new ArrayList<>();
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    AbnormalHeartRateEvent abnormalHeartRateEvent = postSnapshot.getValue(AbnormalHeartRateEvent.class);
+                    abnormalHeartRateEvents.add(abnormalHeartRateEvent);
+                }
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.v("DatabaseHandler", "An error occured while fetching data");
+            }
+        });
+    }
+
+    private void fetchPreviousHeartRateData() {
         DatabaseHandler.getHeartRateData(user, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -189,71 +262,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 Log.v("DatabaseHandler", "An error occured while fetching data");
             }
         });
-
-        DatabaseHandler.getAbnormalHeartRateEvents(user, new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                abnormalHeartRateEvents = new ArrayList<>();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    AbnormalHeartRateEvent abnormalHeartRateEvent = postSnapshot.getValue(AbnormalHeartRateEvent.class);
-                    abnormalHeartRateEvents.add(abnormalHeartRateEvent);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.v("DatabaseHandler", "An error occured while fetching data");
-            }
-        });
-
-        DatabaseHandler.getAbnormalAccelerometerEvents(user, new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                abnormalAccelerometerEvents = new ArrayList<>();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    AbnormalAccelerometerEvent abnormalAccelerometerEvent = postSnapshot.getValue(AbnormalAccelerometerEvent.class);
-                    abnormalAccelerometerEvents.add(abnormalAccelerometerEvent);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.v("DatabaseHandler", "An error occured while fetching data");
-            }
-        });
-
-        DatabaseHandler.getAccelerometerData(user, new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                averagedAccelerometerData = new ArrayList<>();
-                nightAccelerometerData = new ArrayList<>();
-
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    AccelerometerData accelerometerData = postSnapshot.getValue(AccelerometerData.class);
-                    averagedAccelerometerData.add(accelerometerData);
-
-                    // Get accelerometer night activity
-                    if (accelerometerData.getDate().getHours() >= 0 && accelerometerData.getDate().getHours() <= 8) {
-                        if (!nightAccelerometerData.isEmpty() && accelerometerData.getDate().getDate() == nightAccelerometerData.get(nightAccelerometerData.size() - 1).get(0).getDate().getDate() &&
-                                accelerometerData.getDate().getMonth() == nightAccelerometerData.get(nightAccelerometerData.size() - 1).get(0).getDate().getMonth() &&
-                                accelerometerData.getDate().getYear() == nightAccelerometerData.get(nightAccelerometerData.size() - 1).get(0).getDate().getYear()) {
-                            nightAccelerometerData.get(nightAccelerometerData.size() - 1).add(accelerometerData);
-                        } else {
-                            List<AccelerometerData> data = new ArrayList<>();
-                            data.add(accelerometerData);
-                            nightAccelerometerData.add(data);
-                        }
-                    }
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.v("DatabaseHandler", "An error occured while fetching data");
-            }
-        });
-
-        getGoogleFitData();
     }
 
     private void setMessageScheduler() {
@@ -369,7 +377,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         NavigationHandler.goToLoginActivity(this);
     }
 
-    private void getGoogleFitData() {
+    private void fetchGoogleFitData() {
         Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .subscribe(DataType.TYPE_ACTIVITY_SAMPLES)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {

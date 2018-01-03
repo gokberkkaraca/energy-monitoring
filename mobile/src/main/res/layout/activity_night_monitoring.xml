@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -23,17 +22,17 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:layout_below="@id/actionBarLayout"
-        android:layout_marginTop="20dp"
-        android:layout_marginRight="20dp"
         android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <ImageButton
             android:id="@+id/nightSleepButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginRight="12dp"
+            android:layout_weight="1"
             android:background="@drawable/sleep"
             android:contentDescription="@string/null_description" />
 
@@ -41,8 +40,8 @@
             android:id="@+id/caloriesButton"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
             android:layout_marginRight="12dp"
+            android:layout_weight="1"
             android:background="@drawable/calories"
             android:contentDescription="@string/null_description" />
 
@@ -50,29 +49,29 @@
             android:id="@+id/sleepDurationEditText"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/colorWhite"
-            android:textSize="24dp"
-            android:textStyle="bold"
-            android:hint="hours"
-            android:textColorHint="@color/colorWhite"
-            android:backgroundTint="@color/colorWhite"
-            android:inputType="number"
             android:layout_gravity="center"
+            android:backgroundTint="@color/colorWhite"
+            android:focusedByDefault="false"
             android:gravity="center"
-            android:focusedByDefault="false"/>
+            android:hint="hours"
+            android:inputType="number"
+            android:textColor="@color/colorWhite"
+            android:textColorHint="@color/colorWhite"
+            android:textSize="24dp"
+            android:textStyle="bold" />
 
         <TextView
             android:id="@+id/nightCaloriesBurntTextView"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_gravity="center"
             android:layout_marginRight="12dp"
             android:layout_marginTop="10dp"
-            android:textColor="@color/colorWhite"
-            android:textSize="24sp"
+            android:layout_weight="1"
+            android:gravity="center"
             android:text="- . -"
-            android:layout_gravity="center"
-            android:gravity="center"/>
+            android:textColor="@color/colorWhite"
+            android:textSize="24sp" />
 
         <ImageButton
             android:id="@+id/polarBeltButton"

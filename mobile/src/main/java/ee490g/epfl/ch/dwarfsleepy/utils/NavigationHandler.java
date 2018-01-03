@@ -13,9 +13,9 @@ import ee490g.epfl.ch.dwarfsleepy.GoogleAccountActivity;
 import ee490g.epfl.ch.dwarfsleepy.GoogleFitActivity;
 import ee490g.epfl.ch.dwarfsleepy.LoginActivity;
 import ee490g.epfl.ch.dwarfsleepy.NightMonitoringActivity;
-import ee490g.epfl.ch.dwarfsleepy.polarbelt.DeviceScanActivity;
 import ee490g.epfl.ch.dwarfsleepy.SleepAnalysesActivity;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
+import ee490g.epfl.ch.dwarfsleepy.polarbelt.DeviceScanActivity;
 
 public class NavigationHandler {
 
