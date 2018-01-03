@@ -5,6 +5,10 @@ import java.util.Date;
 
 public class PhysicalActivity {
 
+    private static final double WALKING_METS = 4.3;
+    private static final double RUNNING_METS = 11;
+    private static final double BIKING_METS = 6.8;
+
     private ActivityType activityType;
     private Date beginTime;
     private Date endTime;
@@ -59,8 +63,8 @@ public class PhysicalActivity {
         OTHER
     }
 
-    public static String calculateDurationForBiking(int remainingCalories) {
-        int durationMilliseconds = (int) (((double) remainingCalories / 10) * (60 * 1000)); // Minutes to milliseconds conversion
+    public static String calculateDurationForBiking(int remainingCalories, double BMR) {
+        int durationMilliseconds = (int) ((24 * remainingCalories) / (BMR * BIKING_METS) * 3600000);
         int durationSeconds = (durationMilliseconds / 1000) % 60;
         int durationMinutes = ((durationMilliseconds / (1000 * 60)) % 60);
         int durationHours = ((durationMilliseconds / (1000 * 60 * 60)) % 24);
@@ -68,8 +72,8 @@ public class PhysicalActivity {
         return durationHours + "h " + durationMinutes + "m " + durationSeconds + "s";
     }
 
-    public static String calculateDurationForRunning(int remainingCalories, double weight, int height) {
-        int durationMilliseconds = (int) (remainingCalories / ((0.035 * weight) + (6.25 / ((double) height) / 100))) * (60 * 1000);
+    public static String calculateDurationForRunning(int remainingCalories, double BMR) {
+        int durationMilliseconds = (int) ((24 * remainingCalories) / (BMR * RUNNING_METS) * 3600000);
         int durationSeconds = (durationMilliseconds / 1000) % 60;
         int durationMinutes = ((durationMilliseconds / (1000 * 60)) % 60);
         int durationHours = ((durationMilliseconds / (1000 * 60 * 60)) % 24);
@@ -77,8 +81,9 @@ public class PhysicalActivity {
         return durationHours + "h " + durationMinutes + "m " + durationSeconds + "s";
     }
 
-    public static String calculateDurationForWalking(int remainingCalories, double weight, int height) {
-        int durationMilliseconds = (int) (remainingCalories / ((0.035 * weight) + (1.96 / ((double) height) / 100))) * (60 * 1000);
+    public static String calculateDurationForWalking(int remainingCalories, double BMR) {
+
+        int durationMilliseconds = (int) ((24 * remainingCalories) / (BMR * WALKING_METS) * 3600000);
         int durationSeconds = (durationMilliseconds / 1000) % 60;
         int durationMinutes = ((durationMilliseconds / (1000 * 60)) % 60);
         int durationHours = ((durationMilliseconds / (1000 * 60 * 60)) % 24);

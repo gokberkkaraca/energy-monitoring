@@ -377,9 +377,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             if (remainingCalories > 0) {
                 ((TextView) findViewById(R.id.remainingCaloriesTextView)).setText(String.valueOf(remainingCalories));
 
-                ((TextView) findViewById(R.id.bikingSuggestionTextView)).setText(PhysicalActivity.calculateDurationForBiking(remainingCalories));
-                ((TextView) findViewById(R.id.runningSuggestionTextView)).setText(PhysicalActivity.calculateDurationForRunning(remainingCalories, user.getWeight(), user.getHeight()));
-                ((TextView) findViewById(R.id.walkingSuggestionTextView)).setText(PhysicalActivity.calculateDurationForWalking(remainingCalories, user.getWeight(), user.getHeight()));
+                ((TextView) findViewById(R.id.bikingSuggestionTextView)).setText(PhysicalActivity.calculateDurationForBiking(remainingCalories, user.getBMR()));
+                ((TextView) findViewById(R.id.runningSuggestionTextView)).setText(PhysicalActivity.calculateDurationForRunning(remainingCalories, user.getBMR()));
+                ((TextView) findViewById(R.id.walkingSuggestionTextView)).setText(PhysicalActivity.calculateDurationForWalking(remainingCalories, user.getBMR()));
                 findViewById(R.id.suggestionLayout).setVisibility(View.VISIBLE);
             } else {
                 ((TextView) findViewById(R.id.remainingCaloriesTextView)).setText(String.valueOf(0));

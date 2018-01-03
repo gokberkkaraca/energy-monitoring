@@ -3,6 +3,7 @@ package ee490g.epfl.ch.dwarfsleepy.models;
 import com.google.firebase.auth.FirebaseUser;
 
 import java.io.Serializable;
+import java.util.Calendar;
 import java.util.Date;
 
 public class User implements Serializable {
@@ -75,5 +76,28 @@ public class User implements Serializable {
 
     public enum Gender {
         MALE, FEMALE
+    }
+
+    public int getAge() {
+        Calendar calendar = Calendar.getInstance();
+
+        Date currentTime = new Date();
+        calendar.setTime(currentTime);
+        int currentYear = calendar.get(Calendar.YEAR);
+
+        calendar.setTime(birthday);
+        int birthdayYear = calendar.get(Calendar.YEAR);
+
+        return currentYear - birthdayYear;
+    }
+
+    public double getBMR(){
+        double BMR;
+        if (gender.equals(Gender.MALE))
+            BMR = 66 + (13.75 * weight) + (5 * height) - (6.8 * getAge());
+        else
+            BMR = 655 + (9.6 * weight) + (1.8 * height) - (4.7 * getAge());
+
+        return BMR;
     }
 }
