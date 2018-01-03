@@ -121,7 +121,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             }
             Log.v("Total Calories:", "" + totalCaloriesExpended);
         }
-        DataHolder.totalCaloriesBurnedDuringDay = (int) totalCaloriesExpended;
+        DataHolder.caloriesBurntFromGoogleFit = (int) totalCaloriesExpended;
     }
 
     @Override
