@@ -16,7 +16,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
             android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
-            <activity android:name=".MainActivity">
+            <activity
+                android:name=".MainActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar">
                 <intent-filter>
                     <action android:name="android.intent.action.MAIN" />
 
@@ -50,15 +52,34 @@
                 </intent-filter>
             </service>
 
-            <activity android:name=".CreateAccountActivity" />
-            <activity android:name=".LoginActivity" />
-            <activity android:name=".ResetPasswordActivity" />
-            <activity android:name=".DashboardActivity" />
-            <activity android:name=".DayMonitoringActivity" />
-            <activity android:name=".GoogleAccountActivity" />
-            <activity android:name=".GoogleFitActivity" />
-            <activity android:name=".AbnormalHeartRateActivity" />
-            <activity android:name=".AbnormalAccelerometerActivity" />
+            <activity
+                android:name=".CreateAccountActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            <activity
+                android:name=".LoginActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+            <activity
+                android:name=".ResetPasswordActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            <activity
+                android:name=".DashboardActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            <activity
+                android:name=".DayMonitoringActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            <activity
+                android:name=".GoogleAccountActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            <activity
+                android:name=".GoogleFitActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            <activity
+                android:name=".AbnormalHeartRateActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+            <activity
+                android:name=".AbnormalAccelerometerActivity"
+                android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
             <activity android:name=".NightMonitoringActivity" />
             <activity android:name=".SleepAnalysesActivity"/>
             <activity android:name=".PolarBelt.DeviceScanActivity"

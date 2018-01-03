@@ -17,6 +17,7 @@ public class DataHolder {
     public static ArrayList<AccelerometerData> averagedAccelerometerData = new ArrayList<>();
     public static ArrayList<AbnormalAccelerometerEvent> abnormalAccelerometerEvents = new ArrayList<>();
 
+    public static int caloriesBurntFromGoogleFit;
     public static int totalCaloriesBurnedDuringDay = 0;
     public static int userWeight = 0;
     public static ArrayList<PhysicalActivity> physicalActivities = new ArrayList<>();
