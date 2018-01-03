@@ -152,11 +152,22 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         DatabaseHandler.getAbnormalHeartRateEvents(user, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Date currentDate = new Date();
                 abnormalHeartRateEvents = new ArrayList<>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     AbnormalHeartRateEvent abnormalHeartRateEvent = postSnapshot.getValue(AbnormalHeartRateEvent.class);
-                    abnormalHeartRateEvents.add(abnormalHeartRateEvent);
+
+                    assert abnormalHeartRateEvent != null;
+                    boolean isTodaysHR =
+                            abnormalHeartRateEvent.getEndTime().getYear() == currentDate.getYear() &&
+                            abnormalHeartRateEvent.getEndTime().getMonth() == currentDate.getMonth() &&
+                            abnormalHeartRateEvent.getEndTime().getDay() == currentDate.getDay();
+
+                    if (isTodaysHR)
+                        abnormalHeartRateEvents.add(abnormalHeartRateEvent);
                 }
+
+                DatabaseHandler.addAbnormalHeartEvents(user, abnormalHeartRateEvents);
             }
 
             @Override
