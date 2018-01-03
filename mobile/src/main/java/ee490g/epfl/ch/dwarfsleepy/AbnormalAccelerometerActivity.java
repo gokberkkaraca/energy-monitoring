@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import ee490g.epfl.ch.dwarfsleepy.adapter.AbnormalAccelerometerAdapter;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
@@ -37,6 +38,7 @@ public class AbnormalAccelerometerActivity extends AppCompatActivity {
         recyclerView.setAdapter(abnormalAccelerometerAdapter);
 
         updateRecyclerView();
+        ((TextView) findViewById(R.id.applicationName)).setText(R.string.abnormal_accelerometer_text);
     }
 
     private void updateRecyclerView() {

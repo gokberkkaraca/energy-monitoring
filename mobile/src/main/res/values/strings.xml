@@ -26,4 +26,8 @@
     <string name="logout">LOGOUT</string>
     <string name="weight_kg">Weight (kg)</string>
     <string name="height_cm">Height (cm)</string>
+    <string name="physical_activities_text">Physical Activities</string>
+    <string name="day_monitoring_text">Day Monitoring</string>
+    <string name="abnormal_hr_text">Abnormal Heart Rate Data</string>
+    <string name="abnormal_accelerometer_text">Abnormal Accelerometer Data</string>
 </resources>
