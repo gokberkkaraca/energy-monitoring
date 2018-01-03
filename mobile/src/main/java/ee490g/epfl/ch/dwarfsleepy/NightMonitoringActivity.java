@@ -241,10 +241,13 @@ public class NightMonitoringActivity extends AppCompatActivity implements View.O
         int lastNightAverageHeartRate = 0;
         int age = currentDate.getYear() - user.getBirthday().getYear();
 
-        if (sleepDurationEditText.getText().toString().equals("") || userWeight == 0) {
+        if (sleepDurationEditText.getText().toString().equals("")) {
             Toast.makeText(this, "Please enter required weight and sleep duration", Toast.LENGTH_SHORT).show();
             return;
         }
+
+        if (userWeight == 0)
+            userWeight = (int) user.getWeight();
 
         if(nightHeartRates.size() > 0 && nightHeartRates.get(nightHeartRates.size() - 1).get(0).getDate().getDate() != currentDate.getDate()
                 && nightHeartRates.get(nightHeartRates.size() - 1).get(0).getDate().getMonth() == currentDate.getMonth()
