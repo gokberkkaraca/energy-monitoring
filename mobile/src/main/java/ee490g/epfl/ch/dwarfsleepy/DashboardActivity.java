@@ -152,11 +152,22 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         DatabaseHandler.getAbnormalHeartRateEvents(user, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Date currentDate = new Date();
                 abnormalHeartRateEvents = new ArrayList<>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     AbnormalHeartRateEvent abnormalHeartRateEvent = postSnapshot.getValue(AbnormalHeartRateEvent.class);
-                    abnormalHeartRateEvents.add(abnormalHeartRateEvent);
+
+                    assert abnormalHeartRateEvent != null;
+                    boolean isTodaysHR =
+                            abnormalHeartRateEvent.getEndTime().getYear() == currentDate.getYear() &&
+                            abnormalHeartRateEvent.getEndTime().getMonth() == currentDate.getMonth() &&
+                            abnormalHeartRateEvent.getEndTime().getDay() == currentDate.getDay();
+
+                    if (isTodaysHR)
+                        abnormalHeartRateEvents.add(abnormalHeartRateEvent);
                 }
+
+                DatabaseHandler.addAbnormalHeartEvents(user, abnormalHeartRateEvents);
             }
 
             @Override
@@ -318,13 +329,14 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         Calendar cal = Calendar.getInstance();
         Date now = new Date();
         cal.setTime(now);
-        cal.set(Calendar.HOUR_OF_DAY, 21);
-        cal.set(Calendar.MINUTE, 0);
-        cal.set(Calendar.SECOND, 0);
+        cal.set(Calendar.HOUR_OF_DAY, 23);
+        cal.set(Calendar.MINUTE, 59);
+        cal.set(Calendar.SECOND, 59);
         cal.set(Calendar.MILLISECOND, 0);
 
         long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.HOUR_OF_DAY, -12);
+        cal.add(Calendar.HOUR_OF_DAY, -15);
+        cal.add(Calendar.SECOND,1);
         long startTime = cal.getTimeInMillis();
 
         DateFormat dateFormat = getDateInstance();
