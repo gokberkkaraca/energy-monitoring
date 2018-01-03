@@ -4,6 +4,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
@@ -12,6 +13,8 @@ import java.util.Locale;
 
 import ee490g.epfl.ch.dwarfsleepy.R;
 import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
+
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.physicalActivities;
 
 public class AbnormalHeartRateAdapter extends RecyclerView.Adapter {
 
@@ -46,6 +49,10 @@ public class AbnormalHeartRateAdapter extends RecyclerView.Adapter {
         abnormalHeartRatesViewHolder.duration.setText(duration);
         abnormalHeartRatesViewHolder.beginTime.setText(beginTime);
         abnormalHeartRatesViewHolder.endTime.setText(endTime);
+
+        if (abnormalHeartRateEvent.isExercise(physicalActivities)) {
+            abnormalHeartRatesViewHolder.heartRateImage.setImageResource(R.drawable.heart_exercise);
+        }
     }
 
     @Override
@@ -55,6 +62,7 @@ public class AbnormalHeartRateAdapter extends RecyclerView.Adapter {
 
     class AbnormalHeartRatesViewHolder extends RecyclerView.ViewHolder {
 
+        private final ImageView heartRateImage;
         private final TextView heartRateValue;
         private final TextView duration;
         private final TextView beginTime;
@@ -63,6 +71,7 @@ public class AbnormalHeartRateAdapter extends RecyclerView.Adapter {
         AbnormalHeartRatesViewHolder(View itemView) {
             super(itemView);
 
+            heartRateImage = itemView.findViewById(R.id.heartAttackImage);
             heartRateValue = itemView.findViewById(R.id.abnormal_hr_value);
             duration = itemView.findViewById(R.id.abnormal_hr_duration);
             beginTime = itemView.findViewById(R.id.abnormal_hr_begin_time);

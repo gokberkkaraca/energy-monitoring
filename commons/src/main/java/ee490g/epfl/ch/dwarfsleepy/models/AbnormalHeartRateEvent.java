@@ -87,7 +87,7 @@ public class AbnormalHeartRateEvent {
         }
 
         for (PhysicalActivity physicalActivity: physicalActivities ) {
-            boolean isContained = physicalActivity.getBeginTime().getTime() < beginTime.getTime() && beginTime.getTime() < physicalActivity.getEndTime().getTime() && physicalActivity.getBeginTime().getTime() < endTime.getTime() && endTime.getTime() < physicalActivity.getEndTime().getTime();
+            boolean isContained = physicalActivity.getBeginTime().getTime() < beginTime.getTime() && beginTime.getTime() < physicalActivity.getEndTime().getTime() && physicalActivity.getBeginTime().getTime() < endTime.getTime() && endTime.getTime() < physicalActivity.getEndTime().getTime() + 300000;
 
             if (isContained) {
                 return true;
