@@ -2,13 +2,13 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ee490g.epfl.ch.dwarfsleepy">
 
+    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
     <uses-permission android:name="android.permission.WAKE_LOCK" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
-    <uses-feature android:name="android.hardware.bluetooth_le" android:required="true"/>
-    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
     <uses-permission android:name="android.permission.BLUETOOTH"/>
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN"/>
-    <uses-sdk android:minSdkVersion="11"/>
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -61,9 +61,13 @@
             <activity android:name=".AbnormalAccelerometerActivity" />
             <activity android:name=".NightMonitoringActivity" />
             <activity android:name=".SleepAnalysesActivity"/>
-            <activity android:name=".PolarBelt.DeviceScanActivity"/>
-            <activity android:name=".PolarBelt.DeviceControlActivity"/>
-            <service android:name=".PolarBelt.BluetoothLeService" android:enabled="true"/>
+            <activity android:name=".PolarBelt.DeviceScanActivity"
+               android:theme="@android:style/Theme.Holo.Light" />
+            <activity android:name=".PolarBelt.DeviceControlActivity"
+                android:theme="@android:style/Theme.Holo.Light" />
+            <service android:name=".PolarBelt.BluetoothLeService"
+                android:theme="@android:style/Theme.Holo.Light"
+                android:enabled="true"/>
 
         </application>
 

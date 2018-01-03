@@ -2,7 +2,9 @@ package ee490g.epfl.ch.dwarfsleepy.utils;
 
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 
 import ee490g.epfl.ch.dwarfsleepy.AbnormalAccelerometerActivity;
@@ -104,3 +106,15 @@ public class NavigationHandler {
         activity.finish();
     }
 }
+/*
+public static void goToPolarBeltActivity(Context context, User user) {
+    Intent intent = context.getPackageManager().getLaunchIntentForPackage("com.example.android.bluetoothlegatt");
+    if (intent == null) {
+        // Bring user to the market or let them choose an app?
+        intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("market://details?id=" + "com.example.android.bluetoothlegatt"));
+    }
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    context.startActivity(intent);
+}
+*/
