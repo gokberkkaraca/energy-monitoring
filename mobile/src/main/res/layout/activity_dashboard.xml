@@ -32,8 +32,8 @@
 
             <ImageView
                 android:id="@+id/userImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:src="@drawable/ic_user" />
 
             <TextView
@@ -44,7 +44,7 @@
                 android:maxLines="1"
                 android:text="@string/name"
                 android:textColor="@color/colorWhite"
-                android:textSize="36sp"
+                android:textSize="32sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -54,8 +54,8 @@
 
             <ImageView
                 android:id="@+id/emailImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:contentDescription="@string/null_description"
                 android:src="@drawable/ic_email" />
 
@@ -67,7 +67,7 @@
                 android:maxLines="1"
                 android:text="@string/email"
                 android:textColor="@color/colorWhite"
-                android:textSize="36sp"
+                android:textSize="32sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -84,7 +84,7 @@
                 android:ems="3"
                 android:backgroundTint="@color/ap_white"
                 android:inputType="number"
-                android:textSize="36sp"
+                android:textSize="32sp"
                 android:maxLength="4"
                 android:textStyle="bold"
                 android:textColorHint="@color/ap_white"
