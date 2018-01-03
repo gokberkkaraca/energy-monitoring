@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.Toast;
 
@@ -41,8 +42,8 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     protected String email;
     protected Date birthday;
     protected User.Gender gender;
-    protected int height;
-    protected double weight;
+    protected String height;
+    protected String weight;
     private FirebaseAuth mAuth;
     private EditText passwordEditText;
     private String password;
@@ -81,8 +82,8 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                 password = passwordEditText.getText().toString();
                 birthday = calendar.getTime();
                 gender = getGenderFromRadioGroup();
-                weight = Double.parseDouble(weightEditText.getText().toString());
-                height = Integer.parseInt(heightEditText.getText().toString());
+                weight = weightEditText.getText().toString();
+                height = heightEditText.getText().toString();
                 createAccount(name, email, password, weight, height);
                 break;
             default:
@@ -91,8 +92,10 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
     }
 
     protected User.Gender getGenderFromRadioGroup() {
-        int index = genderRadioGroup.getCheckedRadioButtonId();
-        if (index == 2131165278)
+        int radioButtonId = genderRadioGroup.getCheckedRadioButtonId();
+        View selectedButton = genderRadioGroup.findViewById(radioButtonId);
+        String genderText = ((RadioButton) selectedButton).getText().toString();
+        if ("Male".equals(genderText))
             return User.Gender.MALE;
         else
             return User.Gender.FEMALE;
@@ -123,7 +126,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         birthdayEditText.setText(simpleDateFormat.format(birthday));
     }
 
-    protected void createAccount(final String name, final String email, String password, final double weight, final int height) {
+    protected void createAccount(final String name, final String email, String password, final String weight, final String height) {
         mAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
@@ -132,7 +135,7 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
                             // Sign in success, update UI with the signed-in user's information
                             FirebaseUser firebaseUser = mAuth.getCurrentUser();
                             if (checkFields()) {
-                                User user = new User(firebaseUser, name, gender, birthday, weight, height);
+                                User user = new User(firebaseUser, name, gender, birthday, Double.parseDouble(weight), Integer.parseInt(height));
                                 DatabaseHandler.addUser(user);
                                 DataLayerListenerService.setUser(user);
                                 NavigationHandler.goToDashboardActivity(CreateAccountActivity.this, user);
@@ -161,6 +164,14 @@ public class CreateAccountActivity extends AppCompatActivity implements View.OnC
         }
         if (birthday == null) {
             Toast.makeText(this, "Birthday field can't be empty", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (weight.isEmpty()) {
+            Toast.makeText(this, "Weight field can't be empty", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (height.isEmpty()) {
+            Toast.makeText(this, "Height field can't be empty", Toast.LENGTH_LONG).show();
             return false;
         }
         if (gender == null) {

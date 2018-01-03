@@ -55,6 +55,8 @@ public class GoogleAccountActivity extends CreateAccountActivity {
                 email = emailEditText.getText().toString();
                 birthday = calendar.getTime();
                 gender = getGenderFromRadioGroup();
+                weight = weightEditText.getText().toString();
+                height = heightEditText.getText().toString();
                 createAccount(name, email, null, weight, height);
                 break;
             default:
@@ -63,9 +65,9 @@ public class GoogleAccountActivity extends CreateAccountActivity {
     }
 
     @Override
-    protected void createAccount(final String name, final String email, String password, double weight, int height) {
+    protected void createAccount(final String name, final String email, String password, String weight, String height) {
         if (checkFields()) {
-            User user = new User(firebaseUser, name, gender, birthday, weight, height);
+            User user = new User(firebaseUser, name, gender, birthday, Double.parseDouble(weight), Integer.parseInt(height));
             DatabaseHandler.addUser(user);
             DataLayerListenerService.setUser(user);
             NavigationHandler.goToDashboardActivity(GoogleAccountActivity.this, user);
@@ -80,6 +82,14 @@ public class GoogleAccountActivity extends CreateAccountActivity {
         }
         if (email.isEmpty()) {
             Toast.makeText(this, "Email field can't be empty", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (weight.isEmpty()) {
+            Toast.makeText(this, "Weight field can't be empty", Toast.LENGTH_LONG).show();
+            return false;
+        }
+        if (height.isEmpty()) {
+            Toast.makeText(this, "Height field can't be empty", Toast.LENGTH_LONG).show();
             return false;
         }
         if (birthday == null) {
