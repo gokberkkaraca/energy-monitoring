@@ -270,16 +270,18 @@ public class DeviceScanActivity extends ListActivity {
 
         @Override
         public View getView(int i, View view, ViewGroup viewGroup) {
+            View newView;
             ViewHolder viewHolder;
             // General ListView optimization code.
             if (view == null) {
-                view = mInflator.inflate(R.layout.listitem_device, null);
+                newView = mInflator.inflate(R.layout.listitem_device, null);
                 viewHolder = new ViewHolder();
-                viewHolder.deviceAddress = (TextView) view.findViewById(R.id.device_address);
-                viewHolder.deviceName = (TextView) view.findViewById(R.id.device_name);
-                view.setTag(viewHolder);
+                viewHolder.deviceAddress = newView.findViewById(R.id.device_address);
+                viewHolder.deviceName = newView.findViewById(R.id.device_name);
+                newView.setTag(viewHolder);
             } else {
-                viewHolder = (ViewHolder) view.getTag();
+                newView = view;
+                viewHolder = (ViewHolder) newView.getTag();
             }
 
             BluetoothDevice device = mLeDevices.get(i);
@@ -290,7 +292,7 @@ public class DeviceScanActivity extends ListActivity {
                 viewHolder.deviceName.setText(R.string.unknown_device);
             viewHolder.deviceAddress.setText(device.getAddress());
 
-            return view;
+            return newView;
         }
     }
 
