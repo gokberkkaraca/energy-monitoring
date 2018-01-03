@@ -1,4 +1,4 @@
-package ee490g.epfl.ch.dwarfsleepy.PolarBelt;
+package ee490g.epfl.ch.dwarfsleepy.polarbelt;
 
 /**
  * Created by Dell on 1/1/2018.

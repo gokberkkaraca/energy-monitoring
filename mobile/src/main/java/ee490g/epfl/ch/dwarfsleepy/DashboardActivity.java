@@ -78,7 +78,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private Button calculateCaloriesBurnedButton;
     private Button logoutButton;
 
-    private EditText weightEditText;
     private Button calculateButton;
     private int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1905;
 
@@ -136,7 +135,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         user = (User) extras.getSerializable(NavigationHandler.USER);
 
         initializeViews();
-        findViewById(R.id.targetCaloriesEditText).clearFocus();;
+        findViewById(R.id.targetCaloriesEditText).clearFocus();
 
         dayMonitoringButton.setOnClickListener(this);
         nightMonitoringButton.setOnClickListener(this);
@@ -178,7 +177,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                     if (heartRateData.getDate().getDate() == currentDate.getDate() &&
                             heartRateData.getDate().getMonth() == currentDate.getMonth() &&
                             heartRateData.getDate().getYear() == currentDate.getYear()) {
-                        todayHeartRates.add(heartRateData);;
+                        todayHeartRates.add(heartRateData);
                     }
 
                     calculateCaloriesBurnedToday();
@@ -278,7 +277,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         calculateCaloriesBurnedButton = findViewById(R.id.calculateButton);
         logoutButton = findViewById(R.id.logoutButton);
 
-        weightEditText = findViewById(R.id.weightEditTxt);
+        EditText weightEditText = findViewById(R.id.weightEditTxt);
 
         if (userWeight != 0) {
             weightEditText.setText(userWeight + "");
@@ -287,7 +286,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         weightEditText.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-
+                Log.v("Tag", "Msj");
             }
 
             @Override
@@ -303,6 +302,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
             @Override
             public void afterTextChanged(Editable editable) {
+                Log.v("Tagg", "Msjj");
             }
         });
 

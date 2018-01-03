@@ -1,4 +1,4 @@
-package ee490g.epfl.ch.dwarfsleepy.PolarBelt;
+package ee490g.epfl.ch.dwarfsleepy.polarbelt;
 
 /**
  * Created by Dell on 1/1/2018.
@@ -51,24 +51,17 @@ public class DeviceControlActivity extends Activity {
 
     public static final String EXTRAS_DEVICE_NAME = "DEVICE_NAME";
     public static final String EXTRAS_DEVICE_ADDRESS = "DEVICE_ADDRESS";
-    ImageView mHeartImage;
+    public ImageView mHeartImage;
     private TextView mConnectionState;
     private TextView mDataField;
-    private String mDeviceName;
     private String mDeviceAddress;
-    private ExpandableListView mGattServicesList;
     private BluetoothLeService mBluetoothLeService;
-    private ArrayList<ArrayList<BluetoothGattCharacteristic>> mGattCharacteristics =
-            new ArrayList<ArrayList<BluetoothGattCharacteristic>>();
     private boolean mConnected = false;
-    private BluetoothGattCharacteristic mNotifyCharacteristic;
     private XYPlot heartRatePlot;
-    private final String LIST_NAME = "NAME";
-    private final String LIST_UUID = "UUID";
     public static final Integer MAX_HR = 100;
     public static final Integer MIN_HR = 0;
     public static final Integer NUMBER_OF_POINTS = 50;
-    double castingVariable = 0;
+    private double castingVariable = 0;
     public static final String HR_POLAR = "RR from Polar Belt";
     public static final String heart_rate = "RR X 100";
     // Code to manage Service lifecycle.
@@ -118,11 +111,7 @@ public class DeviceControlActivity extends Activity {
             }
         }
     };
-    XYPlotSeriesList  xyplot;
-    // If a given GATT characteristic is selected, check for supported features.  This sample
-    // demonstrates 'Read' and 'Notify' features.  See
-    // http://d.android.com/reference/android/bluetooth/BluetoothGatt.html for the complete
-    // list of supported characteristic features.
+    private XYPlotSeriesList  xyplot;
 
     private void configurePlot() {
         // Set all solid colors to "no color"
@@ -149,7 +138,7 @@ public class DeviceControlActivity extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.gatt_services_characteristics);
         final Intent intent = getIntent();
-        mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
+        String mDeviceName = intent.getStringExtra(EXTRAS_DEVICE_NAME);
         mDeviceAddress = intent.getStringExtra(EXTRAS_DEVICE_ADDRESS);
 
         // Sets up UI references.
@@ -159,23 +148,18 @@ public class DeviceControlActivity extends Activity {
         heartRatePlot = findViewById(R.id.plot);
         xyplot = new XYPlotSeriesList();
 
-        if (this.getResources().getConfiguration().orientation == Configuration.ORIENTATION_PORTRAIT){
-            // mHeartImage = findViewById(R.id.heartImage);
-            // mHeartImage.setImageDrawable(getDrawable(R.mipmap.heart_icon));
-        }
-        else
-        {
-            heartRatePlot = findViewById(R.id.HRplot);
-            configurePlot();
-            heartRatePlot.setVisibility(View.VISIBLE);
-            LineAndPointFormatter formatterPolar = new LineAndPointFormatter(Color.BLUE, Color.TRANSPARENT, Color.TRANSPARENT,null);
-            formatterPolar.getLinePaint().setStrokeWidth(8);
-            xyplot.initializeSeriesAndAddToList(HR_POLAR, MIN_HR,NUMBER_OF_POINTS,formatterPolar);
-            XYSeries HRseries = new SimpleXYSeries(xyplot.getSeriesFromList(HR_POLAR), SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, HR_POLAR);
-            heartRatePlot.clear();
-            heartRatePlot.addSeries(HRseries, formatterPolar);
-            heartRatePlot.redraw();
-        }
+
+        heartRatePlot = findViewById(R.id.HRplot);
+        configurePlot();
+        heartRatePlot.setVisibility(View.VISIBLE);
+        LineAndPointFormatter formatterPolar = new LineAndPointFormatter(Color.BLUE, Color.TRANSPARENT, Color.TRANSPARENT,null);
+        formatterPolar.getLinePaint().setStrokeWidth(8);
+        xyplot.initializeSeriesAndAddToList(HR_POLAR, MIN_HR,NUMBER_OF_POINTS,formatterPolar);
+        XYSeries HRseries = new SimpleXYSeries(xyplot.getSeriesFromList(HR_POLAR), SimpleXYSeries.ArrayFormat.XY_VALS_INTERLEAVED, HR_POLAR);
+        heartRatePlot.clear();
+        heartRatePlot.addSeries(HRseries, formatterPolar);
+        heartRatePlot.redraw();
+
         getActionBar().setTitle(mDeviceName);
         getActionBar().setDisplayHomeAsUpEnabled(true);
         Intent gattServiceIntent = new Intent(this, BluetoothLeService.class);
@@ -230,6 +214,8 @@ public class DeviceControlActivity extends Activity {
             case android.R.id.home:
                 onBackPressed();
                 return true;
+            default:
+                break;
         }
         return super.onOptionsItemSelected(item);
     }

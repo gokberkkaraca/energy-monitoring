@@ -2,9 +2,7 @@ package ee490g.epfl.ch.dwarfsleepy.utils;
 
 
 import android.app.Activity;
-import android.content.Context;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import ee490g.epfl.ch.dwarfsleepy.AbnormalAccelerometerActivity;
@@ -15,7 +13,7 @@ import ee490g.epfl.ch.dwarfsleepy.GoogleAccountActivity;
 import ee490g.epfl.ch.dwarfsleepy.GoogleFitActivity;
 import ee490g.epfl.ch.dwarfsleepy.LoginActivity;
 import ee490g.epfl.ch.dwarfsleepy.NightMonitoringActivity;
-import ee490g.epfl.ch.dwarfsleepy.PolarBelt.DeviceScanActivity;
+import ee490g.epfl.ch.dwarfsleepy.polarbelt.DeviceScanActivity;
 import ee490g.epfl.ch.dwarfsleepy.SleepAnalysesActivity;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 

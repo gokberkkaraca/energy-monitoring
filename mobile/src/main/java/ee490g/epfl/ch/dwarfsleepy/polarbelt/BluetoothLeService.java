@@ -1,4 +1,4 @@
-package ee490g.epfl.ch.dwarfsleepy.PolarBelt;
+package ee490g.epfl.ch.dwarfsleepy.polarbelt;
 
 /**
  * Created by Dell on 1/1/2018.
@@ -27,6 +27,7 @@ import java.util.UUID;
  * given Bluetooth LE device.
  */
 public class BluetoothLeService extends Service {
+    private final IBinder mBinder = new LocalBinder();
     private final static String TAG = BluetoothLeService.class.getSimpleName();
 
     private BluetoothManager mBluetoothManager;
@@ -71,6 +72,7 @@ public class BluetoothLeService extends Service {
             } else if (newState == BluetoothProfile.STATE_DISCONNECTED) {
                 intentAction = ACTION_GATT_DISCONNECTED;
                 mConnectionState = STATE_DISCONNECTED;
+                Log.v("ConnectionState", "mConnectionState: " + mConnectionState);
                 Log.i(TAG, "Disconnected from GATT server.");
                 broadcastUpdate(intentAction);
             }
@@ -140,7 +142,7 @@ public class BluetoothLeService extends Service {
     }
 
     public class LocalBinder extends Binder {
-        BluetoothLeService getService() {
+        public BluetoothLeService getService() {
             return BluetoothLeService.this;
         }
     }
@@ -159,7 +161,7 @@ public class BluetoothLeService extends Service {
         return super.onUnbind(intent);
     }
 
-    private final IBinder mBinder = new LocalBinder();
+
 
     /**
      * Initializes a reference to the local Bluetooth adapter.

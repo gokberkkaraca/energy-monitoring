@@ -14,22 +14,18 @@
  * limitations under the License.
  */
 
-package ee490g.epfl.ch.dwarfsleepy.PolarBelt;
-import ee490g.epfl.ch.dwarfsleepy.Manifest;
+package ee490g.epfl.ch.dwarfsleepy.polarbelt;
 import ee490g.epfl.ch.dwarfsleepy.R;
+import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
-import android.annotation.TargetApi;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.ListActivity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.bluetooth.BluetoothManager;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.PackageManager;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v13.app.ActivityCompat;
@@ -45,11 +41,9 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.security.Permissions;
 import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+
+import static ee490g.epfl.ch.dwarfsleepy.DashboardActivity.user;
 
 /**
  * Activity for scanning and displaying available Bluetooth LE devices.
@@ -316,7 +310,9 @@ public class DeviceScanActivity extends ListActivity {
                     });
                 }
             };
-
+    public void onBackPressed() {
+        NavigationHandler.goToNightMonitoringActivity(this, user);
+    }
     static class ViewHolder {
         TextView deviceName;
         TextView deviceAddress;
