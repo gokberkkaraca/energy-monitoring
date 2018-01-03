@@ -112,18 +112,21 @@ public class DataLayerListenerService extends WearableListenerService {
 
                 switch (uri.getPath()) {
                     case BuildConfig.another_path:
-                        // Extract the data behind the key you know contains data
-                        retrieveAndUploadHeartRateData(dataMapItem);
-                        retrieveAndUploadAbnormalHeartRateData(dataMapItem);
-                        retrieveAndUploadAccelerometerData(dataMapItem);
-                        retrieveAndUploadAbnormalAccelerometerData(dataMapItem);
 
-                        intent = new Intent("STRING_OF_ANOTHER_ACTION_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY");
-                        intent.putExtra("STRING_OF_INTEGER_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", abnormalHeartRateEvents);
-                        intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", averagedHeartRateDataList);
-                        intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY NEW", averagedAccelerometerData);
-                        intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY NEW 2", abnormalAccelerometerEvents);
-                        LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+                        if (user != null) {
+                            // Extract the data behind the key you know contains data
+                            retrieveAndUploadHeartRateData(dataMapItem);
+                            retrieveAndUploadAbnormalHeartRateData(dataMapItem);
+                            retrieveAndUploadAccelerometerData(dataMapItem);
+                            retrieveAndUploadAbnormalAccelerometerData(dataMapItem);
+
+                            intent = new Intent("STRING_OF_ANOTHER_ACTION_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY");
+                            intent.putExtra("STRING_OF_INTEGER_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", abnormalHeartRateEvents);
+                            intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", averagedHeartRateDataList);
+                            intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY NEW", averagedAccelerometerData);
+                            intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY NEW 2", abnormalAccelerometerEvents);
+                            LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
+                        }
                         break;
                     default:
                         Log.v(TAG, "Data changed for unrecognized path: " + uri);
