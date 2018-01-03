@@ -53,6 +53,9 @@ public class AbnormalHeartRateAdapter extends RecyclerView.Adapter {
         if (abnormalHeartRateEvent.isExercise(physicalActivities)) {
             abnormalHeartRatesViewHolder.heartRateImage.setImageResource(R.drawable.heart_exercise);
         }
+        else {
+            abnormalHeartRatesViewHolder.heartRateImage.setImageResource(R.drawable.heart_attack);
+        }
     }
 
     @Override
