@@ -5,6 +5,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import ee490g.epfl.ch.dwarfsleepy.adapter.PhysicalActivityAdapter;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
@@ -33,6 +34,8 @@ public class GoogleFitActivity extends AppCompatActivity {
         recyclerView.setLayoutManager(mLayoutManager);
         recyclerView.setItemAnimator(new DefaultItemAnimator());
         recyclerView.setAdapter(physicalActivityAdapter);
+
+        ((TextView) findViewById(R.id.applicationName)).setText(R.string.physical_activities_text);
     }
 
     @Override

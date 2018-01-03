@@ -70,6 +70,8 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
         configureHeartRatePlot();
         configureAccelerometerPlot();
         updateViewsAndPlots();
+
+        ((TextView) findViewById(R.id.applicationName)).setText(R.string.day_monitoring_text);
     }
 
     private void configureHeartRatePlot() {

@@ -6,6 +6,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.widget.TextView;
 
 import ee490g.epfl.ch.dwarfsleepy.adapter.AbnormalHeartRateAdapter;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
@@ -37,6 +38,8 @@ public class AbnormalHeartRateActivity extends AppCompatActivity {
         recyclerView.setAdapter(abnormalHeartRateAdapter);
 
         updateRecyclerView();
+
+        ((TextView) findViewById(R.id.applicationName)).setText(R.string.abnormal_hr_text);
     }
 
     private void updateRecyclerView() {
