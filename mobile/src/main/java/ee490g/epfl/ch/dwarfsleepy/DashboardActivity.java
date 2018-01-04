@@ -185,8 +185,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                     AbnormalAccelerometerEvent abnormalAccelerometerEvent = postSnapshot.getValue(AbnormalAccelerometerEvent.class);
 
                     assert abnormalAccelerometerEvent != null;
-
-                    abnormalAccelerometerEvents.add(abnormalAccelerometerEvent);
                     boolean isTodaysAcc =
                             abnormalAccelerometerEvent.getEndTime().getYear() == currentDate.getYear() &&
                                     abnormalAccelerometerEvent.getEndTime().getMonth() == currentDate.getMonth() &&
