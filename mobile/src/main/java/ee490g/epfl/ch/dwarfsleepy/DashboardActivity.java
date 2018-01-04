@@ -67,7 +67,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     public static User user;
     private boolean doubleBackToExitPressedOnce = false;
     private Button dayMonitoringButton;
-    private Button nightMonitoringButton;
     private Button logoutButton;
     private Button calculateButton;
     private int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1905;
@@ -83,7 +82,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
         initializeViews();
         dayMonitoringButton.setOnClickListener(this);
-        nightMonitoringButton.setOnClickListener(this);
         logoutButton.setOnClickListener(this);
         calculateButton.setOnClickListener(this);
         fetchPreviousData();
@@ -244,7 +242,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
     private void initializeViews() {
         dayMonitoringButton = findViewById(R.id.dayMonitoringButton);
-        nightMonitoringButton = findViewById(R.id.nightMonitoringButton);
         logoutButton = findViewById(R.id.logoutButton);
         calculateButton = findViewById(R.id.calculateButton);
 
@@ -261,9 +258,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         switch (view.getId()) {
             case R.id.dayMonitoringButton:
                 NavigationHandler.goToDayMonitoringActivity(this, user);
-                break;
-            case R.id.nightMonitoringButton:
-                //TODO
                 break;
             case R.id.logoutButton:
                 logOut();

@@ -93,18 +93,6 @@
             android:textStyle="bold"
             tools:ignore="Suspicious0dp" />
 
-        <Button
-            android:id="@+id/nightMonitoringButton"
-            android:layout_width="0dp"
-            android:layout_height="52dp"
-            android:layout_weight="0.5"
-            android:background="@color/colorBlack"
-            android:text="@string/night_monitoring"
-            android:textColor="@color/colorWhite"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            tools:ignore="Suspicious0dp" />
-
     </LinearLayout>
 
     <LinearLayout
