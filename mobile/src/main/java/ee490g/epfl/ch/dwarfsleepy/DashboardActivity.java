@@ -81,6 +81,33 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private Button calculateButton;
     private int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1905;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dashboard);
+
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
+        Bundle extras = getIntent().getExtras();
+        assert extras != null;
+        user = (User) extras.getSerializable(NavigationHandler.USER);
+
+        initializeViews();
+        findViewById(R.id.targetCaloriesEditText).clearFocus();
+
+        dayMonitoringButton.setOnClickListener(this);
+        nightMonitoringButton.setOnClickListener(this);
+        calculateCaloriesBurnedButton.setOnClickListener(this);
+        logoutButton.setOnClickListener(this);
+        calculateButton.setOnClickListener(this);
+        fetchPreviousHeartRateData();
+        fetchPreviousAbnormalHeartRateData();
+        fetchPreviousAbnormalAccelerometerData();
+        fetchPreviousAccelerometerData();
+        fetchGoogleFitData();
+        setMessageScheduler();
+    }
+
     private static void getGoogleFitValues(DataSet totalSet) {
         Log.i("data", "Data returned for Data type: " + totalSet.getDataType().getName());
         DateFormat dateFormat;
@@ -121,33 +148,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             Log.v("Total Calories:", "" + totalCaloriesExpended);
         }
         DataHolder.caloriesBurntFromGoogleFit = (int) totalCaloriesExpended;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
-
-        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
-
-        Bundle extras = getIntent().getExtras();
-        assert extras != null;
-        user = (User) extras.getSerializable(NavigationHandler.USER);
-
-        initializeViews();
-        findViewById(R.id.targetCaloriesEditText).clearFocus();
-
-        dayMonitoringButton.setOnClickListener(this);
-        nightMonitoringButton.setOnClickListener(this);
-        calculateCaloriesBurnedButton.setOnClickListener(this);
-        logoutButton.setOnClickListener(this);
-        calculateButton.setOnClickListener(this);
-        fetchPreviousHeartRateData();
-        fetchPreviousAbnormalHeartRateData();
-        fetchPreviousAbnormalAccelerometerData();
-        fetchPreviousAccelerometerData();
-        fetchGoogleFitData();
-        setMessageScheduler();
     }
 
     private void fetchPreviousAccelerometerData() {
