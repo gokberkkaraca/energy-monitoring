@@ -2,6 +2,7 @@ package ee490g.epfl.ch.dwarfsleepy.models;
 
 import com.google.android.gms.wearable.DataMap;
 
+import java.util.ArrayList;
 import java.util.Date;
 
 public class AbnormalHeartRateEvent {
@@ -77,5 +78,21 @@ public class AbnormalHeartRateEvent {
 
     public int getDurationHours() {
         return durationHours;
+    }
+
+    public boolean isExercise(ArrayList<PhysicalActivity> physicalActivities) {
+        if (physicalActivities.isEmpty()){
+            return false;
+        }
+
+        for (PhysicalActivity physicalActivity: physicalActivities ) {
+            boolean isContained = physicalActivity.getBeginTime().getTime() < beginTime.getTime() && beginTime.getTime() < physicalActivity.getEndTime().getTime() && physicalActivity.getBeginTime().getTime() < endTime.getTime() && endTime.getTime() < physicalActivity.getEndTime().getTime() + 300000;
+
+            if (isContained) {
+                return true;
+            }
+        }
+
+        return false;
     }
 }
