@@ -179,11 +179,24 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         DatabaseHandler.getAbnormalAccelerometerEvents(user, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
+                Date currentDate = new Date();
                 abnormalAccelerometerEvents = new ArrayList<>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
                     AbnormalAccelerometerEvent abnormalAccelerometerEvent = postSnapshot.getValue(AbnormalAccelerometerEvent.class);
+
+                    assert abnormalAccelerometerEvent != null;
+
                     abnormalAccelerometerEvents.add(abnormalAccelerometerEvent);
+                    boolean isTodaysAcc =
+                            abnormalAccelerometerEvent.getEndTime().getYear() == currentDate.getYear() &&
+                                    abnormalAccelerometerEvent.getEndTime().getMonth() == currentDate.getMonth() &&
+                                    abnormalAccelerometerEvent.getEndTime().getDay() == currentDate.getDay();
+
+                    if (isTodaysAcc)
+                        abnormalAccelerometerEvents.add(abnormalAccelerometerEvent);
                 }
+
+                DatabaseHandler.addAbnormalAccelerometerEvents(user, abnormalAccelerometerEvents);
             }
 
             @Override
