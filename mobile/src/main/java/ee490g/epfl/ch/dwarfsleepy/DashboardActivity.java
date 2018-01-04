@@ -209,7 +209,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         });
 
         for (String accountProvider: FirebaseAuth.getInstance().getCurrentUser().getProviders()) {
-            if (accountProvider.equals("google.com")) {
+            if (("google.com").equals(accountProvider)) {
                 getGoogleFitData();
                 break;
             }
