@@ -72,6 +72,24 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private Button calculateButton;
     private int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1905;
 
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_dashboard);
+
+        Bundle extras = getIntent().getExtras();
+        assert extras != null;
+        user = (User) extras.getSerializable(NavigationHandler.USER);
+
+        initializeViews();
+        dayMonitoringButton.setOnClickListener(this);
+        nightMonitoringButton.setOnClickListener(this);
+        logoutButton.setOnClickListener(this);
+        calculateButton.setOnClickListener(this);
+        fetchPreviousData();
+        setMessageScheduler();
+    }
+
     private static void getGoogleFitValues(DataSet totalSet) {
         Log.i("data", "Data returned for Data type: " + totalSet.getDataType().getName());
         DateFormat dateFormat;
@@ -112,24 +130,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             Log.v("Total Calories:", "" + totalCaloriesExpended);
         }
         DataHolder.totalCaloriesBurnedDuringDay = (int) totalCaloriesExpended;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_dashboard);
-
-        Bundle extras = getIntent().getExtras();
-        assert extras != null;
-        user = (User) extras.getSerializable(NavigationHandler.USER);
-
-        initializeViews();
-        dayMonitoringButton.setOnClickListener(this);
-        nightMonitoringButton.setOnClickListener(this);
-        logoutButton.setOnClickListener(this);
-        calculateButton.setOnClickListener(this);
-        fetchPreviousData();
-        setMessageScheduler();
     }
 
     private void fetchPreviousData() {
@@ -208,7 +208,12 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             }
         });
 
-        getGoogleFitData();
+        for (String accountProvider: FirebaseAuth.getInstance().getCurrentUser().getProviders()) {
+            if (accountProvider.equals("google.com")) {
+                getGoogleFitData();
+                break;
+            }
+        }
     }
 
     private void setMessageScheduler() {

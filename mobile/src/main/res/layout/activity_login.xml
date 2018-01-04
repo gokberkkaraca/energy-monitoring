@@ -97,4 +97,14 @@
         android:textAllCaps="true"
         android:textColor="@color/colorWhite" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/createAccountButton"
+        android:text="@string/google_sign_in_is_required_to_use_physical_activity_detection"
+        android:textStyle="italic"
+        android:textColor="@color/ap_white"
+        android:layout_margin="10dp"
+        android:textSize="12sp"/>
+
 </RelativeLayout>

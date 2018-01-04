@@ -30,4 +30,5 @@
     <string name="day_monitoring_text">Day Monitoring</string>
     <string name="abnormal_hr_text">Abnormal Heart Rate Data</string>
     <string name="abnormal_accelerometer_text">Abnormal Accelerometer Data</string>
+    <string name="google_sign_in_is_required_to_use_physical_activity_detection">* Google Sign In is required to use physical activity detection.</string>
 </resources>
