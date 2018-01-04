@@ -12,7 +12,10 @@ import ee490g.epfl.ch.dwarfsleepy.DayMonitoringActivity;
 import ee490g.epfl.ch.dwarfsleepy.GoogleAccountActivity;
 import ee490g.epfl.ch.dwarfsleepy.GoogleFitActivity;
 import ee490g.epfl.ch.dwarfsleepy.LoginActivity;
+import ee490g.epfl.ch.dwarfsleepy.NightMonitoringActivity;
+import ee490g.epfl.ch.dwarfsleepy.SleepAnalysesActivity;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
+import ee490g.epfl.ch.dwarfsleepy.polarbelt.DeviceScanActivity;
 
 public class NavigationHandler {
 
@@ -35,6 +38,15 @@ public class NavigationHandler {
 
     public static void goToDayMonitoringActivity(Activity activity, User user) {
         Intent intent = new Intent(activity, DayMonitoringActivity.class);
+        Bundle extras = new Bundle();
+        extras.putSerializable(USER, user);
+        intent.putExtras(extras);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
+    public static void goToNightMonitoringActivity(Activity activity, User user) {
+        Intent intent = new Intent(activity, NightMonitoringActivity.class);
         Bundle extras = new Bundle();
         extras.putSerializable(USER, user);
         intent.putExtras(extras);
@@ -66,6 +78,15 @@ public class NavigationHandler {
         activity.finish();
     }
 
+    public static void goToSleepAnalysesActivity(Activity activity, User user) {
+        Intent intent = new Intent(activity, SleepAnalysesActivity.class);
+        Bundle extras = new Bundle();
+        extras.putSerializable(USER, user);
+        intent.putExtras(extras);
+        activity.startActivity(intent);
+        activity.finish();
+    }
+
     public static void goToAbnormalAccelerometerActivity(Activity activity, User user) {
         Intent intent = new Intent(activity, AbnormalAccelerometerActivity.class);
         Bundle extras = new Bundle();
@@ -74,4 +95,24 @@ public class NavigationHandler {
         activity.startActivity(intent);
         activity.finish();
     }
+    public static void goToPolarBeltActivity(Activity activity, User user) {
+        Intent intent = new Intent(activity, DeviceScanActivity.class);
+        Bundle extras = new Bundle();
+        extras.putSerializable(USER, user);
+        intent.putExtras(extras);
+        activity.startActivity(intent);
+        activity.finish();
+    }
 }
+/*
+public static void goToPolarBeltActivity(Context context, User user) {
+    Intent intent = context.getPackageManager().getLaunchIntentForPackage("com.example.android.bluetoothlegatt");
+    if (intent == null) {
+        // Bring user to the market or let them choose an app?
+        intent = new Intent(Intent.ACTION_VIEW);
+        intent.setData(Uri.parse("market://details?id=" + "com.example.android.bluetoothlegatt"));
+    }
+    intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+    context.startActivity(intent);
+}
+*/

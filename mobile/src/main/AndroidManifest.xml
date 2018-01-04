@@ -2,7 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="ee490g.epfl.ch.dwarfsleepy">
 
+    <uses-feature
+        android:name="android.hardware.bluetooth_le"
+        android:required="true" />
+
     <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+    <uses-permission android:name="android.permission.BLUETOOTH" />
+    <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
 
     <application
         android:allowBackup="true"
@@ -10,8 +18,10 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
+        android:theme="@style/Theme.AppCompat.Light.DarkActionBar">
+        <activity
+            android:name=".MainActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -45,15 +55,48 @@
             </intent-filter>
         </service>
 
-        <activity android:name=".CreateAccountActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".ResetPasswordActivity" />
-        <activity android:name=".DashboardActivity" />
-        <activity android:name=".DayMonitoringActivity" />
-        <activity android:name=".GoogleAccountActivity" />
-        <activity android:name=".GoogleFitActivity" />
-        <activity android:name=".AbnormalHeartRateActivity" />
-        <activity android:name=".AbnormalAccelerometerActivity"></activity>
+        <activity
+            android:name=".CreateAccountActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".LoginActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+
+        <activity
+            android:name=".ResetPasswordActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".DashboardActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".DayMonitoringActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".GoogleAccountActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".GoogleFitActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".AbnormalHeartRateActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity
+            android:name=".AbnormalAccelerometerActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar" />
+        <activity android:name=".NightMonitoringActivity" />
+        <activity android:name=".SleepAnalysesActivity" />
+        <activity
+            android:name=".polarbelt.DeviceScanActivity"
+            android:theme="@android:style/Theme.Holo.Light" />
+        <activity
+            android:name=".polarbelt.DeviceControlActivity"
+            android:theme="@android:style/Theme.Holo.Light" />
+
+        <service
+            android:name=".polarbelt.BluetoothLeService"
+            android:enabled="true"
+            android:theme="@android:style/Theme.Holo.Light" />
+
     </application>
 
 </manifest>

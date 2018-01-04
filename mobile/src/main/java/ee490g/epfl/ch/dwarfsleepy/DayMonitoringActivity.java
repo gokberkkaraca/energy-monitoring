@@ -25,7 +25,7 @@ import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerData;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.totalCaloriesBurnedDuringDay;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.caloriesBurntFromGoogleFit;
 
 public class DayMonitoringActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -201,7 +201,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                 }
 
                 // Calories
-                String caloriesBurntText = String.valueOf(totalCaloriesBurnedDuringDay) + "\n" + "kcal";
+                String caloriesBurntText = String.valueOf(caloriesBurntFromGoogleFit) + "\n" + "kcal";
                 caloriesBurntTextView.setText(caloriesBurntText);
 
                 // Accelerometer
@@ -246,7 +246,7 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
         heartRateTextView = findViewById(R.id.heartRateTextView);
         accelerometerTextView = findViewById(R.id.accelerometerTextView);
         caloriesBurntTextView = findViewById(R.id.caloriesBurntTextView);
-        caloriesBurntTextView.setText(String.valueOf(totalCaloriesBurnedDuringDay));
+        caloriesBurntTextView.setText(String.valueOf(caloriesBurntFromGoogleFit));
 
         heartRatePlot = findViewById(R.id.heartRatePlot);
         accelerometerPlot = findViewById(R.id.accelerometerPlot);

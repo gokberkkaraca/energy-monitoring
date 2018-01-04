@@ -13,6 +13,7 @@ public class XYPlotSeriesList {
     private ArrayList<String> xyTagList = new ArrayList<>();
     private ArrayList<LineAndPointFormatter> xyFormatterList = new ArrayList<>();
 
+
     public void initializeSeriesAndAddToList(String xyTag, int CONSTANT, int NUMBER_OF_POINTS, LineAndPointFormatter xyFormatter) {
         Integer[] x = new Integer[NUMBER_OF_POINTS];
         Integer[] y = new Integer[NUMBER_OF_POINTS];
@@ -55,4 +56,8 @@ public class XYPlotSeriesList {
         xList.set(xyTagList.indexOf(xyTag), x);
         yList.set(xyTagList.indexOf(xyTag), y);
     }
+    public int getSizeList(){
+        return xyList.size();
+    }
+
 }
