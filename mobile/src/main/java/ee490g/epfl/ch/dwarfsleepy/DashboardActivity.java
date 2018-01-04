@@ -389,6 +389,18 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void fetchGoogleFitData() {
+
+        boolean isGoogleAccount = false;
+        for (String accountProvider: FirebaseAuth.getInstance().getCurrentUser().getProviders()) {
+            if (("google.com").equals(accountProvider)) {
+                isGoogleAccount = true;
+                break;
+            }
+        }
+
+        if (!isGoogleAccount)
+            return;
+
         Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .subscribe(DataType.TYPE_ACTIVITY_SAMPLES)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
