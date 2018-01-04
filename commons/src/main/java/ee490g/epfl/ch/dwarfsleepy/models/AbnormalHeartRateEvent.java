@@ -1,6 +1,5 @@
 package ee490g.epfl.ch.dwarfsleepy.models;
 
-import com.google.android.gms.common.data.DataHolder;
 import com.google.android.gms.wearable.DataMap;
 
 import java.util.ArrayList;
