@@ -1,14 +1,8 @@
 package ee490g.epfl.ch.dwarfsleepy.service;
 
-import android.app.Notification;
-import android.app.NotificationManager;
-import android.app.PendingIntent;
 import android.content.Intent;
-import android.media.RingtoneManager;
 import android.net.Uri;
-import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.NotificationCompat;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
@@ -27,18 +21,13 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 import java.util.ArrayList;
 
-import ee490g.epfl.ch.dwarfsleepy.AbnormalAccelerometerActivity;
 import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
 import ee490g.epfl.ch.dwarfsleepy.R;
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
-import ee490g.epfl.ch.dwarfsleepy.models.AbnormalAccelerometerEvent;
-import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalAccelerometerEvents;
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerData;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
 import static ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler.USER;
@@ -116,15 +105,11 @@ public class DataLayerListenerService extends WearableListenerService {
                         if (user != null) {
                             // Extract the data behind the key you know contains data
                             retrieveAndUploadHeartRateData(dataMapItem);
-                            retrieveAndUploadAbnormalHeartRateData(dataMapItem);
                             retrieveAndUploadAccelerometerData(dataMapItem);
-                            retrieveAndUploadAbnormalAccelerometerData(dataMapItem);
 
                             intent = new Intent("STRING_OF_ANOTHER_ACTION_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY");
-                            intent.putExtra("STRING_OF_INTEGER_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", abnormalHeartRateEvents);
                             intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY", averagedHeartRateDataList);
                             intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY NEW", averagedAccelerometerData);
-                            intent.putExtra("STRING_OF_ARRAYLIST_PREFERABLY_DEFINED_AS_A_CONSTANT_IN_TARGET_ACTIVITY NEW 2", abnormalAccelerometerEvents);
                             LocalBroadcastManager.getInstance(this).sendBroadcast(intent);
                         }
                         break;
@@ -142,42 +127,6 @@ public class DataLayerListenerService extends WearableListenerService {
             String nodeId = uri.getHost();
             sendMessage(payload, path, nodeId);
         }
-    }
-
-    private void retrieveAndUploadAbnormalAccelerometerData(DataMapItem dataMapItem) {
-        ArrayList<DataMap> abnormalAccelerometerDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.b_key);
-        Log.i(TAG, "Got abnormal accelerometer of size: " + abnormalAccelerometerDataMapList.size());
-        for (int i = 0; i < abnormalAccelerometerDataMapList.size(); i++) {
-            DataMap dataMap = abnormalAccelerometerDataMapList.get(i);
-            AbnormalAccelerometerEvent abnormalAccelerometerEvent = new AbnormalAccelerometerEvent(dataMap);
-            abnormalAccelerometerEvents.add(abnormalAccelerometerEvent);
-        }
-
-        if (!abnormalAccelerometerDataMapList.isEmpty()) {
-            DatabaseHandler.addAbnormalAccelerometerEvents(user, abnormalAccelerometerEvents);
-            sendAbnormalAccelerometerNotification();
-        }
-    }
-
-    private void sendAbnormalAccelerometerNotification() {
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle("Be careful!")
-                .setContentText("Hey sleepy! We realized that you are moving too fast!")
-                .setSmallIcon(R.drawable.logo)
-                .setAutoCancel(true)
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-
-        Intent notificationIntent = new Intent(this, AbnormalAccelerometerActivity.class);
-        Bundle extras = new Bundle();
-        extras.putSerializable(USER, user);
-        notificationIntent.putExtras(extras);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mNotifyBuilder.setContentIntent(pendingIntent);
-
-        Notification abnormalAccelerometerNotification = mNotifyBuilder.build();
-        assert mNotificationManager != null;
-        mNotificationManager.notify(0, abnormalAccelerometerNotification);
     }
 
     private void retrieveAndUploadAccelerometerData(DataMapItem dataMapItem) {
@@ -201,17 +150,6 @@ public class DataLayerListenerService extends WearableListenerService {
         }
 
         DatabaseHandler.addAccelerometerData(user, latestAccelerometerData);
-    }
-
-    private void retrieveAndUploadAbnormalHeartRateData(DataMapItem dataMapItem) {
-        ArrayList<DataMap> abnormalHeartRateDataMapList = dataMapItem.getDataMap().getDataMapArrayList(BuildConfig.a_key);
-        Log.i(TAG, "Got abnormal heart rate list of size: " + abnormalHeartRateDataMapList.size());
-        for (int i = 0; i < abnormalHeartRateDataMapList.size(); i++) {
-            DataMap dataMap = abnormalHeartRateDataMapList.get(i);
-            AbnormalHeartRateEvent abnormalHeartRateEvent = new AbnormalHeartRateEvent(dataMap);
-            abnormalHeartRateEvents.add(abnormalHeartRateEvent);
-        }
-        DatabaseHandler.addAbnormalHeartEvents(user, abnormalHeartRateEvents);
     }
 
     private void retrieveAndUploadHeartRateData(DataMapItem dataMapItem) {

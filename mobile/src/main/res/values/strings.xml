@@ -13,7 +13,6 @@
     <string name="female">Female</string>
     <string name="dwarf_sleepy">Dwarf Sleepy</string>
     <string name="night_monitoring">NIGHT MONITORING</string>
-    <string name="day_monitoring">DAY MONITORING</string>
     <string name="polar_belt">POLAR BELT</string>
     <string name="accelerometer">ACCELEROMETER</string>
     <string name="refresh">REFRESH</string>
@@ -26,10 +25,6 @@
     <string name="logout">LOGOUT</string>
     <string name="weight_kg">Weight (kg)</string>
     <string name="height_cm">Height (cm)</string>
-    <string name="physical_activities_text">Physical Activities</string>
-    <string name="day_monitoring_text">Day Monitoring</string>
-    <string name="abnormal_hr_text">Abnormal Heart Rate Data</string>
-    <string name="abnormal_accelerometer_text">Abnormal Accelerometer Data</string>
 
     <string name="ble_not_supported">BLE is not supported</string>
     <string name="label_data">Data:</string>

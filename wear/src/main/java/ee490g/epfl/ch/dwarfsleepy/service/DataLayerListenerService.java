@@ -19,8 +19,6 @@ import java.util.ArrayList;
 
 import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
 
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalAccelerometerEvents;
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerDataList;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
 
@@ -94,13 +92,6 @@ public class DataLayerListenerService extends WearableListenerService {
                 }
                 averagedHeartRateDataList.clear();
 
-                Log.v(TAG, "Sending abnormal heart rate list of size: " + abnormalHeartRateEvents.size());
-                ArrayList<DataMap> dataMapAbnormalHeartRate = new ArrayList<>();
-                for (int i = 0; i < abnormalHeartRateEvents.size(); i++) {
-                    dataMapAbnormalHeartRate.add(abnormalHeartRateEvents.get(i).putToDataMap(new DataMap()));
-                }
-                abnormalHeartRateEvents.clear();
-
                 Log.v(TAG, "Sending accelerometer list of size: " + averagedAccelerometerDataList.size());
                 ArrayList<DataMap> dataMapAccelerometerList = new ArrayList<>();
                 for (int i = 0; i < averagedAccelerometerDataList.size(); i++) {
@@ -108,31 +99,11 @@ public class DataLayerListenerService extends WearableListenerService {
                 }
                 averagedAccelerometerDataList.clear();
 
-                Log.v(TAG, "Sending abnormal accelerometer list of size: " + abnormalAccelerometerEvents.size());
-                ArrayList<DataMap> dataMapAbnormalAccelerometer = new ArrayList<>();
-                for (int i = 0; i < abnormalAccelerometerEvents.size(); i++) {
-                    dataMapAbnormalAccelerometer.add(abnormalAccelerometerEvents.get(i).putToDataMap(new DataMap()));
-                }
-                abnormalAccelerometerEvents.clear();
-
-                sendSpecificDatamap(dataMapHeartRateList, dataMapAbnormalHeartRate, dataMapAccelerometerList, dataMapAbnormalAccelerometer);
                 break;
             default:
                 Log.w(TAG, "Received a message for unknown path " + path + " : " + new String(messageEvent.getData()));
                 break;
         }
-    }
-
-    private void sendSpecificDatamap(ArrayList<DataMap> heartRateList, ArrayList<DataMap> abnormalHeartRateList, ArrayList<DataMap> accelerometerList, ArrayList<DataMap> abnormalAccelerometerList) {
-        // Sends data (a datamap) through the Wear API
-        // It's specific to a datamap containing an int and an arraylist. Duplicate and change
-        // according to your needs
-        PutDataMapRequest putDataMapRequest = PutDataMapRequest.create(BuildConfig.another_path);
-        putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.a_key, abnormalHeartRateList);
-        putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.some_other_key, heartRateList);
-        putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.b_key, abnormalAccelerometerList);
-        putDataMapRequest.getDataMap().putDataMapArrayList(BuildConfig.more_other_key, accelerometerList);
-        sendPutDataMapRequest(putDataMapRequest);
     }
 
     private void sendPutDataMapRequest(PutDataMapRequest putDataMapRequest) {

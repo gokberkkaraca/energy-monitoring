@@ -17,27 +17,12 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.fitness.Fitness;
-import com.google.android.gms.fitness.FitnessOptions;
-import com.google.android.gms.fitness.data.DataPoint;
-import com.google.android.gms.fitness.data.DataSet;
-import com.google.android.gms.fitness.data.DataType;
-import com.google.android.gms.fitness.data.Field;
-import com.google.android.gms.fitness.request.DataReadRequest;
-import com.google.android.gms.fitness.result.DataReadResponse;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.ValueEventListener;
 
-import java.text.DateFormat;
 import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 import java.util.List;
 import java.util.concurrent.Executors;
@@ -46,24 +31,17 @@ import java.util.concurrent.TimeUnit;
 
 import ee490g.epfl.ch.dwarfsleepy.data.DataHolder;
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
-import ee490g.epfl.ch.dwarfsleepy.models.AbnormalAccelerometerEvent;
-import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
 import ee490g.epfl.ch.dwarfsleepy.models.AccelerometerData;
 import ee490g.epfl.ch.dwarfsleepy.models.HeartRateData;
-import ee490g.epfl.ch.dwarfsleepy.models.PhysicalActivity;
 import ee490g.epfl.ch.dwarfsleepy.models.User;
 import ee490g.epfl.ch.dwarfsleepy.service.DataLayerListenerService;
 import ee490g.epfl.ch.dwarfsleepy.utils.NavigationHandler;
 
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalAccelerometerEvents;
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.todayHeartRates;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerData;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.nightAccelerometerData;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.nightHeartRates;
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.physicalActivities;
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.todayHeartRates;
-import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.totalCaloriesBurnedDuringDay;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.userWeight;
 import static java.text.DateFormat.getDateInstance;
 import static java.text.DateFormat.getTimeInstance;
@@ -79,49 +57,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private Button logoutButton;
 
     private Button calculateButton;
-    private int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1905;
-
-    private static void getGoogleFitValues(DataSet totalSet) {
-        Log.i("data", "Data returned for Data type: " + totalSet.getDataType().getName());
-        DateFormat dateFormat;
-        dateFormat = getTimeInstance();
-        float totalCaloriesExpended = 0;
-        for (DataPoint dp : totalSet.getDataPoints()) {
-            Log.i("data", "Data point:");
-            Log.i("data", "\tType: " + dp.getDataType().getName());
-            Log.i("data", "\tStart: " + dateFormat.format(dp.getStartTime(TimeUnit.MILLISECONDS)));
-            Log.i("data", "\tEnd: " + dateFormat.format(dp.getEndTime(TimeUnit.MILLISECONDS)));
-            for (Field field : dp.getDataType().getFields()) {
-                Log.i("data", "\tField: " + field.getName() + " Value: " + dp.getValue(field));
-                if (dp.getDataType().getName().equals("com.google.calories.expended")) {
-                    totalCaloriesExpended += dp.getValue(field).asFloat();
-                } else if (dp.getDataType().getName().equals("com.google.activity.segment")) {
-                    Date beginTime = new Date(dp.getStartTime(TimeUnit.MILLISECONDS));
-                    Date endTime = new Date(dp.getEndTime(TimeUnit.MILLISECONDS));
-                    PhysicalActivity.ActivityType activityType;
-
-
-                    if (dp.getValue(field).asInt() == 7 || dp.getValue(field).asInt() == 95) {
-                        activityType = PhysicalActivity.ActivityType.WALKING;
-                    } else if (dp.getValue(field).asInt() == 8) {
-                        activityType = PhysicalActivity.ActivityType.RUNNING;
-                    } else if (dp.getValue(field).asInt() == 1) {
-                        activityType = PhysicalActivity.ActivityType.BIKING;
-                    } else if (dp.getValue(field).asInt() == 3) {
-                        continue;
-                    } else {
-                        activityType = PhysicalActivity.ActivityType.OTHER;
-                    }
-
-                    PhysicalActivity physicalActivity = new PhysicalActivity(activityType, beginTime, endTime);
-                    DataHolder.physicalActivities.add(physicalActivity);
-                    Log.v("PhysicalActivity", physicalActivity.toString());
-                }
-            }
-            Log.v("Total Calories:", "" + totalCaloriesExpended);
-        }
-        DataHolder.caloriesBurntFromGoogleFit = (int) totalCaloriesExpended;
-    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -143,10 +78,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         logoutButton.setOnClickListener(this);
         calculateButton.setOnClickListener(this);
         fetchPreviousHeartRateData();
-        fetchPreviousAbnormalHeartRateData();
-        fetchPreviousAbnormalAccelerometerData();
         fetchPreviousAccelerometerData();
-        fetchGoogleFitData();
         setMessageScheduler();
     }
 
@@ -183,52 +115,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-    private void fetchPreviousAbnormalAccelerometerData() {
-        DatabaseHandler.getAbnormalAccelerometerEvents(user, new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                abnormalAccelerometerEvents = new ArrayList<>();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    AbnormalAccelerometerEvent abnormalAccelerometerEvent = postSnapshot.getValue(AbnormalAccelerometerEvent.class);
-                    abnormalAccelerometerEvents.add(abnormalAccelerometerEvent);
-                }
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.v("DatabaseHandler", "An error occured while fetching data");
-            }
-        });
-    }
-
-    private void fetchPreviousAbnormalHeartRateData() {
-        DatabaseHandler.getAbnormalHeartRateEvents(user, new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Date currentDate = new Date();
-                abnormalHeartRateEvents = new ArrayList<>();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    AbnormalHeartRateEvent abnormalHeartRateEvent = postSnapshot.getValue(AbnormalHeartRateEvent.class);
-
-                    assert abnormalHeartRateEvent != null;
-                    boolean isTodaysHR =
-                            abnormalHeartRateEvent.getEndTime().getYear() == currentDate.getYear() &&
-                                    abnormalHeartRateEvent.getEndTime().getMonth() == currentDate.getMonth() &&
-                                    abnormalHeartRateEvent.getEndTime().getDay() == currentDate.getDay();
-
-                    if (isTodaysHR)
-                        abnormalHeartRateEvents.add(abnormalHeartRateEvent);
-                }
-
-                DatabaseHandler.addAbnormalHeartEvents(user, abnormalHeartRateEvents);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.v("DatabaseHandler", "An error occured while fetching data");
-            }
-        });
-    }
 
     private void fetchPreviousHeartRateData() {
         DatabaseHandler.getHeartRateData(user, new ValueEventListener() {
@@ -244,15 +130,15 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
 
                     // Get heart rate night activity
                     if (heartRateData.getDate().getHours() >= 0 && heartRateData.getDate().getHours() <= 8) {
-                            if (!nightHeartRates.isEmpty() && heartRateData.getDate().getDate() == nightHeartRates.get(nightHeartRates.size() - 1).get(0).getDate().getDate() &&
+                        if (!nightHeartRates.isEmpty() && heartRateData.getDate().getDate() == nightHeartRates.get(nightHeartRates.size() - 1).get(0).getDate().getDate() &&
                                 heartRateData.getDate().getMonth() == nightHeartRates.get(nightHeartRates.size() - 1).get(0).getDate().getMonth() &&
                                 heartRateData.getDate().getYear() == nightHeartRates.get(nightHeartRates.size() - 1).get(0).getDate().getYear()) {
-                                nightHeartRates.get(nightHeartRates.size() - 1).add(heartRateData);
-                            } else {
-                                List<HeartRateData> heartRates = new ArrayList<>();
-                                heartRates.add(heartRateData);
-                                nightHeartRates.add(heartRates);
-                            }
+                            nightHeartRates.get(nightHeartRates.size() - 1).add(heartRateData);
+                        } else {
+                            List<HeartRateData> heartRates = new ArrayList<>();
+                            heartRates.add(heartRateData);
+                            nightHeartRates.add(heartRates);
+                        }
                     }
 
                     //Calculate today's calories burned
@@ -263,8 +149,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                             heartRateData.getDate().getYear() == currentDate.getYear()) {
                         todayHeartRates.add(heartRateData);
                     }
-
-                    calculateCaloriesBurnedToday();
                 }
             }
 
@@ -291,7 +175,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     }
 
     private void initializeViews() {
-        dayMonitoringButton = findViewById(R.id.dayMonitoringButton);
         nightMonitoringButton = findViewById(R.id.nightMonitoringButton);
         calculateCaloriesBurnedButton = findViewById(R.id.calculateButton);
         logoutButton = findViewById(R.id.logoutButton);
@@ -312,11 +195,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
                 try {
                     userWeight = Integer.parseInt(charSequence.toString());
-                } catch(NumberFormatException e) {
+                } catch (NumberFormatException e) {
                     userWeight = 0;
                 }
-
-                calculateCaloriesBurnedToday();
             }
 
             @Override
@@ -338,9 +219,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
-            case R.id.dayMonitoringButton:
-                NavigationHandler.goToDayMonitoringActivity(this, user);
-                break;
             case R.id.nightMonitoringButton:
                 NavigationHandler.goToNightMonitoringActivity(this, user);
                 break;
@@ -348,9 +226,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 logOut();
                 startActivity(new Intent(DashboardActivity.this, LoginActivity.class));
                 finish();
-                break;
-            case R.id.calculateButton:
-                caloriesCalculator();
                 break;
             default:
                 break;
@@ -376,147 +251,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         }, 2000);
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        if (resultCode == Activity.RESULT_OK && requestCode == GOOGLE_FIT_PERMISSIONS_REQUEST_CODE) {
-            accessGoogleFit();
-        }
-    }
-
     private void logOut() {
         FirebaseAuth.getInstance().signOut();
         NavigationHandler.goToLoginActivity(this);
-    }
-
-    private void fetchGoogleFitData() {
-        Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                .subscribe(DataType.TYPE_ACTIVITY_SAMPLES)
-                .addOnSuccessListener(new OnSuccessListener<Void>() {
-                    @Override
-                    public void onSuccess(Void aVoid) {
-                        Log.i("GoogleFitActivity", "Successfully subscribed!");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.i("GoogleFitActivity", "There was a problem subscribing.");
-                    }
-                });
-
-        FitnessOptions fitnessOptions = FitnessOptions.builder()
-                .addDataType(DataType.TYPE_ACTIVITY_SEGMENT, FitnessOptions.ACCESS_READ)
-                .addDataType(DataType.TYPE_CALORIES_EXPENDED, FitnessOptions.ACCESS_READ)
-                .build();
-
-        if (!GoogleSignIn.hasPermissions(GoogleSignIn.getLastSignedInAccount(this), fitnessOptions)) {
-            GoogleSignIn.requestPermissions(
-                    this,
-                    GOOGLE_FIT_PERMISSIONS_REQUEST_CODE,
-                    GoogleSignIn.getLastSignedInAccount(this),
-                    fitnessOptions);
-        } else {
-            accessGoogleFit();
-        }
-    }
-
-    private void accessGoogleFit() {
-        Calendar cal = Calendar.getInstance();
-        Date now = new Date();
-        cal.setTime(now);
-        cal.set(Calendar.HOUR_OF_DAY, 23);
-        cal.set(Calendar.MINUTE, 59);
-        cal.set(Calendar.SECOND, 59);
-        cal.set(Calendar.MILLISECOND, 0);
-
-        long endTime = cal.getTimeInMillis();
-        cal.add(Calendar.HOUR_OF_DAY, -15);
-        cal.add(Calendar.SECOND,1);
-        long startTime = cal.getTimeInMillis();
-
-        DateFormat dateFormat = getDateInstance();
-        Log.i("TAG", "Range Start: " + dateFormat.format(startTime));
-        Log.i("TAG", "Range End: " + dateFormat.format(endTime));
-
-        DataReadRequest readRequest = new DataReadRequest.Builder()
-                .read(DataType.TYPE_ACTIVITY_SEGMENT)
-                .read(DataType.AGGREGATE_CALORIES_EXPENDED)
-                .setTimeRange(startTime, endTime, TimeUnit.MILLISECONDS)
-                .build();
-
-        Fitness.getHistoryClient(this, GoogleSignIn.getLastSignedInAccount(this))
-                .readData(readRequest)
-                .addOnSuccessListener(new OnSuccessListener() {
-                    @Override
-                    public void onSuccess(Object o) {
-                        Log.d("GoogleFit", "onSuccess()");
-                    }
-                })
-                .addOnFailureListener(new OnFailureListener() {
-                    @Override
-                    public void onFailure(@NonNull Exception e) {
-                        Log.e("GoogleFit", "onFailure()", e);
-                    }
-                })
-                .addOnCompleteListener(new OnCompleteListener() {
-                    @Override
-                    public void onComplete(@NonNull Task task) {
-                        physicalActivities.clear();
-                        Log.d("GoogleFit", "onComplete()");
-                        List<DataSet> dataSets = ((Task<DataReadResponse>) task).getResult().getDataSets();
-                        for (DataSet dataSet : dataSets) {
-                            getGoogleFitValues(dataSet);
-                        }
-                    }
-                });
-    }
-
-    private void calculateCaloriesBurnedToday() {
-        Log.v("TAGGERR", todayHeartRates.size() + "; " + userWeight);
-        if (!todayHeartRates.isEmpty() && userWeight != 0) {
-            Date currentDate = new Date();
-            int todayAverageHeartRate = 0;
-            int age = currentDate.getYear() - user.getBirthday().getYear();
-            int duration = todayHeartRates.get(todayHeartRates.size() - 1).getDate().getHours();
-            double calories;
-
-            for (HeartRateData heartRate: todayHeartRates) {
-                todayAverageHeartRate += heartRate.getValue();
-            }
-
-            todayAverageHeartRate /= todayHeartRates.size();
-
-            if (user.getGender() == User.Gender.MALE) {
-                calories = ((-55.0969 + (0.6309 * todayAverageHeartRate) + (0.1988 * userWeight) + (0.2017 * age))/4.184) * 60 * duration;
-            } else {
-                calories = ((-20.4022 + (0.4472 * todayAverageHeartRate) - (0.1263 * userWeight) + (0.074 * age))/4.184) * 60 * duration;
-            }
-
-            totalCaloriesBurnedDuringDay = (int) calories;
-
-            Log.v("TAGGGGG", totalCaloriesBurnedDuringDay + "");
-        }
-    }
-
-    private void caloriesCalculator() {
-        String targetCalories = ((EditText) findViewById(R.id.targetCaloriesEditText)).getText().toString();
-        if (("").equals(targetCalories)) {
-            Toast.makeText(this, "Please enter required calories", Toast.LENGTH_SHORT).show();
-        } else {
-            int targetCaloriesValue = Integer.parseInt(targetCalories);
-            int remainingCalories = targetCaloriesValue - totalCaloriesBurnedDuringDay;
-            ((TextView) findViewById(R.id.burntCaloriesTextView)).setText(String.valueOf(totalCaloriesBurnedDuringDay));
-            if (remainingCalories > 0) {
-                ((TextView) findViewById(R.id.remainingCaloriesTextView)).setText(String.valueOf(remainingCalories));
-
-                ((TextView) findViewById(R.id.bikingSuggestionTextView)).setText(PhysicalActivity.calculateDurationForBiking(remainingCalories, user.getBMR()));
-                ((TextView) findViewById(R.id.runningSuggestionTextView)).setText(PhysicalActivity.calculateDurationForRunning(remainingCalories, user.getBMR()));
-                ((TextView) findViewById(R.id.walkingSuggestionTextView)).setText(PhysicalActivity.calculateDurationForWalking(remainingCalories, user.getBMR()));
-                findViewById(R.id.suggestionLayout).setVisibility(View.VISIBLE);
-            } else {
-                ((TextView) findViewById(R.id.remainingCaloriesTextView)).setText(String.valueOf(0));
-                ((ImageView) findViewById(R.id.remainingCaloriesImageView)).setImageResource(R.drawable.check_mark);
-            }
-        }
-    }
-}
+    }}
