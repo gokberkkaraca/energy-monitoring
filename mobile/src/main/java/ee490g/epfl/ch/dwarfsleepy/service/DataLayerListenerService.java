@@ -27,7 +27,6 @@ import com.google.android.gms.wearable.WearableListenerService;
 
 import java.util.ArrayList;
 
-import ee490g.epfl.ch.dwarfsleepy.AbnormalAccelerometerActivity;
 import ee490g.epfl.ch.dwarfsleepy.BuildConfig;
 import ee490g.epfl.ch.dwarfsleepy.R;
 import ee490g.epfl.ch.dwarfsleepy.database.DatabaseHandler;
@@ -155,29 +154,7 @@ public class DataLayerListenerService extends WearableListenerService {
 
         if (!abnormalAccelerometerDataMapList.isEmpty()) {
             DatabaseHandler.addAbnormalAccelerometerEvents(user, abnormalAccelerometerEvents);
-            sendAbnormalAccelerometerNotification();
         }
-    }
-
-    private void sendAbnormalAccelerometerNotification() {
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
-        NotificationCompat.Builder mNotifyBuilder = new NotificationCompat.Builder(this)
-                .setContentTitle("Be careful!")
-                .setContentText("Hey sleepy! We realized that you are moving too fast!")
-                .setSmallIcon(R.drawable.logo)
-                .setAutoCancel(true)
-                .setSound(RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION));
-
-        Intent notificationIntent = new Intent(this, AbnormalAccelerometerActivity.class);
-        Bundle extras = new Bundle();
-        extras.putSerializable(USER, user);
-        notificationIntent.putExtras(extras);
-        PendingIntent pendingIntent = PendingIntent.getActivity(this, 1, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-        mNotifyBuilder.setContentIntent(pendingIntent);
-
-        Notification abnormalAccelerometerNotification = mNotifyBuilder.build();
-        assert mNotificationManager != null;
-        mNotificationManager.notify(0, abnormalAccelerometerNotification);
     }
 
     private void retrieveAndUploadAccelerometerData(DataMapItem dataMapItem) {
