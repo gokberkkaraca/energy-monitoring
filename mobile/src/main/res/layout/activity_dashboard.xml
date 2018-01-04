@@ -3,9 +3,9 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".DashboardActivity"
     android:descendantFocusability="beforeDescendants"
-    android:focusableInTouchMode="true" >
+    android:focusableInTouchMode="true"
+    tools:context=".DashboardActivity">
 
     <ImageView
         android:id="@+id/bgImageView"
@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/actionBarLayout"
         android:layout_marginStart="40dp"
-        android:layout_marginTop="44dp"
+        android:layout_marginTop="0dp"
         android:orientation="vertical">
 
         <LinearLayout
@@ -32,8 +32,8 @@
 
             <ImageView
                 android:id="@+id/userImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:src="@drawable/ic_user" />
 
             <TextView
@@ -44,7 +44,7 @@
                 android:maxLines="1"
                 android:text="@string/name"
                 android:textColor="@color/colorWhite"
-                android:textSize="36sp"
+                android:textSize="32sp"
                 android:textStyle="bold" />
         </LinearLayout>
 
@@ -54,8 +54,8 @@
 
             <ImageView
                 android:id="@+id/emailImageView"
-                android:layout_width="100dp"
-                android:layout_height="100dp"
+                android:layout_width="75dp"
+                android:layout_height="75dp"
                 android:contentDescription="@string/null_description"
                 android:src="@drawable/ic_email" />
 
@@ -67,7 +67,29 @@
                 android:maxLines="1"
                 android:text="@string/email"
                 android:textColor="@color/colorWhite"
-                android:textSize="36sp"
+                android:textSize="32sp"
+                android:textStyle="bold" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <EditText
+                android:id="@+id/weightEditTxt"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:backgroundTint="@color/ap_white"
+                android:ems="3"
+                android:focusedByDefault="false"
+                android:hint="kilos"
+                android:inputType="number"
+                android:maxLength="4"
+                android:textAlignment="center"
+                android:textColor="@color/ap_white"
+                android:textColorHint="@color/ap_white"
+                android:textSize="32sp"
                 android:textStyle="bold" />
         </LinearLayout>
     </LinearLayout>
@@ -79,7 +101,7 @@
         android:layout_below="@id/userProfileLayout"
         android:layout_marginLeft="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginTop="40sp">
+        android:layout_marginTop="10sp">
 
         <Button
             android:id="@+id/dayMonitoringButton"
@@ -112,7 +134,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/monitoringLinearLayout"
-        android:layout_marginTop="20dp"
+        android:layout_marginTop="10dp"
         android:orientation="vertical">
 
         <TextView
@@ -120,9 +142,9 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:textAlignment="center"
             android:maxLines="1"
             android:text="@string/calories_calculator"
+            android:textAlignment="center"
             android:textColor="@color/colorWhite"
             android:textSize="52sp"
             android:textStyle="bold" />
@@ -131,8 +153,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:paddingStart="260dp"
-            android:paddingEnd="0dp">
+            android:paddingEnd="0dp"
+            android:paddingStart="260dp">
 
             <ImageView
                 android:id="@+id/targetCaloriesImageView"
@@ -143,28 +165,30 @@
 
             <EditText
                 android:id="@+id/targetCaloriesEditText"
-                android:textAlignment="center"
                 android:layout_width="100sp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:ems="3"
-                android:backgroundTint="@color/ap_white"
-                android:inputType="number"
-                android:textSize="36sp"
-                android:maxLength="4"
                 android:layout_marginStart="50dp"
-                android:textStyle="bold"
-                android:textColorHint="@color/ap_white"
+                android:backgroundTint="@color/ap_white"
+                android:ems="3"
+                android:focusedByDefault="false"
                 android:hint="@string/kcal"
-                android:textColor="@color/ap_white"/>
+                android:inputType="number"
+                android:maxLength="4"
+                android:textAlignment="center"
+                android:textColor="@color/ap_white"
+                android:textColorHint="@color/ap_white"
+                android:textSize="36sp"
+                android:textStyle="bold" />
+
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:paddingStart="260dp"
-            android:paddingEnd="0dp">
+            android:paddingEnd="0dp"
+            android:paddingStart="260dp">
 
             <ImageView
                 android:id="@+id/burntCaloriesImageView"
@@ -175,23 +199,23 @@
 
             <TextView
                 android:id="@+id/burntCaloriesTextView"
-                android:textAlignment="center"
                 android:layout_width="100sp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginStart="50dp"
                 android:maxLines="1"
+                android:textAlignment="center"
                 android:textColor="@color/colorWhite"
                 android:textSize="36sp"
-                android:textStyle="bold"
-                android:layout_marginStart="50dp"/>
+                android:textStyle="bold" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="15dp"
-            android:paddingStart="260dp"
-            android:paddingEnd="0dp">
+            android:paddingEnd="0dp"
+            android:paddingStart="260dp">
 
             <ImageView
                 android:id="@+id/remainingCaloriesImageView"
@@ -202,22 +226,22 @@
 
             <TextView
                 android:id="@+id/remainingCaloriesTextView"
-                android:textAlignment="center"
                 android:layout_width="100sp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
+                android:layout_marginStart="50dp"
                 android:maxLines="1"
+                android:textAlignment="center"
                 android:textColor="@color/colorWhite"
                 android:textSize="36sp"
-                android:textStyle="bold"
-                android:layout_marginStart="50dp"/>
+                android:textStyle="bold" />
 
             <LinearLayout
                 android:id="@+id/suggestionLayout"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="vertical"
                 android:layout_marginStart="50dp"
+                android:orientation="vertical"
                 android:visibility="invisible">
 
                 <LinearLayout
@@ -236,8 +260,8 @@
                         android:id="@+id/bikingSuggestionTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
-                        android:textColor="@color/ap_white"
-                        android:layout_marginStart="10dp" />
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/ap_white" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -256,8 +280,8 @@
                         android:id="@+id/walkingSuggestionTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
-                        android:textColor="@color/ap_white"
-                        android:layout_marginStart="10dp" />
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/ap_white" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -276,8 +300,8 @@
                         android:id="@+id/runningSuggestionTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="25dp"
-                        android:textColor="@color/ap_white"
-                        android:layout_marginStart="10dp" />
+                        android:layout_marginStart="10dp"
+                        android:textColor="@color/ap_white" />
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -287,9 +311,9 @@
             android:layout_width="250dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="10dp"
             android:text="@string/calculate"
-            android:textSize="24sp"/>
+            android:textSize="24sp" />
 
     </LinearLayout>
 
@@ -298,7 +322,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="10dp"
         android:layout_marginLeft="20dp"
         android:layout_marginRight="20dp"
         android:backgroundTint="@color/colorRed"

@@ -6,8 +6,11 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -56,8 +59,12 @@ import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalAccelerometerEv
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.abnormalHeartRateEvents;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedAccelerometerData;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.averagedHeartRateDataList;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.nightAccelerometerData;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.nightHeartRates;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.physicalActivities;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.todayHeartRates;
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.totalCaloriesBurnedDuringDay;
+import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.userWeight;
 import static java.text.DateFormat.getDateInstance;
 import static java.text.DateFormat.getTimeInstance;
 
@@ -68,7 +75,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private boolean doubleBackToExitPressedOnce = false;
     private Button dayMonitoringButton;
     private Button nightMonitoringButton;
+    private Button calculateCaloriesBurnedButton;
     private Button logoutButton;
+
     private Button calculateButton;
     private int GOOGLE_FIT_PERMISSIONS_REQUEST_CODE = 1905;
 
@@ -77,16 +86,25 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_dashboard);
 
+        this.getWindow().setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_STATE_ALWAYS_HIDDEN);
+
         Bundle extras = getIntent().getExtras();
         assert extras != null;
         user = (User) extras.getSerializable(NavigationHandler.USER);
 
         initializeViews();
+        findViewById(R.id.targetCaloriesEditText).clearFocus();
+
         dayMonitoringButton.setOnClickListener(this);
         nightMonitoringButton.setOnClickListener(this);
+        calculateCaloriesBurnedButton.setOnClickListener(this);
         logoutButton.setOnClickListener(this);
         calculateButton.setOnClickListener(this);
-        fetchPreviousData();
+        fetchPreviousHeartRateData();
+        fetchPreviousAbnormalHeartRateData();
+        fetchPreviousAbnormalAccelerometerData();
+        fetchPreviousAccelerometerData();
+        fetchGoogleFitData();
         setMessageScheduler();
     }
 
@@ -129,17 +147,32 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
             }
             Log.v("Total Calories:", "" + totalCaloriesExpended);
         }
-        DataHolder.totalCaloriesBurnedDuringDay = (int) totalCaloriesExpended;
+        DataHolder.caloriesBurntFromGoogleFit = (int) totalCaloriesExpended;
     }
 
-    private void fetchPreviousData() {
-        DatabaseHandler.getHeartRateData(user, new ValueEventListener() {
+    private void fetchPreviousAccelerometerData() {
+        DatabaseHandler.getAccelerometerData(user, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                averagedHeartRateDataList = new ArrayList<>();
+                averagedAccelerometerData = new ArrayList<>();
+                nightAccelerometerData = new ArrayList<>();
+
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    HeartRateData heartRateData = postSnapshot.getValue(HeartRateData.class);
-                    averagedHeartRateDataList.add(heartRateData);
+                    AccelerometerData accelerometerData = postSnapshot.getValue(AccelerometerData.class);
+                    averagedAccelerometerData.add(accelerometerData);
+
+                    // Get accelerometer night activity
+                    if (accelerometerData.getDate().getHours() >= 0 && accelerometerData.getDate().getHours() <= 8) {
+                        if (!nightAccelerometerData.isEmpty() && accelerometerData.getDate().getDate() == nightAccelerometerData.get(nightAccelerometerData.size() - 1).get(0).getDate().getDate() &&
+                                accelerometerData.getDate().getMonth() == nightAccelerometerData.get(nightAccelerometerData.size() - 1).get(0).getDate().getMonth() &&
+                                accelerometerData.getDate().getYear() == nightAccelerometerData.get(nightAccelerometerData.size() - 1).get(0).getDate().getYear()) {
+                            nightAccelerometerData.get(nightAccelerometerData.size() - 1).add(accelerometerData);
+                        } else {
+                            List<AccelerometerData> data = new ArrayList<>();
+                            data.add(accelerometerData);
+                            nightAccelerometerData.add(data);
+                        }
+                    }
                 }
             }
 
@@ -148,34 +181,9 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 Log.v("DatabaseHandler", "An error occured while fetching data");
             }
         });
+    }
 
-        DatabaseHandler.getAbnormalHeartRateEvents(user, new ValueEventListener() {
-            @Override
-            public void onDataChange(DataSnapshot dataSnapshot) {
-                Date currentDate = new Date();
-                abnormalHeartRateEvents = new ArrayList<>();
-                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    AbnormalHeartRateEvent abnormalHeartRateEvent = postSnapshot.getValue(AbnormalHeartRateEvent.class);
-
-                    assert abnormalHeartRateEvent != null;
-                    boolean isTodaysHR =
-                            abnormalHeartRateEvent.getEndTime().getYear() == currentDate.getYear() &&
-                            abnormalHeartRateEvent.getEndTime().getMonth() == currentDate.getMonth() &&
-                            abnormalHeartRateEvent.getEndTime().getDay() == currentDate.getDay();
-
-                    if (isTodaysHR)
-                        abnormalHeartRateEvents.add(abnormalHeartRateEvent);
-                }
-
-                DatabaseHandler.addAbnormalHeartEvents(user, abnormalHeartRateEvents);
-            }
-
-            @Override
-            public void onCancelled(DatabaseError databaseError) {
-                Log.v("DatabaseHandler", "An error occured while fetching data");
-            }
-        });
-
+    private void fetchPreviousAbnormalAccelerometerData() {
         DatabaseHandler.getAbnormalAccelerometerEvents(user, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
@@ -204,14 +212,72 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 Log.v("DatabaseHandler", "An error occured while fetching data");
             }
         });
+    }
 
-        DatabaseHandler.getAccelerometerData(user, new ValueEventListener() {
+    private void fetchPreviousAbnormalHeartRateData() {
+        DatabaseHandler.getAbnormalHeartRateEvents(user, new ValueEventListener() {
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
-                averagedAccelerometerData = new ArrayList<>();
+                Date currentDate = new Date();
+                abnormalHeartRateEvents = new ArrayList<>();
                 for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
-                    AccelerometerData accelerometerData = postSnapshot.getValue(AccelerometerData.class);
-                    averagedAccelerometerData.add(accelerometerData);
+                    AbnormalHeartRateEvent abnormalHeartRateEvent = postSnapshot.getValue(AbnormalHeartRateEvent.class);
+
+                    assert abnormalHeartRateEvent != null;
+                    boolean isTodaysHR =
+                            abnormalHeartRateEvent.getEndTime().getYear() == currentDate.getYear() &&
+                                    abnormalHeartRateEvent.getEndTime().getMonth() == currentDate.getMonth() &&
+                                    abnormalHeartRateEvent.getEndTime().getDay() == currentDate.getDay();
+
+                    if (isTodaysHR)
+                        abnormalHeartRateEvents.add(abnormalHeartRateEvent);
+                }
+
+                DatabaseHandler.addAbnormalHeartEvents(user, abnormalHeartRateEvents);
+            }
+
+            @Override
+            public void onCancelled(DatabaseError databaseError) {
+                Log.v("DatabaseHandler", "An error occured while fetching data");
+            }
+        });
+    }
+
+    private void fetchPreviousHeartRateData() {
+        DatabaseHandler.getHeartRateData(user, new ValueEventListener() {
+            @Override
+            public void onDataChange(DataSnapshot dataSnapshot) {
+                averagedHeartRateDataList = new ArrayList<>();
+                nightHeartRates = new ArrayList<>();
+                todayHeartRates = new ArrayList<>();
+
+                for (DataSnapshot postSnapshot : dataSnapshot.getChildren()) {
+                    HeartRateData heartRateData = postSnapshot.getValue(HeartRateData.class);
+                    averagedHeartRateDataList.add(heartRateData);
+
+                    // Get heart rate night activity
+                    if (heartRateData.getDate().getHours() >= 0 && heartRateData.getDate().getHours() <= 8) {
+                            if (!nightHeartRates.isEmpty() && heartRateData.getDate().getDate() == nightHeartRates.get(nightHeartRates.size() - 1).get(0).getDate().getDate() &&
+                                heartRateData.getDate().getMonth() == nightHeartRates.get(nightHeartRates.size() - 1).get(0).getDate().getMonth() &&
+                                heartRateData.getDate().getYear() == nightHeartRates.get(nightHeartRates.size() - 1).get(0).getDate().getYear()) {
+                                nightHeartRates.get(nightHeartRates.size() - 1).add(heartRateData);
+                            } else {
+                                List<HeartRateData> heartRates = new ArrayList<>();
+                                heartRates.add(heartRateData);
+                                nightHeartRates.add(heartRates);
+                            }
+                    }
+
+                    //Calculate today's calories burned
+                    Date currentDate = new Date();
+
+                    if (heartRateData.getDate().getDate() == currentDate.getDate() &&
+                            heartRateData.getDate().getMonth() == currentDate.getMonth() &&
+                            heartRateData.getDate().getYear() == currentDate.getYear()) {
+                        todayHeartRates.add(heartRateData);
+                    }
+
+                    calculateCaloriesBurnedToday();
                 }
             }
 
@@ -220,13 +286,6 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 Log.v("DatabaseHandler", "An error occured while fetching data");
             }
         });
-
-        for (String accountProvider: FirebaseAuth.getInstance().getCurrentUser().getProviders()) {
-            if (("google.com").equals(accountProvider)) {
-                getGoogleFitData();
-                break;
-            }
-        }
     }
 
     private void setMessageScheduler() {
@@ -247,7 +306,38 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
     private void initializeViews() {
         dayMonitoringButton = findViewById(R.id.dayMonitoringButton);
         nightMonitoringButton = findViewById(R.id.nightMonitoringButton);
+        calculateCaloriesBurnedButton = findViewById(R.id.calculateButton);
         logoutButton = findViewById(R.id.logoutButton);
+
+        EditText weightEditText = findViewById(R.id.weightEditTxt);
+
+        if (userWeight != 0) {
+            weightEditText.setText(userWeight + "");
+        }
+
+        weightEditText.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                Log.v("Tag", "Msj");
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+                try {
+                    userWeight = Integer.parseInt(charSequence.toString());
+                } catch(NumberFormatException e) {
+                    userWeight = 0;
+                }
+
+                calculateCaloriesBurnedToday();
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                Log.v("Tagg", "Msjj");
+            }
+        });
+
         calculateButton = findViewById(R.id.calculateButton);
 
         TextView nameTextView = findViewById(R.id.nameTextView);
@@ -265,7 +355,7 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 NavigationHandler.goToDayMonitoringActivity(this, user);
                 break;
             case R.id.nightMonitoringButton:
-                //TODO
+                NavigationHandler.goToNightMonitoringActivity(this, user);
                 break;
             case R.id.logoutButton:
                 logOut();
@@ -311,7 +401,19 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
         NavigationHandler.goToLoginActivity(this);
     }
 
-    private void getGoogleFitData() {
+    private void fetchGoogleFitData() {
+
+        boolean isGoogleAccount = false;
+        for (String accountProvider: FirebaseAuth.getInstance().getCurrentUser().getProviders()) {
+            if (("google.com").equals(accountProvider)) {
+                isGoogleAccount = true;
+                break;
+            }
+        }
+
+        if (!isGoogleAccount)
+            return;
+
         Fitness.getRecordingClient(this, GoogleSignIn.getLastSignedInAccount(this))
                 .subscribe(DataType.TYPE_ACTIVITY_SAMPLES)
                 .addOnSuccessListener(new OnSuccessListener<Void>() {
@@ -394,6 +496,32 @@ public class DashboardActivity extends AppCompatActivity implements View.OnClick
                 });
     }
 
+    private void calculateCaloriesBurnedToday() {
+        Log.v("TAGGERR", todayHeartRates.size() + "; " + userWeight);
+        if (!todayHeartRates.isEmpty() && userWeight != 0) {
+            Date currentDate = new Date();
+            int todayAverageHeartRate = 0;
+            int age = currentDate.getYear() - user.getBirthday().getYear();
+            int duration = todayHeartRates.get(todayHeartRates.size() - 1).getDate().getHours();
+            double calories;
+
+            for (HeartRateData heartRate: todayHeartRates) {
+                todayAverageHeartRate += heartRate.getValue();
+            }
+
+            todayAverageHeartRate /= todayHeartRates.size();
+
+            if (user.getGender() == User.Gender.MALE) {
+                calories = ((-55.0969 + (0.6309 * todayAverageHeartRate) + (0.1988 * userWeight) + (0.2017 * age))/4.184) * 60 * duration;
+            } else {
+                calories = ((-20.4022 + (0.4472 * todayAverageHeartRate) - (0.1263 * userWeight) + (0.074 * age))/4.184) * 60 * duration;
+            }
+
+            totalCaloriesBurnedDuringDay = (int) calories;
+
+            Log.v("TAGGGGG", totalCaloriesBurnedDuringDay + "");
+        }
+    }
 
     private void caloriesCalculator() {
         String targetCalories = ((EditText) findViewById(R.id.targetCaloriesEditText)).getText().toString();
