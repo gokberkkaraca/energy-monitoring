@@ -36,11 +36,12 @@
         <TextView
             android:id="@+id/heartRateTextView"
             android:layout_width="25dp"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
+            android:layout_height="match_parent"
+            android:layout_marginTop="0dp"
             android:layout_weight="0.25"
             android:textColor="@color/colorWhite"
-            android:textSize="60sp" />
+            android:textSize="35sp"
+            android:textAlignment="center"/>
 
         <ImageButton
             android:id="@+id/accelerometerButton"
@@ -69,13 +70,13 @@
 
         <TextView
             android:id="@+id/caloriesBurntTextView"
-            android:layout_width="wrap_content"
+            android:layout_width="25dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
             android:layout_weight="0.25"
             android:gravity="center"
             android:textColor="@color/colorWhite"
-            android:textSize="60sp" />
+            android:textAlignment="center"
+            android:textSize="35sp" />
     </LinearLayout>
 
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"

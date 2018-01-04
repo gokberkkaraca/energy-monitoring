@@ -192,7 +192,8 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                 if (!averagedHeartRateDataList.isEmpty()) {
                     HeartRateData lastHeartRateData = averagedHeartRateDataList.get(averagedHeartRateDataList.size() - 1);
                     int heartRateValue = (int) lastHeartRateData.getValue().floatValue();
-                    heartRateTextView.setText(String.valueOf(heartRateValue));
+                    String heartRateText = String.valueOf(heartRateValue) + "\n" + "bpm";
+                    heartRateTextView.setText(heartRateText);
                 }
 
                 for (int i = 0; i < averagedHeartRateDataList.size(); i++) {
@@ -200,7 +201,8 @@ public class DayMonitoringActivity extends AppCompatActivity implements View.OnC
                 }
 
                 // Calories
-                caloriesBurntTextView.setText(String.valueOf(totalCaloriesBurnedDuringDay));
+                String caloriesBurntText = String.valueOf(totalCaloriesBurnedDuringDay) + "\n" + "kcal";
+                caloriesBurntTextView.setText(caloriesBurntText);
 
                 // Accelerometer
 
