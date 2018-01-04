@@ -8,6 +8,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -16,13 +17,19 @@ import ee490g.epfl.ch.dwarfsleepy.models.AbnormalHeartRateEvent;
 
 import static ee490g.epfl.ch.dwarfsleepy.data.DataHolder.physicalActivities;
 
-public class AbnormalHeartRateAdapter extends RecyclerView.Adapter {
+public class AbnormalHeartRateAdapter extends RecyclerView.Adapter<AbnormalHeartRateAdapter.AbnormalHeartRatesViewHolder> {
 
     private final SimpleDateFormat simpleDateFormat = new SimpleDateFormat("dd MMM yyyy  hh:mm:ss aa", Locale.getDefault());
     private List<AbnormalHeartRateEvent> abnormalHeartRateEvents;
+    private List<Boolean> isExercisesList;
 
     public AbnormalHeartRateAdapter(List<AbnormalHeartRateEvent> abnormalHeartRateEvents) {
         this.abnormalHeartRateEvents = abnormalHeartRateEvents;
+
+        isExercisesList = new ArrayList<>();
+        for (AbnormalHeartRateEvent abnormalHeartRateEvent: abnormalHeartRateEvents) {
+            isExercisesList.add(abnormalHeartRateEvent.isExercise(physicalActivities));
+        }
     }
 
     @Override
@@ -32,9 +39,14 @@ public class AbnormalHeartRateAdapter extends RecyclerView.Adapter {
     }
 
     @Override
-    public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-        final AbnormalHeartRatesViewHolder abnormalHeartRatesViewHolder = (AbnormalHeartRatesViewHolder) holder;
+    public void onBindViewHolder(AbnormalHeartRatesViewHolder holder, int position) {
+        if (isExercisesList.size() != abnormalHeartRateEvents.size()) {
+            for (int i = abnormalHeartRateEvents.size() - isExercisesList.size(); i >= 1; i--)
+                isExercisesList.add(abnormalHeartRateEvents.get(abnormalHeartRateEvents.size() - i).isExercise(physicalActivities));
+        }
+
         final AbnormalHeartRateEvent abnormalHeartRateEvent = abnormalHeartRateEvents.get(abnormalHeartRateEvents.size() - 1 - position);
+        final boolean isExercise = isExercisesList.get(isExercisesList.size() - 1 - position);
 
         String heartRateValue = String.valueOf(abnormalHeartRateEvent.getAverageHeartRateValue().intValue());
         String duration = "Duration: " +
@@ -45,16 +57,16 @@ public class AbnormalHeartRateAdapter extends RecyclerView.Adapter {
         String beginTime = "Begin: " + simpleDateFormat.format(abnormalHeartRateEvent.getBeginTime());
         String endTime = "End: " + simpleDateFormat.format(abnormalHeartRateEvent.getEndTime());
 
-        abnormalHeartRatesViewHolder.heartRateValue.setText(heartRateValue);
-        abnormalHeartRatesViewHolder.duration.setText(duration);
-        abnormalHeartRatesViewHolder.beginTime.setText(beginTime);
-        abnormalHeartRatesViewHolder.endTime.setText(endTime);
+        holder.heartRateValue.setText(heartRateValue);
+        holder.duration.setText(duration);
+        holder.beginTime.setText(beginTime);
+        holder.endTime.setText(endTime);
 
-        if (abnormalHeartRateEvent.isExercise(physicalActivities)) {
-            abnormalHeartRatesViewHolder.heartRateImage.setImageResource(R.drawable.heart_exercise);
+        if (isExercise) {
+            holder.heartRateImage.setImageResource(R.drawable.heart_exercise);
         }
         else {
-            abnormalHeartRatesViewHolder.heartRateImage.setImageResource(R.drawable.heart_attack);
+            holder.heartRateImage.setImageResource(R.drawable.heart_attack);
         }
     }
 
